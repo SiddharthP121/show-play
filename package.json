@@ -1,0 +1,15 @@
+{
+  "name": "show-play",
+  "version": "1.0.0",
+  "description": "This is the video playing app with full backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "backend",
+    "video"
+  ],
+  "author": "Siddhartha Potphode",
+  "license": "ISC"
+}
