@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "This is the video playing app with full backend",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "keywords": [
     "backend",
@@ -13,6 +15,7 @@
   "author": "Siddhartha Potphode",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3"
   }
 }
