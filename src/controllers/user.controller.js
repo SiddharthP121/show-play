@@ -28,21 +28,21 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
 
-  const existedUser = User.findOne({ $or: [{ username }, { email }] })
+  const existedUser = await User.findOne({ $or: [{ username }, { email }] })
 
   if (existedUser) {
     throw new ApiError(409, "Username or password is registered")
   }
 
-  const avtarLocalPath = req.files?.avtar[0]?.path
-  const coverImageLocalPath = req.files?.coverImage[0]?.path
+  const avtarLocalPath = req.files?.avtar[0]?.path   // referencing about system files
+  const coverImageLocalPath = req.files?.coverImage[0]?.path     // referencing about system files
 
   if (!avtarLocalPath) {
     throw new ApiError(400, 'Avtar image is required')
   }
 
-  const avtar = await uplaodFile(avtarLocalPath)
-  const coverImage = await uplaodFile(coverImageLocalPath)
+  const avtar = await uplaodFile(avtarLocalPath)  // function which uploads files on the cloud
+  const coverImage = await uplaodFile(coverImageLocalPath)  // function which uploads files on the cloud
 
   if (!avtar) {
     throw new ApiError(400, 'Avtar image is required')
@@ -60,6 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   )
+
 
   if (!createdUser) {
     throw new ApiError(500, 'Something went wrong while registering the user')
