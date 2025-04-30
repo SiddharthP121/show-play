@@ -17,16 +17,13 @@ import fs from 'fs';
         const uploadedResult = await cloudinary.uploader
         .upload(localFilePath, {resource_type: 'auto'})
 
-        console.log('The file has been uploaded', uploadedResult.url)
+        console.log('The file has been uploaded', uploadedResult.url) //clg this uploaded result
 
         if (uploadedResult) {
           fs.unlinkSync(localFilePath) //remove the locally saved temporary file as the upload operation got failed
           return uploadedResult
-         
         }
-
         
-
       } catch (error) {
         fs.unlinkSync(localFilePath) //remove the locally saved temporary file as the upload operation got failed
         return null;    

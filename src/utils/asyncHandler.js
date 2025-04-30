@@ -4,6 +4,7 @@ const asyncHandler = (requestHandler) => {
      ((err) => next(err));
   };
 };
+export { asyncHandler };
 
 /*
 const asyncHandler = (fun) => async (req, res, next) => {
@@ -17,7 +18,6 @@ const asyncHandler = (fun) => async (req, res, next) => {
     })
   }
 }
+export { asyncHandler };
 
 */
-
-export { asyncHandler };
