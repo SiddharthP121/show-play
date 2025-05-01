@@ -9,7 +9,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
     const token =
       req.cookies?.accessToken || // We are these cookies threw user.controller.js which we sent while logging in
-      req.header("Authorization")?.replace("Bearer", "");
+      req.header("Authorization")?.replace("Bearer", "");  //I have a doubt here
 
     if (!token) {
       throw new ApiError(401, "Unauthorized request");
@@ -17,9 +17,9 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    if (!decodedToken) {
-      throw new ApiError(500, "Something went wrong");
-    }
+    // if (!decodedToken) {
+    //   throw new ApiError(500, "Something went wrong");
+    // }
 
     const user = User.findById(decodedToken._id).select(
       "-password -refreshToken"
