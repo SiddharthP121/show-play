@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.models.js";
 import { uplaodFile } from "../utils/Cloudinary.js";
+import { deleteFromCloud } from "../utils/deleteFromCloud.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
@@ -334,6 +335,13 @@ const updateAvtar = asyncHandler(async (req, res) => {
     },
   }).select("-passoword");
 
+  // const user = await User.findById(req.user._id).select(
+  //   "-password -refreshToken"
+  // );
+
+  // deleteFromCloud(user.avtar); // delete the old image from the cloudinary
+  // user.avtar = updatedUserAvtar.url; // update the new image in the database
+
   return req
     .status(200)
     .json(new ApiResponse(200, user, "Avtar updated successfully"));
@@ -342,27 +350,98 @@ const updateAvtar = asyncHandler(async (req, res) => {
 const updateCoverImage = asyncHandler(async (req, res) => {
   const newCoverImagePath = req.file?.path;
   if (!newCoverImagePath) {
-    throw new ApiError(400, "Cover Image file is required")
+    throw new ApiError(400, "Cover Image file is required");
   }
   const updatedCoverImg = uplaodFile(newCoverImagePath);
   if (!updatedCoverImg) {
-    throw new ApiError(500, "Something went wrong while uploading cover image")
+    throw new ApiError(500, "Something went wrong while uploading cover image");
   }
 
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-  {
-    $set:  {
-      coverImage: updatedCoverImg.url
-    }
-  }
-  ).select("-password")
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    $set: {
+      coverImage: updatedCoverImg.url,
+    },
+  }).select("-password");
 
   return res
-  .status(200)
-  .json(
-    new ApiResponse(200, user, "Cover image updated successfully")
-  )
+    .status(200)
+    .json(new ApiResponse(200, user, "Cover image updated successfully"));
+});
+
+const userChannelProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  if (!username) {
+    throw new ApiError(400, "Username is missing");
+  }
+
+  const channel = await User.aggregate([
+    {
+      $match: {
+        username: username?.toLowerCase(),
+      },
+    },
+
+    {
+      $lookup: {
+        //getting subscribers
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "channel",
+        as: "channelSubscribers",
+      },
+    },
+
+    {
+      $lookup: {
+        //getting channel user have subscribed
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "subscriber",
+        as: "channelSubscribedTo",
+      },
+    },
+
+    {
+      $addFields: {
+        channelSubscribersCount: {
+          $size: "$channelSubscribers",
+        },
+        channelsSubscribedToCount: {
+          $size: "$channelSubscribedTo",
+        },
+        isSubscribed: {
+          $cond: {
+            if: { $in: [req.user?._id, "$channelSubscribers.subscriber"] }, //revise it
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+
+    {
+      $project: {
+        username: 1,
+        email: 1,
+        fullname: 1,
+        coverImage: 1,
+        avtar: 1,
+        channelSubscribersCount: 1,
+        channelsSubscribedToCount: 1,
+        isSubscribed: 1,
+      },
+    },
+  ]);
+  if (!channel?.length) {
+    throw new ApiError(404, "Channel does not exist");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, channel[0], "User channel fetched successfully")
+    );
 });
 
 export {
@@ -371,4 +450,9 @@ export {
   logoutUser,
   refreshAccessToken,
   changeCurrentPassword,
+  getCurrentUser,
+  updateAccountDetails,
+  updateAvtar,
+  updateCoverImage,
+  userChannelProfile,
 };
