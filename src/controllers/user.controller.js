@@ -135,7 +135,7 @@ const loginUser = asyncHandler(async (req, res) => {
     user._id
   );
 
-  const loggendInUser = await User.findById(user._id).select(
+  const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
 
@@ -154,7 +154,7 @@ const loginUser = asyncHandler(async (req, res) => {
         {
           user: accessToken,
           refreshToken,
-          loggendInUser,
+          loggedInUser,
         },
         "User logged in successfully"
       )
@@ -219,7 +219,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     user._id
   );
 
-  res
+  return res
     .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", newRefreshToken, options)
@@ -284,10 +284,10 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .json(200, req.user, "Current user fetched successfully");
 });
 
-const updateAccountDetails = asyncHandler(async (params) => {
+const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullname, username, email } = req.body;
 
-  if (!fullname || !username || !passowrd) {
+  if (!fullname || !username || !email) {
     throw new ApiError(401, "All the fields are required");
   }
 
@@ -295,6 +295,7 @@ const updateAccountDetails = asyncHandler(async (params) => {
     req.user._id,
     {
       $set: {
+        username,
         fullname,
         email,
       },
@@ -322,7 +323,7 @@ const updateAvtar = asyncHandler(async (req, res) => {
 
   const updatedUserAvtar = await uplaodFile(newAvtarPath);
 
-  if (!newAvtar) {
+  if (!updatedUserAvtar) {
     throw new ApiError(
       400,
       "Something went wrong while uploading the avtar image"
@@ -333,7 +334,7 @@ const updateAvtar = asyncHandler(async (req, res) => {
     $set: {
       avtar: updatedUserAvtar.url,
     },
-  }).select("-passoword");
+  }).select("-password");
 
   // const user = await User.findById(req.user._id).select(
   //   "-password -refreshToken"

@@ -14,6 +14,7 @@ connectDB()
     }
     )
   })
+  
   .catch((err) => {
     console.log("Connection to the database failed", err);
   });
@@ -21,9 +22,6 @@ connectDB()
 dotenv.config({
   path: "./.env",
 });
-
-
-
 
 /*
 import express from 'express';
