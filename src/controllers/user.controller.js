@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.models.js";
 import { uplaodFile } from "../utils/Cloudinary.js";
-import { deleteFromCloud } from "../utils/deleteFromCloud.js";
+// import { deleteFromCloud } from "../utils/deleteFromCloud.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -174,6 +174,7 @@ const logoutUser = asyncHandler(async (req, res) => {
       new: true,
     }
   );
+  console.log(req.user._id);
 
   const options = {
     http: true,
@@ -242,17 +243,17 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   04. Add the password and update the user model
   */
 
-  const { password, newPassword } = req.body;
-
-  if (!password || !newPassword) {
-    throw new ApiError(400, "All the fields are required");
-  }
+  const { oldPassword, newPassword } = req.body;
 
   const user = await User.findById(req.user._id);
+  console.log(req.user._id);
+  const passwordResult = await user.isPasswordCorrect(oldPassword);
 
-  currentPassword = await user.isPasswordCorrect(password);
+  if (!passwordResult) {
+    throw new ApiError(400, "Invalid old password");
+  }
 
-  if (!currentPassword) {
+  if (!passwordResult) {
     throw new ApiError(401, "Invalid current password");
   }
 
@@ -276,13 +277,15 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     security: true,
   };
 
-  return res.status(200).json(new ApiResponse(200, {}, "Password updated"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, options, "Password updated"));
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
-    .json(200, req.user, "Current user fetched successfully");
+    .json(new ApiResponse(201, req.user, "Current user fetched successfully"));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -344,7 +347,7 @@ const updateAvtar = asyncHandler(async (req, res) => {
   // deleteFromCloud(user.avtar); // delete the old image from the cloudinary
   // user.avtar = updatedUserAvtar.url; // update the new image in the database
 
-  return req
+  return res
     .status(200)
     .json(new ApiResponse(200, user, "Avtar updated successfully"));
 });
@@ -488,7 +491,6 @@ const getWatchHistory = asyncHandler(async (req, res) => {
         ],
       },
     },
-    
   ]);
 
   return res
@@ -515,5 +517,3 @@ export {
   userChannelProfile,
   getWatchHistory,
 };
-
-

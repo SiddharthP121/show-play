@@ -38,17 +38,15 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
 router.route("/change-password").post(verifyJWT, changeCurrentPassword);
-router.route("profile").get(verifyJWT, getCurrentUser);
+router.route("/profile").get(verifyJWT, getCurrentUser);
 router.route("/update-account-details").patch(verifyJWT, updateAccountDetails);
-router.route("/update-avtar").patch(verifyJWT, 
-  upload.single("avtar",),
-  updateAvtar
-);
-router.route("/update-coverimage").patch(verifyJWT, upload.single({
-    name: "coverImage",
-    maxCount: 1
-}) ,updateCoverImage)
+router
+  .route("/update-avtar")
+  .patch(verifyJWT, upload.single("avtar"), updateAvtar);
+router
+  .route("/update-coverimage")
+  .patch(verifyJWT, upload.single("coverImage"), updateCoverImage);
 router.route("/channel-profile/:username").get(verifyJWT, userChannelProfile);
-router.route("/history").get(verifyJWT, getWatchHistory)
+router.route("/history").get(verifyJWT, getWatchHistory);
 
 export default router;
