@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import { User } from "../models/User.models.js";
+import { User } from "../models/User.model.js";
 import { uplaodFile } from "../utils/Cloudinary.js";
 // import { deleteFromCloud } from "../utils/deleteFromCloud.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
