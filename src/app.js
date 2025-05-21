@@ -14,8 +14,14 @@ app.use(cors({
 }));
 
 import userRouter from "./routes/user.router.js"
+import commentRouter from "./routes/comment.routes.js"
+import tweetRouter from "./routes/tweet.routes.js"
+import videoRouter from "./routes/video.routes.js"
 
-app.use("/api/v1/users", userRouter)
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/tweet", tweetRouter);
+app.use("/api/v1/comment", commentRouter);
+app.use("/api/v1/videos", videoRouter)
 
 // http://localhost:8000/api/v1/users/register
 

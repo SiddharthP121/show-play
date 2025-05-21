@@ -4,21 +4,22 @@ import { User } from "../models/User.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { Like } from "../models/like.models.js";
+import { Like } from "../models/like.model.js";
 
 const createTweet = asyncHandler(async (req, res) => {
   //TODO: create tweet
-  const { tweetContent } = req.body;
-  const userId  = req.user._id;
-  if (!tweetContent) {
-    throw new ApiError(400, "Tweet not found");
+  const { userId } = req.user._id;
+  const {content} = "hii my name is siddharth";
+  console.log(req.body)
+  if (!content) {
+    throw new ApiError(400, "Tweet content not found");
   }
   if (!isValidObjectId(userId)) {
     throw new ApiError(400, "User Id not found");
   }
 
   const tweet = await Tweet.create({
-    content: tweetContent,
+    content,
     owner: userId,
   });
 
