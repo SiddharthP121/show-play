@@ -28,7 +28,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
       videoId,
       {
         $inc: {
-          like: -1,
+          likes: -1,
         },
       },
       {
@@ -50,7 +50,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
       videoId,
       {
         $inc: {
-          like: 1,
+          likes: 1,
         },
       },
       { new: true }
@@ -87,7 +87,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
   if (like) {
     await Like.findByIdAndDelete(like._id);
     const comment = await Comment.findByIdAndUpdate(commentId, {
-      $inc: { like: -1 },
+      $inc: { likes: -1 },
       new: true,
     });
     if (!comment) {
@@ -105,7 +105,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
 
     const comment = await Comment.findByIdAndUpdate(
       commentId,
-      { $inc: { like: 1 } },
+      { $inc: { likes: 1 } },
       { new: true }
     );
     if (!like) {
@@ -145,7 +145,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
     const tweet = await Tweet.findByIdAndUpdate(
       tweetId,
       {
-        $inc: { like: -1 },
+        $inc: { likes: -1 },
       },
       { new: true }
     );
@@ -159,7 +159,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
     const like = await Like.create({ tweet: tweetId, likedBy: userId });
     const tweet = await Tweet.findByIdAndUpdate(
       tweetId,
-      { $inc: { like: 1 } },
+      { $inc: { likes: 1 } },
       { new: true }
     );
     if (!like) {
