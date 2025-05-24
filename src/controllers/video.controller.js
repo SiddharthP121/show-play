@@ -1,6 +1,7 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { Video } from "../models/video.model.js";
+import { Video } from "../models/Video.model.js";
 import { User } from "../models/User.model.js";
+import {Like} from "../models/like.model.js"
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -218,6 +219,23 @@ const updateVideo = asyncHandler(async (req, res) => {
 const deleteVideo = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
   //TODO: delete video
+
+  if (!videoId || !isValidObjectId(videoId)) {
+    throw new ApiError(400, "Video Id is invalid")
+  }
+
+  const deleteVideo = await Video.findByIdAndDelete(videoId)
+  const deleteVideoLikes = await Like.findByIdAndDelete(videoId)
+
+  if (!deleteVideo || !deleteVideoLikes) {
+    throw new ApiError(400, "Failed to delete the video")
+  }
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(200, {deleteVideo}, "Video deleted successfully")
+  )
 });
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
