@@ -1,5 +1,21 @@
 import mongoose, { Schema } from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+const ownerSchema = new Schema({
+    id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    fullname: {
+        type: String,
+        required: true
+    } 
+    
+})
 const videoSchema = new Schema({
     videoFile:{
         type: String,
@@ -18,8 +34,7 @@ const videoSchema = new Schema({
         required: true
     },
     owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        type: ownerSchema,
         required: true
     },
     duration:{

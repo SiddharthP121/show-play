@@ -24,7 +24,7 @@ router
             },
             {
                 name: "thumbnail",
-                maxCount: 1,
+                maxCount: 1,        
             },
             
         ]),
