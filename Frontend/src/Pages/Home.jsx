@@ -31,7 +31,7 @@ const Home = () => {
   }
 
   const handlePlus = () => {
-    navigate("/add-video")
+    navigate("/addvideo")
   }
 
   return (
@@ -78,7 +78,7 @@ const Home = () => {
               </Link>
             </li>
             <li>
-              <Link to="/add-video" className="flex items-center px-4 py-2 rounded-md font-medium text-purple-700 hover:bg-purple-100">
+              <Link to="/addvideo" className="flex items-center px-4 py-2 rounded-md font-medium text-purple-700 hover:bg-purple-100">
                 <AiOutlinePlus size={20} className="mr-2" /> Add Video
               </Link>
             </li>
@@ -96,6 +96,25 @@ const Home = () => {
               <Link to="/settings" className="flex items-center px-4 py-2 rounded-md font-medium text-purple-700 hover:bg-purple-100">
                 <MdSettings size={20} className="mr-2" /> Settings
               </Link>
+            </li>
+
+            
+            {/* Temporary Login and Signup Buttons */}
+            <li>
+              <button
+                onClick={() => navigate('/users/login')}
+                className="w-full flex items-center justify-center px-4 py-2 mt-4 rounded-md font-medium bg-purple-600 text-white hover:bg-purple-700 transition"
+              >
+                Login
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => navigate('/users/register')}
+                className="w-full flex items-center justify-center px-4 py-2 mt-2 rounded-md font-medium bg-blue-500 text-white hover:bg-blue-600 transition"
+              >
+                Signup
+              </button>
             </li>
           </ul>
         </nav>

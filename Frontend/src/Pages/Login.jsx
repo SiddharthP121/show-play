@@ -37,6 +37,9 @@ const Login = () => {
         })
         setMessage(res.data.message || "User logged in successfully")
         alert("logged in successfully")
+        console.log(res.data.data.user); // This will log the accessToken
+        localStorage.setItem("token", res.data.data.user); // Save the accessToken
+        console.log("Token being sent:", res.data.data.user);
         navigate("/")
 
     } catch (error) {

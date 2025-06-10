@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const Signup = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     username: "",
@@ -28,7 +26,7 @@ const Signup = () => {
     e.preventDefault();
     const formData = new FormData();
     Object.entries(form).forEach(([key, value]) => {
-      if (value) formData.append(key, value); 
+      if (value) formData.append(key, value);
     });
     try {
       const res = await axios.post(
@@ -42,8 +40,10 @@ const Signup = () => {
       );
       setMessage(res.data.message || "User Registered Successfully");
       alert("user registered");
-      navigate("/")
-     
+      console.log(res.data.data.user); // This will log the accessToken
+      localStorage.setItem("token", res.data.data.user); // Save the accessToken
+      console.log("Token being sent:", res.data.data.user); // Log the token being sent
+      navigate("/");
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed");
       alert("registration failed");
@@ -53,11 +53,16 @@ const Signup = () => {
   return (
     <div className="select-none min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-center mb-6 text-purple-700">Sign Up</h2>
-        
+        <h2 className="text-2xl font-bold text-center mb-6 text-purple-700">
+          Sign Up
+        </h2>
+
         <form onSubmit={handleSubmit} className="space-y-4 ">
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="username">
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="username"
+            >
               Username
             </label>
             <input
@@ -72,7 +77,10 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="fullname">
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="fullname"
+            >
               Full Name
             </label>
             <input
@@ -102,7 +110,10 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="password">
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
@@ -131,7 +142,10 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="coverImage">
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="coverImage"
+            >
               Cover Image
             </label>
             <input
@@ -144,18 +158,20 @@ const Signup = () => {
             />
           </div>
           <button
-  type="submit"
-  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-md transition cursor-pointer"
->
-  Register
-</button>
+            type="submit"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-md transition cursor-pointer"
+          >
+            Register
+          </button>
         </form>
         <div className="mt-4 text-center">
-          <Link to="/users/login" className="text-purple-600 hover:underline text-sm">
+          <Link
+            to="/users/login"
+            className="text-purple-600 hover:underline text-sm"
+          >
             Already have an account?
           </Link>
         </div>
-        
       </div>
     </div>
   );
