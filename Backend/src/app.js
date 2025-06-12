@@ -24,7 +24,7 @@ import viewsRouter from "./routes/views.routes.js";
 import playlistRouter from "./routes/playlist.routes.js";
 
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/tweet", tweetRouter);
+app.use("/api/v1/hot-thoughts", tweetRouter);
 app.use("/api/v1/comment", commentRouter);
 app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/likes", likeRouter);

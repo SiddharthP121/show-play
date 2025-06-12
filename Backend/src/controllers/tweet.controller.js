@@ -8,8 +8,8 @@ import { Like } from "../models/like.model.js";
 
 const createTweet = asyncHandler(async (req, res) => {
   //TODO: create tweet
-  const { userId } = req.user._id;
-  const {content} = req.body;
+  const userId  = req.user._id;
+  const { content } = req.body;
   console.log(req.body)
   if (!content) {
     throw new ApiError(400, "Tweet content not found");

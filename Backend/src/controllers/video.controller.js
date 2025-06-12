@@ -75,8 +75,8 @@ const getAllVideos = asyncHandler(async (req, res) => {
       },
     },
     { $sort: sortOptions },
-    { skip: (page - 1) * limit },
-    { limit: parseInt(limit) },
+    { $skip: (page - 1) * parseInt(limit) },
+    { $limit: parseInt(limit) },
   );
   const video = await Video.aggregate(pipeline);
   const totalVideos = await Video.countDocuments();
