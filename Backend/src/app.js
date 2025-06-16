@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(express.json({ limit: "16kb" }));
+app.use(express.json());
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
@@ -24,7 +24,7 @@ import viewsRouter from "./routes/views.routes.js";
 import playlistRouter from "./routes/playlist.routes.js";
 
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/hot-thoughts", tweetRouter);
+app.use("/api/v1/tweet", tweetRouter);
 app.use("/api/v1/comment", commentRouter);
 app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/likes", likeRouter);

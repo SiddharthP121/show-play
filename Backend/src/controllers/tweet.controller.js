@@ -10,17 +10,16 @@ const createTweet = asyncHandler(async (req, res) => {
   //TODO: create tweet
   const userId  = req.user._id;
   const { content } = req.body;
-  console.log(req.body)
   if (!content) {
     throw new ApiError(400, "Tweet content not found");
   }
   if (!isValidObjectId(userId)) {
     throw new ApiError(400, "User Id not found");
   }
-
+  
   const tweet = await Tweet.create({
     content,
-    owner: userId,
+    owner: req.user.username
   });
 
   if (!tweet) {
@@ -29,8 +28,41 @@ const createTweet = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, tweet, "Tweet created Successfully"));
+    .json(new ApiResponse(200, {tweet}, "Tweet created Successfully"));
 });
+
+const getAllHotThoughts = asyncHandler(async (req, res) => {
+  const thoughts = await Tweet.aggregate([
+    {
+      $lookup:{
+        from: "likes",
+        localField: "_id",
+        foreignField: "tweet",
+        as: "likes"
+      }
+    },
+    {
+      $addFields: {
+        likes: {
+          $size: "$likes"
+        }
+      }
+    }
+  ])
+
+  if (!thoughts) {
+    throw new ApiError(400, "Failed to get all the tweets")
+  }
+
+  const totalThoughts = await Tweet.countDocuments()
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(200, {thoughts, totalThoughts}, "Tweets fetched successfully")
+  )
+}
+)
 
 const getUserTweets = asyncHandler(async (req, res) => {
   // TODO: get user tweets
@@ -153,4 +185,4 @@ const deleteTweet = asyncHandler(async (req, res) => {
 });
 
 
-export { createTweet, getUserTweets, updateTweet, deleteTweet };
+export { createTweet,getAllHotThoughts, getUserTweets, updateTweet, deleteTweet };

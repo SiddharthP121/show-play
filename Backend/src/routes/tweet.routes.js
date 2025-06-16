@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
     createTweet,
+    getAllHotThoughts,
     deleteTweet,
     getUserTweets,
     updateTweet,
@@ -8,9 +9,10 @@ import {
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 
 const router = Router();
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
+// router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
-router.route("/say").post(createTweet);
+router.route("/say").post(verifyJWT, createTweet);
+router.route("/messages").get(verifyJWT, getAllHotThoughts);
 router.route("/user/:userId").get(getUserTweets);
 router.route("/:tweetId").patch(updateTweet).delete(deleteTweet);
 
