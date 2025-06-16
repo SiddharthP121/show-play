@@ -61,7 +61,7 @@ const HotThoughts = () => {
 
   return (
     <>
-      <aside className="hidden lg:flex flex-col fixed top-0 right-0 w-80 h-screen bg-white shadow-lg p-4 z-40 pt-20">
+      <aside className="hidden lg:flex flex-col fixed top-0 right-0 w-[25vw] h-screen bg-white shadow-lg p-4 z-40 pt-20">
         <h2 className="text-xl font-bold text-purple-700 mb-4 flex items-center gap-2">
           <MdForum size={22} /> Hot Thoughts
         </h2>
