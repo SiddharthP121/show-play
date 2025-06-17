@@ -4,8 +4,7 @@ import axios from "axios";
 import { GoHeart } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useLocation } from "react-router-dom";
-import '../CSS/App.css'
-
+import "../CSS/App.css";
 
 const HotThoughts = () => {
   const [thoughtMessage, setThoughtMessage] = useState("");
@@ -13,10 +12,19 @@ const HotThoughts = () => {
   const [message, setMessage] = useState("");
   const [thoughts, setThoughts] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [like, setLike] = useState(false)
   const token = localStorage.getItem("token");
   const location = useLocation();
-
   const isMobileLocation = location.pathname === "/hot-thoughts";
+
+  const messageLimit = (string, maxWords) => {
+    if (string.length > maxWords) {
+      alert("Maximum words limit reached")
+      return string.slice(0, maxWords);
+    }
+    return string;
+  }
+  
 
   const getAllThoughts = async () => {
     try {
@@ -38,6 +46,36 @@ const HotThoughts = () => {
       );
     }
   };
+
+  
+  const toggleLike = async (thoughtId) => {
+    try {
+      const res = await axios.post(`http://localhost:8000/api/v1/likes/toggle/t/${thoughtId}`,{},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+        
+      )
+      const updatedThought = res.data.data.thought;
+      console.log(updatedThought)
+      setThoughts((thoughts) => 
+        thoughts.map((thought) => 
+          thought._id === thoughtId?{...thought, likes: updatedThought.like}: thought
+        
+        )
+      
+      )
+      setRefresh((prev) => !prev)
+    } catch (error) {
+          console.error("Error toggling like:", error?.response?.data?.message || error.message);
+
+    }
+  }
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,14 +142,11 @@ const HotThoughts = () => {
                   {new Date(thought.createdAt).toLocaleDateString()}
                 </span>
                 <div className="flex items-center space-x-3">
-                  <span className="flex items-center space-x-1 text-red-500">
+                  <button onClick={()=>toggleLike(thought._id)} className="flex cursor-pointer items-center space-x-1 text-red-500">
                     <GoHeart size={18} />
-                    <p>{thought.like}</p>
-                  </span>
-                  <RiDeleteBin6Line
-                    size={20}
-                    className="text-gray-700 cursor-pointer"
-                  />
+                    <p>{thought.likes}</p>
+                  </button>
+                 
                 </div>
               </div>
             </div>
@@ -125,11 +160,11 @@ const HotThoughts = () => {
               placeholder="What's in your mind"
               name="content"
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={(e) => setContent(messageLimit(e.target.value, 100))}
               className="w-full px-3 py-2 border font-bold text-gray-800 rounded-3xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition placeholder:font-bold placeholder:text-gray-500 pl-4"
             />
             <button
-              className="mx-3 bg-purple-600 hover:bg-purple-700 text-white font-medium  py-2 px-4 rounded-3xl shadow-md transition duration-300"
+              className="mx-3 cursor-pointer bg-purple-600 hover:bg-purple-700 text-white font-medium  py-2 px-4 rounded-3xl shadow-md transition duration-300"
               type="submit"
             >
               Publish
