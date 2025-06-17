@@ -25,7 +25,7 @@ const BottomNav = () => {
         <AiOutlinePlus size={32} />
       </button>
 
-      <BottomLink to="/tweets" icon={<MdForum size={28} />} label="Tweets" />
+      <BottomLink to="/hot-thoughts" icon={<MdForum size={28} />} label="Tweets" />
       <BottomLink to="/settings" icon={<MdSettings size={28} />} label="Settings" />
     </nav>
   );

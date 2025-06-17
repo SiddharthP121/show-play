@@ -1,7 +1,27 @@
 import mongoose, {Schema} from "mongoose";
 
 const ownerSchema = new Schema({
-    
+    id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    email:{
+        type: String,
+        required: true
+    },
+    fullname: {
+        type: String,
+        required: true
+    },
+    avtar: {
+        type: String,
+        required: true
+    }
 })
 
 const tweetSchema = new Schema({
@@ -14,7 +34,7 @@ const tweetSchema = new Schema({
         default: 0 
     },
     owner: {
-        type: String,
+        type: ownerSchema,
         required: true
        
     }
