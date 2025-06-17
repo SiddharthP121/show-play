@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { MdForum } from "react-icons/md";
 import axios from "axios";
+import { GoHeart } from "react-icons/go";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const HotThoughts = () => {
   const [thoughtMessage, setThoughtMessage] = useState("");
@@ -14,10 +16,10 @@ const HotThoughts = () => {
     try {
       const res = await axios.get(
         "http://localhost:8000/api/v1/tweet/messages",
-        { 
+        {
           headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true
-         }
+          withCredentials: true,
+        }
       );
       console.log(res);
       setThoughtMessage(res.data.message || "Data fetched successfully");
@@ -68,12 +70,25 @@ const HotThoughts = () => {
 
         <div className="flex-1 overflow-y-auto pr-2">
           {thoughts.map((thought, idx) => (
-            <div key={thought._id || idx} className="border-b pb-2 mb-2">
-              <span className="font-semibold text-purple-600">
+            <div key={thought._id || idx} className=" border-b pb-2 mb-2">
+              <div className="ml-1">
                 {thought.owner}
-              </span>
-              <span className="ml-2 text-gray-700">{thought.content}</span>
-              <span>{thought.createdAt}</span>
+              </div>
+              <div className="font-semibold ml-1 text-black">{thought.content}</div>
+              <div className="flex justify-between">
+                <span className=" text-gray-700 ml-1 text-sm">
+                  {new Date(thought.createdAt).toLocaleDateString()}
+                </span>
+                <div className="flex mx-1">
+                  <span className="mx-1">
+                    <GoHeart />
+                    <p>{thought.like} </p>
+                  </span>
+                  <span className="mx-1">
+                    <RiDeleteBin6Line />
+                  </span>
+                </div>
+              </div>
             </div>
           ))}
         </div>

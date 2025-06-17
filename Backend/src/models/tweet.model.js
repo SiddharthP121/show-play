@@ -1,5 +1,9 @@
 import mongoose, {Schema} from "mongoose";
 
+const ownerSchema = new Schema({
+    
+})
+
 const tweetSchema = new Schema({
     content: {
         type: String,
