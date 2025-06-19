@@ -39,7 +39,6 @@ const HotThoughts = () => {
       setThoughtMessage(res.data.message || "Data fetched successfully");
       setThoughts(res.data.data.thoughts);
       console.log(res.data);
-      console.log("check 2");
     } catch (error) {
       setThoughtMessage(
         error.response?.data?.message || "Something went wrong"
@@ -117,8 +116,9 @@ const HotThoughts = () => {
         <h2 className="text-xl font-bold text-purple-700 mb-4 flex items-center gap-2">
           <MdForum size={22} /> Hot Thoughts
         </h2>
+        {token?(
 
-        <div className="flex-1 overflow-y-auto pr-2 custom-scroll">
+          <div className="flex-1 overflow-y-auto pr-2 custom-scroll">
           {thoughts.map((thought, idx) => (
             <div
               key={thought._id || idx}
@@ -152,6 +152,9 @@ const HotThoughts = () => {
             </div>
           ))}
         </div>
+        ):(
+          <p>login to see thoughts</p>
+        )}
 
         <form onSubmit={handleSubmit} className="items-center ml-2">
           <div className="flex relative w-full md:w-72">

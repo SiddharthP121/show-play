@@ -162,22 +162,47 @@ const publishAVideo = asyncHandler(async (req, res) => {
 });
 
 const getVideoById = asyncHandler(async (req, res) => {
-  const { videoId } = req.params;
-  //TODO: get video by id
+  // const { videoId } = req.params;
+  // //TODO: get video by id
 
-  if (!videoId || !isValidObjectId(videoId)) {
-    throw new ApiError(400, "Invalid video id");
-  }
+  // if (!videoId || !isValidObjectId(videoId)) {
+  //   throw new ApiError(400, "Invalid video id");
+  // }
 
-  const video = await Video.findById(videoId);
-  if (!video) {
-    throw new ApiError(400, "Can not find the video with the given video id");
-  }
+  // const video = await Video.findById(videoId);
+  // if (!video) {
+  //   throw new ApiError(400, "Can not find the video with the given video id");
+  // }
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, { video }, "Video found successfully"));
+  // return res
+  //   .status(200)
+  //   .json(new ApiResponse(200, { video }, "Video found successfully"));
 });
+
+const getCurrentUserVideos = asyncHandler(async (req, res) => {
+  const userId = req.user._id
+  if (!userId || !isValidObjectId(userId)) {
+    throw new ApiError(400, "Invalid user id")
+  }
+  const videos = await Video.find({"owner.id": userId})
+
+  if (videos.length === 0) {
+    return res
+    .status(200)
+    .json(
+      new ApiResponse(200, videos, "No videos found")
+    )
+  }
+
+
+     return res
+    .status(200)
+    .json(
+      new ApiResponse(200, videos, "Videos fetched successfully")
+    )
+  
+})
+
 
 const updateVideo = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
@@ -257,4 +282,5 @@ export {
   updateVideo,
   deleteVideo,
   togglePublishStatus,
+  getCurrentUserVideos
 };

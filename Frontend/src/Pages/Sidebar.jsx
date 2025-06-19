@@ -22,22 +22,7 @@ const Sidebar = () => {
         <SidebarLink to="/settings" icon={<MdSettings />} label="Settings" />
         <SidebarLink to="/account" icon={<MdAccountCircle />} label="Account" />
 
-        <li>
-          <button
-            onClick={() => navigate("/users/login")}
-            className="w-full px-4 py-2 mt-4 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition"
-          >
-            Login
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => navigate("/users/register")}
-            className="w-full px-4 py-2 mt-2 rounded-md bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
-          >
-            Signup
-          </button>
-        </li>
+       
       </ul>
     </aside>
   );

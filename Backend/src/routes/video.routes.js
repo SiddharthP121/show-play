@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
     deleteVideo,
     getAllVideos,
+    getCurrentUserVideos,
     getVideoById,
     publishAVideo,
     togglePublishStatus,
@@ -30,6 +31,7 @@ router
         ]),
         publishAVideo
     );
+router.route("/your-videos").get(verifyJWT, getCurrentUserVideos)
 
 router
     .route("/:videoId")

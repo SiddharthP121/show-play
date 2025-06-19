@@ -5,6 +5,7 @@ import Home from "./Pages/Home";
 import {BrowserRouter, Routes, Route } from "react-router-dom"
 import Add_video from "./Pages/Add-video";
 import HotThoughts from "./Pages/HotThoughts";
+import Account from "./Pages/Account";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <Route path="/users/login" element= {<Login />} />
     <Route path="/addvideo" element= {<Add_video />} />
     <Route path="/hot-thoughts" element= {<HotThoughts />} />
+    <Route path="/account" element= {<Account />} />
   </Routes>
   </BrowserRouter>
   </>;
