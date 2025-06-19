@@ -71,62 +71,23 @@ const getAllHotThoughts = asyncHandler(async (req, res) => {
 )
 
 const getUserTweets = asyncHandler(async (req, res) => {
-  // TODO: get user tweets
-  const { userId } = req.user._id;
-  if (!userId) {
-    throw new ApiError(400, "User id not found");
+  const userId = req.user._id;
+  if (!userId || !isValidObjectId(userId)) {
+    throw new ApiError(400, "No thought Id found")
   }
 
-  const tweet = await Tweet.aggregate([
-    {
-      $match: {
-        owner: new mongoose.Types.ObjectId(String(userId)),
-      },
-    },
-    {
-      $lookup: {
-        from: "likes",
-        localField: "_id",
-        foreignField: "tweet",
-        as: "likes",
-      },
-    },
-    {
-      $addFields: {
-        likes: { $size: "$likes" },
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "owner",
-        foreignField: "_id",
-        as: "owner",
-        pipeline: [
-          {
-            $project: {
-              fullname: 1,
-              username: 1,
-              email: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $addFields: {
-        owner: { $arrayElemAt: ["$owner", 0] },
-      },
-    },
-  ]);
-  if (!tweet) {
-    throw new ApiError(400, "Failed to get the user tweets");
+  const thoughts = await Tweet.find({"owner.id": userId})
+
+  if (thoughts.length === 0) {
+    return res
+    .status(200)
+    .json(new ApiResponse(200, thoughts, "No thoughts found with current user"))
   }
 
   return res
   .status(200)
-  .json(new ApiResponse(200, { tweets: tweet, totalTweets: tweet.length }, "User tweets retrieved"));
- });
+  .json(new ApiResponse(200, thoughts, "Tweets fetched successfully"))
+});
 
 const updateTweet = asyncHandler(async (req, res) => {
   //TODO: update tweet
