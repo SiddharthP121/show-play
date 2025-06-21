@@ -6,6 +6,7 @@ import axios from "axios";
 import AccountVideos from "./AccountVideos";
 import { useNavigate } from "react-router-dom";
 import AccountThoughts from "./AccountThoughts";
+import AccountComments from "./AccountComments";
 
 const Account = () => {
   const [search, setSearch] = useState("");
@@ -71,22 +72,33 @@ const Account = () => {
     setselect(2);
     console.log(select);
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/tweet/user/thoughts", {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`
+      const res = await axios.get(
+        "http://localhost:8000/api/v1/tweet/user/thoughts",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
-      setThoughts(res.data.data)
-      console.log(thoughts)
-
+      );
+      setThoughts(res.data.data);
+      console.log(thoughts);
     } catch (error) {
-      console.log(error.response.data.message || "Unable to fetch the thoughts at the moment")
+      console.log(
+        error.response.data.message ||
+          "Unable to fetch the thoughts at the moment"
+      );
     }
   };
   const handleCommentSearch = () => {
     setselect(3);
     console.log(select);
+  };
+
+  const sections = {
+    1: <AccountVideos videos={videos} />,
+    2: <AccountThoughts thoughts={thoughts} setThoughts={setThoughts} />,
+    3: <AccountComments />,
   };
 
   return (
@@ -197,7 +209,7 @@ const Account = () => {
 
           <section className="h-1 mt-2 bg-gray-400"></section>
 
-          {select === 1 ? (
+          {/* {select === 1 ? (
             <AccountVideos videos={videos} />
           ) : (
             <div className="btn">
@@ -205,12 +217,14 @@ const Account = () => {
             </div>
           )}
           {select === 2 ? (
-            <AccountThoughts thoughts={thoughts} />
+            <AccountThoughts thoughts={thoughts} setThoughts= {settho} />
           ) : (
             <div className="btn">
               <h1>404 not found: Unable to fetch the hot-thoughts at the moment</h1>
             </div>
-          )}
+          )} */}
+
+          <div>{sections[select]}</div>
         </main>
       )}
 
