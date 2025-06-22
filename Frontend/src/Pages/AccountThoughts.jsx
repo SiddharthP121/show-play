@@ -6,13 +6,9 @@ import axios from "axios";
 
 const AccountThoughts = ({ thoughts, setThoughts }) => {
   const token = localStorage.getItem("token");
-  const [message, setMessage] = useState("");
-  const [select, setSelect] = useState(0);
-  const [content, setContent] = useState("");
+
   const [editId, seteditId] = useState(null);
   const [thoughtContent, setThoughtContent] = useState(null);
-  const [updatedThought, setUpdatedThought] = useState()
-  const handleEdit = () => {};
   const handleSubmit = async (e, editId) => {
     e.preventDefault();
     try {
@@ -27,8 +23,6 @@ const AccountThoughts = ({ thoughts, setThoughts }) => {
         }
       );
       setThoughts(res.data.data);
-      // seteditId(null);
-      // setThoughtContent(null);
     } catch (error) {
       console.log(
         error?.response?.data?.message || "Unable to edit the thought"
@@ -54,7 +48,6 @@ const AccountThoughts = ({ thoughts, setThoughts }) => {
           },
         }
       );
-      setMessage(res.data.message || "Thought deleted successfully");
 
       setThoughts(res.data.data);
     } catch (error) {
@@ -94,7 +87,6 @@ const AccountThoughts = ({ thoughts, setThoughts }) => {
               <div className="flex gap-4 text-gray-500">
                 <button
                   onClick={() => {
-                    setSelect(1),
                       seteditId(thought._id),
                       setThoughtContent(thought.content);
                   }}

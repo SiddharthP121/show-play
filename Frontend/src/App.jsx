@@ -6,6 +6,8 @@ import {BrowserRouter, Routes, Route } from "react-router-dom"
 import Add_video from "./Pages/Add-video";
 import HotThoughts from "./Pages/HotThoughts";
 import Account from "./Pages/Account";
+import WatchHistory from "./Pages/WatchHistory";
+import Settings from "./Pages/Settings"
 
 
 function App() {
@@ -20,6 +22,9 @@ function App() {
     <Route path="/addvideo" element= {<Add_video />} />
     <Route path="/hot-thoughts" element= {<HotThoughts />} />
     <Route path="/account" element= {<Account />} />
+    <Route path="/watch-history" element= {<WatchHistory />} />
+    <Route path="/settings" element= {<Settings />} />
+
   </Routes>
   </BrowserRouter>
   </>;

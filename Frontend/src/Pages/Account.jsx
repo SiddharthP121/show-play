@@ -115,25 +115,31 @@ const Account = () => {
       </div>
       {!token ? (
         <main>
-          <h1>You are not logged in your account</h1>
-          <div className="btn">
-            <li>
-              <button
-                onClick={() => navigate("/users/login")}
-                className="w-full px-4 py-2 mt-4 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition"
-              >
-                Login
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => navigate("/users/register")}
-                className="w-full px-4 py-2 mt-2 rounded-md bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
-              >
-                Signup
-              </button>
-            </li>
-          </div>
+          <div className="w-full max-w-sm mx-auto mt-10 px-6 py-8 space-y-4">
+ <div className="w-full max-w-md mx-auto mt-16 bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl rounded-2xl px-8 py-10">
+  <h1 className="text-center text-lg font-semibold text-black mb-6">
+    You are not logged in to your account
+  </h1>
+  <ul className="space-y-4">
+    <li>
+      <button
+        onClick={() => navigate("/users/login")}
+        className="w-full py-3 rounded-lg border border-purple-500 text-purple-500 font-medium tracking-wide hover:shadow-[0_0_12px_2px_rgba(168,85,247,0.5)] hover:text-purple-400 transition-all duration-300"
+      >
+        Login
+      </button>
+    </li>
+    <li>
+      <button
+        onClick={() => navigate("/users/register")}
+        className="w-full py-3 rounded-lg border border-blue-500 text-blue-500 font-medium tracking-wide hover:shadow-[0_0_12px_2px_rgba(59,130,246,0.5)] hover:text-blue-400 transition-all duration-300"
+      >
+        Signup
+      </button>
+    </li>
+  </ul>
+</div>
+</div>
         </main>
       ) : (
         <main className="pt-20 pb-32 bg-red-50 border-black rounded-3xl min-h-screen lg:pl-60">

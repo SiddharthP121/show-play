@@ -57,7 +57,9 @@ const getAllHotThoughts = asyncHandler(async (req, res) => {
   ]);
 
   if (!thoughts) {
-    throw new ApiError(400, "Failed to get all the tweets");
+   return res
+   .status(200)
+   .json("Login to see the cloud statements")
   }
 
   const totalThoughts = await Tweet.countDocuments();

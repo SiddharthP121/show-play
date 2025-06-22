@@ -5,6 +5,7 @@ import { GoHeart } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useLocation } from "react-router-dom";
 import "../CSS/App.css";
+import { useNavigate } from "react-router-dom";
 
 const HotThoughts = () => {
   const [thoughtMessage, setThoughtMessage] = useState("");
@@ -12,10 +13,10 @@ const HotThoughts = () => {
   const [message, setMessage] = useState("");
   const [thoughts, setThoughts] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [like, setLike] = useState(false)
   const token = localStorage.getItem("token");
   const location = useLocation();
   const isMobileLocation = location.pathname === "/hot-thoughts";
+  const navigate = useNavigate()
 
   const messageLimit = (string, maxWords) => {
     if (string.length > maxWords) {
@@ -153,8 +154,35 @@ const HotThoughts = () => {
           ))}
         </div>
         ):(
-          <p>login to see thoughts</p>
-        )}
+ <div className="flex-1 overflow-y-auto pr-2 custom-scroll">
+           <main>
+          <div className="w-full max-w-sm mx-auto mt-10 px-6 py-8 space-y-4">
+ <div className="w-full max-w-md mx-auto mt-16 bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl rounded-2xl px-8 py-10">
+  <h1 className="text-center text-lg font-semibold text-black mb-6">
+   Login to see cloud statements
+  </h1>
+  <ul className="space-y-4">
+    <li>
+      <button
+        onClick={() => navigate("/users/login")}
+        className="w-full py-3 rounded-lg border border-purple-500 text-purple-500 font-medium tracking-wide hover:shadow-[0_0_12px_2px_rgba(168,85,247,0.5)] hover:text-purple-400 transition-all duration-300"
+      >
+        Login
+      </button>
+    </li>
+    <li>
+      <button
+        onClick={() => navigate("/users/register")}
+        className="w-full py-3 rounded-lg border border-blue-500 text-blue-500 font-medium tracking-wide hover:shadow-[0_0_12px_2px_rgba(59,130,246,0.5)] hover:text-blue-400 transition-all duration-300"
+      >
+        Signup
+      </button>
+    </li>
+  </ul>
+</div>
+</div>
+        </main>
+        </div>        )}
 
         <form onSubmit={handleSubmit} className="items-center ml-2">
           <div className="flex relative w-full md:w-72">
