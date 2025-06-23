@@ -1,123 +1,192 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
 import BottomNav from "./BottomNav";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+const ActionButton = ({ label, onClick }) => (
+  <button
+    onClick={onClick}
+    className="my-3 px-4 py-2 border rounded-xl bg-transparent hover:text-gray-500 hover:shadow-md transition-all text-sm md:text-base w-full flex justify-center items-center"
+  >
+    {label}
+  </button>
+);
+
+const AuthButton = ({ label, route, borderColor, textColor, hoverColor, navigate }) => (
+  <button
+    onClick={() => navigate(route)}
+    className={`w-full py-2 px-6 rounded-lg border ${borderColor} ${textColor} font-medium tracking-wide hover:shadow-lg hover:${hoverColor} transition-all duration-300`}
+  >
+    {label}
+  </button>
+);
+
+
 const Settings = () => {
-  const [search, setSearch] = useState("");
-  const token = localStorage.getItem("token");
-  const [isLogout, setIsLogout] = useState(false);
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+  const [avatarVisible, setAvatarVisible] = useState(false);
+  const [userAvatar, setUserAvatar] = useState();
+  const [newAvtar, setNewAvtar] = useState();
+  const token = localStorage.getItem("token");
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Add search logic
-  };
-
-  const settingsItems = [
-    "Change Avatar",
-    "Change Cover Image",
-    "Change Account Details",
-    "Update Password",
-    "Appearence",
-    "Verify Email",
-  ];
-
-  const handleLogout = async () => {
+  const fetchAvatar = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:8000/api/v1/users/logout",
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      localStorage.clear();
-      setIsLogout(true);
-      navigate("/");
-    } catch (error) {
-      console.log(error.response.data.message);
+      const { data } = await axios.get("http://localhost:8000/api/v1/users/profile", {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserAvatar(data.data.user.avtar);
+    } catch (err) {
+      console.log(err?.response?.data?.message || "Failed to load avatar");
     }
   };
 
-  // if (token) {
-  //   setIsLogout(true)
-  // }
+  useEffect(() => {
+    fetchAvatar();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:8000/api/v1/users/logout", {}, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.clear();
+      navigate("/");
+    } catch (err) {
+      console.log(err?.response?.data?.message);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!newAvtar) return
+      
+    // handle avatar upload logic
+    e.preventDefault()
+    const formData = new FormData();
+    formData.append("avtar", newAvtar)
+    try {
+      const res = await axios.patch("http://localhost:8000/api/v1/users/update-avtar", formData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setUserAvatar(res.data.data.user)
+      alert("Avatar updated successfully")
+      // console.log(res.data.data.user)
+    } catch (error) {
+      console.log(error?.response?.data?.message)
+    }
+  };
+
+  const handleChange = (e) => {
+    setNewAvtar(e.target.files[0])
+  }
+  
 
   return (
     <>
       <div className="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen overflow-x-hidden select-none">
-        {/* Top Bar */}
-        <TopBar
-          search={search}
-          setSearch={setSearch}
-          handleSearch={handleSearch}
-        />
-
-        {/* Sidebar (Fixed) */}
+        <TopBar search={search} setSearch={setSearch} handleSearch={(e) => e.preventDefault()} />
         <Sidebar />
 
-        {/* Main Content */}
         <main className="pt-24 pb-24 px-4 md:px-8 md:ml-50 lg:px-16 bg-transparent">
           <div className="flex flex-col items-center gap-6">
-            {/* Left spacer panel only on wider screens */}
             <div className="hidden md:block w-[15%]" />
 
-            {/* Vertical column for all screen sizes */}
-            <div className="flex flex-col gap-4 w-full md:w-[60%]">
-             {!isLogout && 
-              <div>
-              {settingsItems.map((item, index) => (
-                <button
-                key={index}
-                className="my-3 px-4 py-2 border border-solid rounded-xl bg-transparent hover:text-gray-500 hover:shadow-md cursor-pointer transition-all duration-200 text-sm md:text-base w-full flex justify-center items-center text-center"
-                >
-                  {item}
-                </button>
-              ))}
-              </div>
-             }
+            <div className="flex flex-col gap-1 w-full md:w-[60%]">
+              <ActionButton label="Change Avatar" onClick={() => setAvatarVisible(true)} />
+              <ActionButton label="Change Cover Image" />
+              <ActionButton label="Update Account Details" />
+              <ActionButton label="Change Password" />
+              <ActionButton label="Verify Email" />
+              <ActionButton label="Appearance" />
 
               {token ? (
                 <button
                   onClick={handleLogout}
-                  className="w-full py-2 px-6 rounded-lg border border-red-700 text-red-600 font-medium tracking-wide hover:shadow-[0_0_12px_2px_rgba(168,85,247,0.5)] hover:text-red-700 transition-all duration-300"
+                  className="w-full py-2 px-6 rounded-lg border border-red-700 text-red-600 font-medium tracking-wide hover:shadow-md hover:text-red-700 transition-all duration-300"
                 >
                   Logout
                 </button>
               ) : (
-                <main className="">
-                  <ul className="space-y-4 flex justify-around">
-                    <li>
-                      <button
-                        onClick={() => navigate("/users/login")}
-                        className="w-full py-2 px-6 rounded-lg border border-purple-500 text-purple-500 font-medium tracking-wide hover:shadow-[0_0_12px_2px_rgba(168,85,247,0.5)] hover:text-purple-400 transition-all duration-300"
-                      >
-                        Login
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => navigate("/users/register")}
-                        className="w-full py-2 px-6 rounded-lg border border-blue-500 text-blue-500 font-medium tracking-wide hover:shadow-[0_0_12px_2px_rgba(59,130,246,0.5)] hover:text-blue-400 transition-all duration-300"
-                      >
-                        Signup
-                      </button>
-                    </li>
-                  </ul>
-                </main>
+                <ul className="space-y-4 flex justify-around">
+                  <li>
+                    <AuthButton
+                      label="Login"
+                      route="/users/login"
+                      borderColor="border-purple-500"
+                      textColor="text-purple-500"
+                      hoverColor="text-purple-400"
+                      navigate={navigate}
+                    />
+                  </li>
+                  <li>
+                    <AuthButton
+                      label="Signup"
+                      route="/users/register"
+                      borderColor="border-blue-500"
+                      textColor="text-blue-500"
+                      hoverColor="text-blue-400"
+                      navigate={navigate}
+                    />
+                  </li>
+                </ul>
               )}
             </div>
           </div>
         </main>
 
-        {/* Bottom Navigation (Mobile) */}
         <BottomNav />
       </div>
+
+      {avatarVisible && (
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <label className="block text-gray-700 text-lg font-semibold">
+                Change Avatar
+              </label>
+              <label htmlFor="current Image">Current Avtar
+
+              <img src={userAvatar} alt="Current Avatar" className=" mt-3 mb-3 w-45 h-45 border border-t-black object-cover rounded-full" />
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleChange}
+                name="avatar"
+                id="avatar"
+                className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => setAvatarVisible(false)}
+                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 };

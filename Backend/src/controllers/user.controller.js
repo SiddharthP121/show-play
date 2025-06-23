@@ -336,7 +336,6 @@ const updateAvtar = asyncHandler(async (req, res) => {
       "Something went wrong while uploading the avtar image"
     );
   }
-
   const user = await User.findByIdAndUpdate(req.user._id, {
     $set: {
       avtar: updatedUserAvtar.url,

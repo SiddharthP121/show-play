@@ -24,6 +24,7 @@ function App() {
     <Route path="/account" element= {<Account />} />
     <Route path="/watch-history" element= {<WatchHistory />} />
     <Route path="/settings" element= {<Settings />} />
+    <Route path="/settings" element= {<Settings />} />
 
   </Routes>
   </BrowserRouter>
