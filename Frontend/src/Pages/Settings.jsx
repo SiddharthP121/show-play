@@ -14,7 +14,14 @@ const ActionButton = ({ label, onClick }) => (
   </button>
 );
 
-const AuthButton = ({ label, route, borderColor, textColor, hoverColor, navigate }) => (
+const AuthButton = ({
+  label,
+  route,
+  borderColor,
+  textColor,
+  hoverColor,
+  navigate,
+}) => (
   <button
     onClick={() => navigate(route)}
     className={`w-full py-2 px-6 rounded-lg border ${borderColor} ${textColor} font-medium tracking-wide hover:shadow-lg hover:${hoverColor} transition-all duration-300`}
@@ -23,23 +30,35 @@ const AuthButton = ({ label, route, borderColor, textColor, hoverColor, navigate
   </button>
 );
 
-
 const Settings = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [avatarVisible, setAvatarVisible] = useState(false);
+  const [coverImageVisibile, setCoverImageVisibile] = useState(false);
+  const [userDetailsVisible, setuserDetailsVisible] = useState(false);
   const [userAvatar, setUserAvatar] = useState();
   const [newAvtar, setNewAvtar] = useState();
+  const [CoverImage, setCoverImage] = useState();
+  const [newCoverImage, setNewCoverImage] = useState();
+  const [user, setUser] = useState();
+  const [userForm, setUserForm] = useState({
+    username: "",
+    fullname: "",
+    email: "",
+  });
   const token = localStorage.getItem("token");
 
   const fetchAvatar = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/api/v1/users/profile", {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await axios.get(
+        "http://localhost:8000/api/v1/users/profile",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUserAvatar(data.data.user.avtar);
     } catch (err) {
       console.log(err?.response?.data?.message || "Failed to load avatar");
@@ -50,14 +69,46 @@ const Settings = () => {
     fetchAvatar();
   }, []);
 
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:8000/api/v1/users/profile",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUser(data.data.user);
+      setCoverImage(data.data.user.coverImage);
+      console.log(data.data.user);
+      setUserForm({
+        username: data.data.user.username,
+        fullname: data.data.user.fullname,
+        email: data.data.user.email,
+      });
+    } catch (err) {
+      console.log(err?.response?.data?.message || "Failed to load user");
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:8000/api/v1/users/logout", {}, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.post(
+        "http://localhost:8000/api/v1/users/logout",
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       localStorage.clear();
       navigate("/");
     } catch (err) {
@@ -65,38 +116,112 @@ const Settings = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleAvatarSubmit = async (e) => {
     e.preventDefault();
-    if (!newAvtar) return
-      
+    if (!newAvtar) return;
+
     // handle avatar upload logic
-    e.preventDefault()
+    e.preventDefault();
     const formData = new FormData();
-    formData.append("avtar", newAvtar)
+    formData.append("avtar", newAvtar);
     try {
-      const res = await axios.patch("http://localhost:8000/api/v1/users/update-avtar", formData, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`
+      const res = await axios.patch(
+        "http://localhost:8000/api/v1/users/update-avtar",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
-      setUserAvatar(res.data.data.user)
-      alert("Avatar updated successfully")
+      );
+      setUserAvatar(res.data.data.user);
+      alert("Avatar updated successfully");
+      setAvatarVisible(false);
       // console.log(res.data.data.user)
     } catch (error) {
-      console.log(error?.response?.data?.message)
+      console.log(error?.response?.data?.message);
     }
   };
 
-  const handleChange = (e) => {
-    setNewAvtar(e.target.files[0])
-  }
-  
+  const handleCoverSubmit = async (e) => {
+    e.preventDefault();
+    if (!newCoverImage) return;
+    const formData = new FormData();
+    formData.append("coverImage", newCoverImage);
+    try {
+      const res = await axios.patch(
+        "http://localhost:8000/api/v1/users/update-coverimage",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCoverImage(res.data.data.user);
+      alert("Cover image change successfully");
+      setCoverImageVisibile(false);
+      console.log(res.data.data.user);
+    } catch (error) {
+      console.log(
+        error?.response?.data?.message || "Unable to update the cover image"
+      );
+    }
+  };
+
+  const handleUserDetailsSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("username", userForm.username);
+    formData.append("fullname", userForm.fullname);
+    formData.append("email", userForm.email);
+    try {
+      const res = await axios.patch(
+        "http://localhost:8000/api/v1/users/update-account-details",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert("User details changed");
+      setuserDetailsVisible(false);
+    } catch (error) {
+      console.log(
+        error.response.data.message || "Unable to upload user details"
+      );
+      alert(error.response.data.message || "Unable to upload user details at the moment")
+    }
+  };
+
+  const handleAvatarChange = (e) => {
+    setNewAvtar(e.target.files[0]);
+  };
+
+  const handleCoverChange = (e) => {
+    setNewCoverImage(e.target.files[0]);
+  };
+
+  const handleUserChange = (e) => {
+    const { name, value } = e.target;
+    setUserForm((form) => ({
+      ...form,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
       <div className="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen overflow-x-hidden select-none">
-        <TopBar search={search} setSearch={setSearch} handleSearch={(e) => e.preventDefault()} />
+        <TopBar
+          search={search}
+          setSearch={setSearch}
+          handleSearch={(e) => e.preventDefault()}
+        />
         <Sidebar />
 
         <main className="pt-24 pb-24 px-4 md:px-8 md:ml-50 lg:px-16 bg-transparent">
@@ -104,9 +229,18 @@ const Settings = () => {
             <div className="hidden md:block w-[15%]" />
 
             <div className="flex flex-col gap-1 w-full md:w-[60%]">
-              <ActionButton label="Change Avatar" onClick={() => setAvatarVisible(true)} />
-              <ActionButton label="Change Cover Image" />
-              <ActionButton label="Update Account Details" />
+              <ActionButton
+                label="Change Avatar"
+                onClick={() => setAvatarVisible(true)}
+              />
+              <ActionButton
+                label="Change Cover Image"
+                onClick={() => setCoverImageVisibile(true)}
+              />
+              <ActionButton
+                label="Update Account Details"
+                onClick={() => setuserDetailsVisible(true)}
+              />
               <ActionButton label="Change Password" />
               <ActionButton label="Verify Email" />
               <ActionButton label="Appearance" />
@@ -152,18 +286,22 @@ const Settings = () => {
       {avatarVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleAvatarSubmit} className="space-y-4">
               <label className="block text-gray-700 text-lg font-semibold">
                 Change Avatar
               </label>
-              <label htmlFor="current Image">Current Avtar
-
-              <img src={userAvatar} alt="Current Avatar" className=" mt-3 mb-3 w-45 h-45 border border-t-black object-cover rounded-full" />
+              <label htmlFor="current Image">
+                Current Avtar
+                <img
+                  src={userAvatar}
+                  alt="Current Avatar"
+                  className=" mt-3 mb-3 w-45 h-45 border border-t-black object-cover rounded-full"
+                />
               </label>
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleChange}
+                onChange={handleAvatarChange}
                 name="avatar"
                 id="avatar"
                 className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -172,6 +310,109 @@ const Settings = () => {
                 <button
                   type="button"
                   onClick={() => setAvatarVisible(false)}
+                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {coverImageVisibile && (
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <form onSubmit={handleCoverSubmit} className="space-y-4">
+              <label className="block text-gray-700 text-lg font-semibold">
+                Change Cover Image
+              </label>
+              <label htmlFor="current Image">
+                Current Cover Image
+                <img
+                  src={CoverImage}
+                  alt="Cover Image"
+                  className=" mt-3 mb-3 w-90 h-45 border border-t-black object-cover"
+                />
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleCoverChange}
+                name="coverImage"
+                id="coverImage"
+                className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => setCoverImageVisibile(false)}
+                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {userDetailsVisible && (
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <form onSubmit={handleUserDetailsSubmit} className="space-y-4">
+              <label className="block text-gray-700 text-lg font-semibold">
+                Update Username, Fullname, Password
+              </label>
+              <label htmlFor="username">
+                Username:
+                <input
+                  type="text"
+                  onChange={handleUserChange}
+                  name="username"
+                  value={userForm.username}
+                  id="username"
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+              <label htmlFor="fullname">
+                Fullname:
+                <input
+                  type="text"
+                  onChange={handleUserChange}
+                  name="fullname"
+                  id="fullname"
+                  value={userForm.fullname}
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+              <label htmlFor="email">
+                Email:
+                <input
+                  type="email"
+                  onChange={handleUserChange}
+                  name="email"
+                  value={userForm.email}
+                  id="email"
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => setuserDetailsVisible(false)}
                   className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
                 >
                   Cancel

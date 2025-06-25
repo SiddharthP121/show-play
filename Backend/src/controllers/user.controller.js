@@ -292,10 +292,24 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
-  const { fullname, username, email } = req.body;
+  const { username, fullname, email } = req.body;
 
   if (!fullname || !username || !email) {
     throw new ApiError(401, "All the fields are required");
+  }
+
+  const existUsername = await User.find({username: username});
+  // const existFullname = await User.find({fullname: fullname});
+  const existEmail = await User.find({email: email});
+
+  if(!existUsername){
+    throw new ApiError(400, "Username not avlaible")
+  }
+  // if(existFullname){
+  //   throw new ApiError(400, "Username is Already Existed")
+  // }
+  if(!existEmail){
+    throw new ApiError(400, "Email is Already registered")
   }
 
   const user = await User.findByIdAndUpdate(
@@ -359,7 +373,7 @@ const updateCoverImage = asyncHandler(async (req, res) => {
   if (!newCoverImagePath) {
     throw new ApiError(400, "Cover Image file is required");
   }
-  const updatedCoverImg = uplaodFile(newCoverImagePath);
+  const updatedCoverImg = await uplaodFile(newCoverImagePath);
   if (!updatedCoverImg) {
     throw new ApiError(500, "Something went wrong while uploading cover image");
   }
