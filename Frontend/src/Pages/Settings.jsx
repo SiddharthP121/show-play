@@ -36,10 +36,14 @@ const Settings = () => {
   const [avatarVisible, setAvatarVisible] = useState(false);
   const [coverImageVisibile, setCoverImageVisibile] = useState(false);
   const [userDetailsVisible, setuserDetailsVisible] = useState(false);
+  const [changePasswordVisible, setChangePasswordVisible] = useState(false);
   const [userAvatar, setUserAvatar] = useState();
   const [newAvtar, setNewAvtar] = useState();
   const [CoverImage, setCoverImage] = useState();
   const [newCoverImage, setNewCoverImage] = useState();
+  const [newPassoword, setNewPassoword] = useState("")
+  const [confirmNewPassword, setConfirmNewPassword] = useState("")
+  const [oldPassword, setOldPassword] = useState("")
   const [user, setUser] = useState();
   const [userForm, setUserForm] = useState({
     username: "",
@@ -171,6 +175,44 @@ const Settings = () => {
     }
   };
 
+  const handleNewPassoword = async (e) => {
+    e.preventDefault()
+    if (confirmNewPassword !== newPassoword) {
+      alert("Password do not match")
+      return
+    }
+
+    if (oldPassword === newPassoword) {
+      alert("Old and new passwords are same")
+      return
+    }
+    try {
+      const formData = new FormData();
+      formData.append("oldPassword", oldPassword)
+      formData.append("newPassword", newPassoword)
+      const res = await axios.patch("http://localhost:8000/api/v1/users/change-password", formData, {
+        withCredentials: true, 
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      } )
+      alert("Password changed successfully")
+      changePasswordVisible(false)
+    } catch (error) {
+      if (error.response) {
+        const {status, data} = error.response;
+        const message = data?.message || "Somthing went wrong"
+        console.error("Status Code: ", status)
+        console.error("Message: ", message)
+      alert("Message: ", message)
+      }
+      else{
+        console.error("Unexpected Error: " ,error.message)
+      }
+    }
+  }
+  
+
   const handleUserDetailsSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -194,7 +236,10 @@ const Settings = () => {
       console.log(
         error.response.data.message || "Unable to upload user details"
       );
-      alert(error.response.data.message || "Unable to upload user details at the moment")
+      alert(
+        error.response.data.message ||
+          "Unable to upload user details at the moment"
+      );
     }
   };
 
@@ -205,6 +250,8 @@ const Settings = () => {
   const handleCoverChange = (e) => {
     setNewCoverImage(e.target.files[0]);
   };
+
+ 
 
   const handleUserChange = (e) => {
     const { name, value } = e.target;
@@ -241,7 +288,10 @@ const Settings = () => {
                 label="Update Account Details"
                 onClick={() => setuserDetailsVisible(true)}
               />
-              <ActionButton label="Change Password" />
+              <ActionButton
+                label="Change Password"
+                onClick={() => setChangePasswordVisible(true)}
+              />
               <ActionButton label="Verify Email" />
               <ActionButton label="Appearance" />
 
@@ -374,7 +424,7 @@ const Settings = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
             <form onSubmit={handleUserDetailsSubmit} className="space-y-4">
               <label className="block text-gray-700 text-lg font-semibold">
-                Update Username, Fullname, Password
+                Update Username, Fullname, Email
               </label>
               <label htmlFor="username">
                 Username:
@@ -427,6 +477,65 @@ const Settings = () => {
             </form>
           </div>
         </div>
+      )}
+
+      {changePasswordVisible && (
+        
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <form onSubmit={handleNewPassoword} className="space-y-4">
+              <label className="block text-gray-700 text-lg font-semibold">
+                Update Password
+              </label>
+              <label htmlFor="oldPassword">
+                Old Password:
+                <input
+                  type="text"
+                  onChange={(e)=>setOldPassword(e.target.value)}
+                  name="password"
+                  id="passoword"
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+              <label htmlFor="newPassword">
+                New Password:
+                <input
+                  type="password"
+                  onChange={(e)=>setNewPassoword(e.target.value)}
+                  name="newPassword"
+                  id="newPassword"
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+              <label htmlFor="confirmNewPassword">
+                Confirm New Password:
+                <input
+                  type="text"
+                  name="confirmNewPassword"
+                  onChange={(e)=>setConfirmNewPassword(e.target.value)}
+                  id="confirmNewPassword"
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => (setChangePasswordVisible(false))}
+                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      
       )}
     </>
   );
