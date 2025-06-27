@@ -33,17 +33,21 @@ const AuthButton = ({
 const Settings = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [avatarVisible, setAvatarVisible] = useState(false);
+  const [avatarVisible, setAvatarVisible] = useState(false)
+  const [isCodeSent, setisCodeSent] = useState(false)
   const [coverImageVisibile, setCoverImageVisibile] = useState(false);
   const [userDetailsVisible, setuserDetailsVisible] = useState(false);
+  const [sentCode, setSentCode] = useState("")
+  const [userCode, setUserCode] = useState("");
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
+  const [verifyEmailVisible, setVerifyEmailVisible] = useState(false);
   const [userAvatar, setUserAvatar] = useState();
   const [newAvtar, setNewAvtar] = useState();
   const [CoverImage, setCoverImage] = useState();
   const [newCoverImage, setNewCoverImage] = useState();
-  const [newPassoword, setNewPassoword] = useState("")
-  const [confirmNewPassword, setConfirmNewPassword] = useState("")
-  const [oldPassword, setOldPassword] = useState("")
+  const [newPassoword, setNewPassoword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [user, setUser] = useState();
   const [userForm, setUserForm] = useState({
     username: "",
@@ -175,43 +179,79 @@ const Settings = () => {
     }
   };
 
+  const verifyEmail = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "http://localhost:8000/api/v1/users/verify-email",
+      {},
+      {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    alert("Verification code sent to your email!");
+    setSentCode(res.data.data)
+    setisCodeSent(true)
+    // const isEmailVerified = res.data.message.isEmailVerified
+    // console.log(isEmailVerified)
+    console.log(res.data.data)
+    // verifyCode()
+  } catch (error) {
+    console.error(error.response?.data?.message || "Unable to send verification code");
+  }
+};
+
+const verifyCode = () => {
+  if (sentCode !== userCode) {
+    alert("Incorrect verification code")
+  }
+  else{
+    alert("Email verified")
+    setVerifyEmailVisible(false)
+  }
+}
+
+
   const handleNewPassoword = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (confirmNewPassword !== newPassoword) {
-      alert("Password do not match")
-      return
+      alert("Password do not match");
+      return;
     }
 
     if (oldPassword === newPassoword) {
-      alert("Old and new passwords are same")
-      return
+      alert("Old and new passwords are same");
+      return;
     }
     try {
       const formData = new FormData();
-      formData.append("oldPassword", oldPassword)
-      formData.append("newPassword", newPassoword)
-      const res = await axios.patch("http://localhost:8000/api/v1/users/change-password", formData, {
-        withCredentials: true, 
-        headers: {
-          Authorization: `Bearer ${token}`
+      formData.append("oldPassword", oldPassword);
+      formData.append("newPassword", newPassoword);
+      const res = await axios.patch(
+        "http://localhost:8000/api/v1/users/change-password",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } )
-      alert("Password changed successfully")
-      changePasswordVisible(false)
+      );
+      alert("Password changed successfully");
+      changePasswordVisible(false);
     } catch (error) {
       if (error.response) {
-        const {status, data} = error.response;
-        const message = data?.message || "Somthing went wrong"
-        console.error("Status Code: ", status)
-        console.error("Message: ", message)
-      alert("Message: ", message)
-      }
-      else{
-        console.error("Unexpected Error: " ,error.message)
+        const { status, data } = error.response;
+        const message = data?.message || "Somthing went wrong";
+        console.error("Status Code: ", status);
+        console.error("Message: ", message);
+        alert("Message: ", message);
+      } else {
+        console.error("Unexpected Error: ", error.message);
       }
     }
-  }
-  
+  };
 
   const handleUserDetailsSubmit = async (e) => {
     e.preventDefault();
@@ -250,8 +290,6 @@ const Settings = () => {
   const handleCoverChange = (e) => {
     setNewCoverImage(e.target.files[0]);
   };
-
- 
 
   const handleUserChange = (e) => {
     const { name, value } = e.target;
@@ -292,7 +330,10 @@ const Settings = () => {
                 label="Change Password"
                 onClick={() => setChangePasswordVisible(true)}
               />
-              <ActionButton label="Verify Email" />
+              <ActionButton
+                label="Verify Email"
+                onClick={() => setVerifyEmailVisible(true)}
+              />
               <ActionButton label="Appearance" />
 
               {token ? (
@@ -480,7 +521,6 @@ const Settings = () => {
       )}
 
       {changePasswordVisible && (
-        
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
             <form onSubmit={handleNewPassoword} className="space-y-4">
@@ -491,7 +531,7 @@ const Settings = () => {
                 Old Password:
                 <input
                   type="text"
-                  onChange={(e)=>setOldPassword(e.target.value)}
+                  onChange={(e) => setOldPassword(e.target.value)}
                   name="password"
                   id="passoword"
                   className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -501,7 +541,7 @@ const Settings = () => {
                 New Password:
                 <input
                   type="password"
-                  onChange={(e)=>setNewPassoword(e.target.value)}
+                  onChange={(e) => setNewPassoword(e.target.value)}
                   name="newPassword"
                   id="newPassword"
                   className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -512,7 +552,7 @@ const Settings = () => {
                 <input
                   type="text"
                   name="confirmNewPassword"
-                  onChange={(e)=>setConfirmNewPassword(e.target.value)}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
                   id="confirmNewPassword"
                   className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
@@ -520,7 +560,7 @@ const Settings = () => {
               <div className="flex justify-end gap-4">
                 <button
                   type="button"
-                  onClick={() => (setChangePasswordVisible(false))}
+                  onClick={() => setChangePasswordVisible(false)}
                   className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
                 >
                   Cancel
@@ -535,7 +575,69 @@ const Settings = () => {
             </form>
           </div>
         </div>
-      
+      )}
+
+      {verifyEmailVisible && (
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+          {user.isEmailVerified?(
+            <h1>Your email is already verified ✅</h1>
+
+          ):(
+            <form onSubmit={verifyEmail} className="space-y-4">
+              <label className="block text-gray-700 text-lg font-semibold">
+                Verify Email
+              </label>
+              <label htmlFor="Email">
+                E-mail:
+                <input
+                  type="email"
+                  value={user.email}
+                  readOnly
+                  name="email"
+                  id="email"
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+              <label htmlFor="verificationCode">
+                Enter 6 digit verification code:
+                <input
+                  onChange={(e) => setUserCode(e.target.value)}
+                  type="number"
+                  name="verificationCode"
+                  id="verificationCode"
+                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </label>
+
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+
+                {isCodeSent?(
+                <button
+                className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                onClick={verifyCode}>
+                  Verify Code
+                </button>
+                ):( <button
+                  type="submit"
+                  onClick={() => setVerifyEmailVisible(true)}
+                  className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                >
+                  Send Code
+                </button>)}
+               
+              </div>
+            </form>
+          )}
+            
+          </div>
+        </div>
       )}
     </>
   );

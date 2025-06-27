@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.model.js";
 import { uplaodFile } from "../utils/Cloudinary.js";
-// import { deleteFromCloud } from "../utils/deleteFromCloud.js";
+import nodemailer from "nodemailer";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -26,6 +26,11 @@ const generateAccessAndRefreshToken = async (userId) => {
         "Something went wrong while generating access and refresh token"
     );
   }
+};
+
+const generateCode =  () => {
+ const code = Math.floor(100000 + Math.random() * 900000).toString();
+ return code;
 };
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -118,9 +123,11 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!identifier || !password) {
     throw new ApiError(400, "All the fields are required");
   }
-  const isEmail = identifier.includes("@")
+  const isEmail = identifier.includes("@");
 
-  const user = await User.findOne(isEmail ? {email: identifier} : {username: identifier});
+  const user = await User.findOne(
+    isEmail ? { email: identifier } : { username: identifier }
+  );
 
   if (!user) {
     throw new ApiError(401, "Invalid username or password");
@@ -284,11 +291,10 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-
-  const user = req.user
+  const user = req.user;
   return res
     .status(200)
-    .json(new ApiResponse(201, {user}, "Current user fetched successfully"));  
+    .json(new ApiResponse(201, { user }, "Current user fetched successfully"));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -298,18 +304,18 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     throw new ApiError(401, "All the fields are required");
   }
 
-  const existUsername = await User.find({username: username});
+  const existUsername = await User.find({ username: username });
   // const existFullname = await User.find({fullname: fullname});
-  const existEmail = await User.find({email: email});
+  const existEmail = await User.find({ email: email });
 
-  if(!existUsername){
-    throw new ApiError(400, "Username not avlaible")
+  if (!existUsername) {
+    throw new ApiError(400, "Username not avlaible");
   }
   // if(existFullname){
   //   throw new ApiError(400, "Username is Already Existed")
   // }
-  if(!existEmail){
-    throw new ApiError(400, "Email is Already registered")
+  if (!existEmail) {
+    throw new ApiError(400, "Email is Already registered");
   }
 
   const user = await User.findByIdAndUpdate(
@@ -520,9 +526,48 @@ const getWatchHistory = asyncHandler(async (req, res) => {
     );
 });
 
+const verifyEmail = asyncHandler(async (req, res) => {
+  // const userCode = req.body;
+  const email = req.user.email;
+  const code = generateCode();
+  console.log(code)
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "siddharthpotphode7@gmail.com",
+      pass: "lthjscktedivhiej"
+    },
+  });
+
+  const mailOptions = {
+    form: "siddharthpotphode7@gmail.com",
+    to: email,
+    subject: "Verify your email for Show-Play",
+    html: `<p>Your verification code is <b>${code}</b>. It expires in 10 minutes.</p>`,
+  };
+
+  const sentMail = await transporter.sendMail(mailOptions);
+  if (!sentMail) {
+    throw new ApiError(400, "Error sending email")
+  }
+
+  const verifyStatus = await User.findByIdAndUpdate(req.user._id, {
+   $set:{
+    isEmailVerified: true
+   },
+  }).select("-password")
+
+  if (!verifyStatus) {
+    throw new ApiError(500, "Something went wrong while verifying email");
+  }
+
+  return res.status(200).json(new ApiResponse(200, code, verifyStatus, "Code sent successfully"));
+});
+
 export {
   registerUser,
   loginUser,
+  verifyEmail,
   logoutUser,
   refreshAccessToken,
   changeCurrentPassword,
