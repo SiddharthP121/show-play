@@ -5,7 +5,7 @@ import { uplaodFile } from "../utils/Cloudinary.js";
 import nodemailer from "nodemailer";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -563,6 +563,27 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, code, verifyStatus, "Code sent successfully"));
 });
+
+// const toggleDarkMode = asyncHandler(async (req, res) => {
+//   const userId = req.user._id;
+//   if (!userId || !isValidObjectId(userId)) {
+//     throw new ApiError(400, "Invalid user id")
+//   }
+
+//   const darkMode = await User.findByIdAndUpdate(userId, {
+//     $set: {
+//       darkMode: true
+//     }
+//   }).select("-password")
+
+//   if (!darkMode) {
+//     throw new ApiError(400, "Unable to set dark mode true")
+//   }
+
+//   return res
+//   .status(200)
+//   .json(new ApiResponse(200, darkMode, "Dark mode toggled successfully"))
+// })
 
 export {
   registerUser,

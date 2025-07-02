@@ -4,9 +4,11 @@ import Sidebar from "./Sidebar";
 import BottomNav from "./BottomNav";
 import HotThoughts from "./HotThoughts";
 import AllVideos from "./AllVideos";
+import { useDarkMode } from "../DarkModeContext";
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const {isDarkModeOn} = useDarkMode()
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -14,11 +16,16 @@ const Home = () => {
   };
 
  return (
-    <div className="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen overflow-x-hidden select-none">
-      {/* Top Bar */}
+<div
+  className={`min-h-screen overflow-x-hidden select-none 
+    ${isDarkModeOn 
+      ? "bg-gradient-to-br from-[#121212] via-[#1A1A1A] to-[#232323]" 
+      : "bg-gradient-to-br from-blue-100 via-white to-purple-200"
+    }`}
+>     
       <TopBar search={search} setSearch={setSearch} handleSearch={handleSearch} />
 
-      {/* Sidebar (Fixed) */}
+      
       <Sidebar />
 
       {/* Main Content */}
@@ -39,7 +46,6 @@ const Home = () => {
         </div>
       </main>
 
-      {/* Bottom Navigation (Mobile) */}
       <BottomNav />
     </div>
   );

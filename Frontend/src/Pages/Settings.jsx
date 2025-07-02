@@ -2,16 +2,31 @@ import React, { useState, useEffect } from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
 import BottomNav from "./BottomNav";
+import { useDarkMode } from "../DarkModeContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const ActionButton = ({ label, onClick }) => (
-  <button
-    onClick={onClick}
-    className="my-3 px-4 py-2 border rounded-xl bg-transparent hover:text-gray-500 hover:shadow-md transition-all text-sm md:text-base w-full flex justify-center items-center"
-  >
+const ActionButton = ({ label, onClick, isDarkModeOn }) => (
+  
+<button
+  onClick={onClick}
+  className={`
+    group relative mx-auto my-3 font-medium w-full py-3 px-6 cursor-pointer
+    border border-transparent rounded-xl
+    ${isDarkModeOn ? "text-white bg-gray-800" : "text-red-900 bg-blue-100"}
+    transition-all duration-200 ease-out
+    hover:text-black hover:bg-blue-300 -translate-y-0.5 hover:shadow-lg
+    active:translate-y-0.5 active:shadow-sm
+    text-sm md:text-base
+    flex justify-center items-center
+  `}
+>
+  <span className="relative z-10 group-hover:text-opacity-90">
     {label}
-  </button>
+  </span>
+</button>
+
+
 );
 
 const AuthButton = ({
@@ -24,31 +39,37 @@ const AuthButton = ({
 }) => (
   <button
     onClick={() => navigate(route)}
-    className={`w-full py-2 px-6 rounded-lg border ${borderColor} ${textColor} font-medium tracking-wide hover:shadow-lg hover:${hoverColor} transition-all duration-300`}
+    className={`w-full py-2 px-6 cursor-pointer rounded-lg border ${borderColor} ${textColor} font-medium tracking-wide hover:shadow-lg hover:${hoverColor} transition-all duration-300`}
   >
     {label}
   </button>
 );
 
 const Settings = () => {
+
   const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
-  const [avatarVisible, setAvatarVisible] = useState(false)
-  const [isCodeSent, setisCodeSent] = useState(false)
+  const [avatarVisible, setAvatarVisible] = useState(false);
+  const [isCodeSent, setisCodeSent] = useState(false);
   const [coverImageVisibile, setCoverImageVisibile] = useState(false);
   const [userDetailsVisible, setuserDetailsVisible] = useState(false);
-  const [sentCode, setSentCode] = useState("")
+  const [sentCode, setSentCode] = useState("");
   const [userCode, setUserCode] = useState("");
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
   const [verifyEmailVisible, setVerifyEmailVisible] = useState(false);
+  const [appearenceVisible, setAppearenceVisible] = useState(false);
   const [userAvatar, setUserAvatar] = useState();
   const [newAvtar, setNewAvtar] = useState();
+  const { isDarkModeOn, toggleDarkMode } = useDarkMode();
+  // const [isDarkModeOn, setIsDarkModeOn] = useState(false);
   const [CoverImage, setCoverImage] = useState();
   const [newCoverImage, setNewCoverImage] = useState();
   const [newPassoword, setNewPassoword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [user, setUser] = useState();
+  const [loggedOut, setLoggedOut] = useState(false)
   const [userForm, setUserForm] = useState({
     username: "",
     fullname: "",
@@ -69,7 +90,7 @@ const Settings = () => {
       );
       setUserAvatar(data.data.user.avtar);
     } catch (err) {
-      console.log(err?.response?.data?.message || "Failed to load avatar");
+      // console.log(err?.response?.data?.message || "Failed to load avatar");
     }
   };
 
@@ -97,13 +118,18 @@ const Settings = () => {
         email: data.data.user.email,
       });
     } catch (err) {
-      console.log(err?.response?.data?.message || "Failed to load user");
+      setLoggedOut(true)
+      // console.log(err?.response?.data?.message || "Failed to load user");
     }
   };
 
   useEffect(() => {
     fetchUser();
   }, []);
+
+  // const toggleDarkMode = () => {
+  //   setIsDarkModeOn((prev) => !prev);
+  // };
 
   const handleLogout = async () => {
     try {
@@ -180,38 +206,38 @@ const Settings = () => {
   };
 
   const verifyEmail = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post(
-      "http://localhost:8000/api/v1/users/verify-email",
-      {},
-      {
-        withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    alert("Verification code sent to your email!");
-    setSentCode(res.data.data)
-    setisCodeSent(true)
-    // const isEmailVerified = res.data.message.isEmailVerified
-    // console.log(isEmailVerified)
-    console.log(res.data.data)
-    // verifyCode()
-  } catch (error) {
-    console.error(error.response?.data?.message || "Unable to send verification code");
-  }
-};
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/users/verify-email",
+        {},
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert("Verification code sent to your email!");
+      setSentCode(res.data.data);
+      setisCodeSent(true);
+      // const isEmailVerified = res.data.message.isEmailVerified
+      // console.log(isEmailVerified)
+      console.log(res.data.data);
+      // verifyCode()
+    } catch (error) {
+      console.error(
+        error.response?.data?.message || "Unable to send verification code"
+      );
+    }
+  };
 
-const verifyCode = () => {
-  if (sentCode !== userCode) {
-    alert("Incorrect verification code")
-  }
-  else{
-    alert("Email verified")
-    setVerifyEmailVisible(false)
-  }
-}
-
+  const verifyCode = () => {
+    if (sentCode !== userCode) {
+      alert("Incorrect verification code");
+    } else {
+      alert("Email verified");
+      setVerifyEmailVisible(false);
+    }
+  };
 
   const handleNewPassoword = async (e) => {
     e.preventDefault();
@@ -301,7 +327,8 @@ const verifyCode = () => {
 
   return (
     <>
-      <div className="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen overflow-x-hidden select-none">
+      <div className={`bg-gradient-to-br ${isDarkModeOn ? "bg-gradient-to-br  from-gray-600 to-black border-white" : " bg-red-50 border-black"
+          } min-h-screen overflow-x-hidden select-none`}>
         <TopBar
           search={search}
           setSearch={setSearch}
@@ -317,29 +344,38 @@ const verifyCode = () => {
               <ActionButton
                 label="Change Avatar"
                 onClick={() => setAvatarVisible(true)}
+                isDarkModeOn={isDarkModeOn}
               />
               <ActionButton
                 label="Change Cover Image"
                 onClick={() => setCoverImageVisibile(true)}
+                isDarkModeOn={isDarkModeOn}
               />
               <ActionButton
                 label="Update Account Details"
                 onClick={() => setuserDetailsVisible(true)}
+                isDarkModeOn={isDarkModeOn}
               />
               <ActionButton
                 label="Change Password"
                 onClick={() => setChangePasswordVisible(true)}
+                isDarkModeOn={isDarkModeOn}
               />
               <ActionButton
                 label="Verify Email"
                 onClick={() => setVerifyEmailVisible(true)}
+                isDarkModeOn={isDarkModeOn}
               />
-              <ActionButton label="Appearance" />
+              <ActionButton
+                label="Appearance"
+                onClick={() => setAppearenceVisible(true)}
+                isDarkModeOn={isDarkModeOn}
+              />
 
-              {token ? (
+              {token && !loggedOut ? (
                 <button
                   onClick={handleLogout}
-                  className="w-full py-2 px-6 rounded-lg border border-red-700 text-red-600 font-medium tracking-wide hover:shadow-md hover:text-red-700 transition-all duration-300"
+                  className="w-full py-2 px-6 rounded-lg border border-red-700 text-red-600 font-medium tracking-wide hover:shadow-md hover:text-black hover:bg-red-400 transition-all duration-300"
                 >
                   Logout
                 </button>
@@ -580,62 +616,83 @@ const verifyCode = () => {
       {verifyEmailVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-          {user.isEmailVerified?(
-            <h1>Your email is already verified ✅</h1>
+            {user.isEmailVerified ? (
+              <h1>Your email is already verified ✅</h1>
+            ) : (
+              <form onSubmit={verifyEmail} className="space-y-4">
+                <label className="block text-gray-700 text-lg font-semibold">
+                  Verify Email
+                </label>
+                <label htmlFor="Email">
+                  E-mail:
+                  <input
+                    type="email"
+                    value={user.email}
+                    readOnly
+                    name="email"
+                    id="email"
+                    className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </label>
+                <label htmlFor="verificationCode">
+                  Enter 6 digit verification code:
+                  <input
+                    onChange={(e) => setUserCode(e.target.value)}
+                    type="number"
+                    name="verificationCode"
+                    id="verificationCode"
+                    className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </label>
 
-          ):(
-            <form onSubmit={verifyEmail} className="space-y-4">
-              <label className="block text-gray-700 text-lg font-semibold">
-                Verify Email
-              </label>
-              <label htmlFor="Email">
-                E-mail:
-                <input
-                  type="email"
-                  value={user.email}
-                  readOnly
-                  name="email"
-                  id="email"
-                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </label>
-              <label htmlFor="verificationCode">
-                Enter 6 digit verification code:
-                <input
-                  onChange={(e) => setUserCode(e.target.value)}
-                  type="number"
-                  name="verificationCode"
-                  id="verificationCode"
-                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </label>
+                <div className="flex justify-end gap-4">
+                  <button
+                    type="button"
+                    className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                  >
+                    Cancel
+                  </button>
 
-              <div className="flex justify-end gap-4">
-                <button
-                  type="button"
-                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
-                >
-                  Cancel
-                </button>
+                  {isCodeSent ? (
+                    <button
+                      className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                      onClick={verifyCode}
+                    >
+                      Verify Code
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      onClick={() => setVerifyEmailVisible(true)}
+                      className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                    >
+                      Send Code
+                    </button>
+                  )}
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
 
-                {isCodeSent?(
-                <button
-                className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
-                onClick={verifyCode}>
-                  Verify Code
-                </button>
-                ):( <button
-                  type="submit"
-                  onClick={() => setVerifyEmailVisible(true)}
-                  className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  Send Code
-                </button>)}
-               
-              </div>
-            </form>
-          )}
-            
+      {appearenceVisible && (
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <label htmlFor="darkMode" className="font-bold text-xl">
+              Dark Mode
+              <button
+                onClick={()=>{
+                  toggleDarkMode()
+                  setAppearenceVisible(false)
+                }}
+                className={`px-4 py-2 mx-2 rounded text-white font-semibold ${
+                  isDarkModeOn ? "bg-green-600" : "bg-gray-500"
+                }`}
+              >
+                {isDarkModeOn ? "ON" : "OFF"}
+              </button>
+            </label>
           </div>
         </div>
       )}

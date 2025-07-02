@@ -39,10 +39,10 @@ const userSchema = new Schema({
         default: false
     },
 
-    darkMode:{
-        type: Boolean,
-        default: false
-    },
+    // darkMode:{
+    //     type: Boolean,
+    //     default: false
+    // },
     watchHistory:[
         {
         type: Schema.Types.ObjectId,

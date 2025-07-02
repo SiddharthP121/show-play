@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useDarkMode } from "../DarkModeContext";
 
 const AllVideos = () => {
   const baseURL = "http://localhost:8000/api/v1/videos";
@@ -12,6 +13,7 @@ const AllVideos = () => {
   const [message, setMessage] = useState("");
   const [videos, setVideos] = useState([]);
   const [playingIdx, setPlayingIdx] = useState(null);
+  const { isDarkModeOn } = useDarkMode();
 
   useEffect(() => {
     const getAllVideosToHome = async () => {
@@ -31,13 +33,16 @@ const AllVideos = () => {
   return (
     <div className="w-full flex justify-center px-4 md:px-0">
       <div className="w-full max-w-4xl pt-2 pb-24">
-       
-
         <div className="flex flex-col gap-6">
           {videos.map((video, idx) => (
             <div
               key={video._id || idx}
-              className="w-full border rounded-2xl shadow-md bg-white p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6 transition-all duration-200 hover:shadow-xl cursor-pointer"
+              className={` w-full border rounded-2xl shadow-md p-4 md:p-6  flex flex-col md:flex-row gap-4 md:gap-6 transition-all duration-200 hover:shadow-xl cursor-pointer  ${
+                isDarkModeOn
+                  ? "bg-[#252525] text-[#F1F1F1] border border-[#2A2A2A]"
+                  : "bg-white text-[#1A1A1A] border border-[#E0E0E0]"
+              }
+  `}
               onMouseEnter={() => setPlayingIdx(idx)}
               onMouseLeave={() => setPlayingIdx(null)}
             >
@@ -64,10 +69,18 @@ const AllVideos = () => {
               {/* Video Info */}
               <div className="flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg md:text-2xl font-semibold text-purple-800 mb-1">
+                  <h3
+                    className={`text-lg md:text-2xl font-semibold ${
+                      isDarkModeOn ? "text-gray-200" : "text-black"
+                    } mb-1`}
+                  >
                     {truncateWords(video.title, 60)}
                   </h3>
-                  <p className="text-sm md:text-base text-gray-700 mb-2">
+                  <p
+                    className={`text-sm md:text-base ${
+                      isDarkModeOn ? "text-gray-400" : "text-blue-400"
+                    } mb-2`}
+                  >
                     {truncateWords(video.description, 150)}
                   </p>
                   <p className="text-xs md:text-sm text-gray-500">

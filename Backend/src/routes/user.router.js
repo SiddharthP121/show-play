@@ -12,6 +12,7 @@ import {
   userChannelProfile,
   getWatchHistory,
   verifyEmail,
+  // toggleDarkMode,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -51,5 +52,6 @@ router
   .patch(verifyJWT, upload.single("coverImage"), updateCoverImage);
 router.route("/channel-profile/:username").get(verifyJWT, userChannelProfile);
 router.route("/history").get(verifyJWT, getWatchHistory);
+// router.route("/toggle-dark-mode").post(verifyJWT,upload.none(), toggleDarkMode);
 
 export default router;

@@ -1,32 +1,47 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  AiFillHome,
-  AiOutlinePlus,
-} from "react-icons/ai";
-import {
-  MdHistory,
-  MdForum,
-  MdSettings,
-} from "react-icons/md";
+import { AiFillHome, AiOutlinePlus } from "react-icons/ai";
+import { MdHistory, MdForum, MdSettings } from "react-icons/md";
+import { useDarkMode } from "../DarkModeContext";
 
 const BottomNav = () => {
   const navigate = useNavigate();
 
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-t h-16 flex md:hidden justify-around items-center">
-      <BottomLink to="/" icon={<AiFillHome size={28} />} label="Home" />
-      <BottomLink to="/watch-history" icon={<MdHistory size={28} />} label="History" />
+  const { isDarkModeOn } = useDarkMode();
 
+  return (
+    <nav
+      className={`fixed bottom-0 left-0 right-0 z-50 h-16 flex md:hidden justify-around items-center 
+    ${
+      isDarkModeOn
+        ? "bg-[#1F1F1F] text-[#F1F1F1] border-t border-[#2A2A2A]"
+        : "bg-white text-[#1A1A1A] border-t border-[#E0E0E0]"
+    }
+    shadow-t`}
+    >
+      {" "}
+      <BottomLink to="/" icon={<AiFillHome size={28} />} label="Home" />
+      <BottomLink
+        to="/watch-history"
+        icon={<MdHistory size={28} />}
+        label="History"
+      />
       <button
         onClick={() => navigate("/addvideo")}
         className="mt-[-24px] w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-lg"
       >
         <AiOutlinePlus size={32} />
       </button>
-
-      <BottomLink to="/hot-thoughts" icon={<MdForum size={28} />} label="Thoughts" />
-      <BottomLink to="/settings" icon={<MdSettings size={28} />} label="Settings" />
+      <BottomLink
+        to="/hot-thoughts"
+        icon={<MdForum size={28} />}
+        label="Thoughts"
+      />
+      <BottomLink
+        to="/settings"
+        icon={<MdSettings size={28} />}
+        label="Settings"
+      />
     </nav>
   );
 };
