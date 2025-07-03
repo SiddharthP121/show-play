@@ -21,7 +21,7 @@ const AllVideos = () => {
   useEffect(() => {
     const getAllVideosToHome = async () => {
       try {
-        const res = await axios.get(`${baseURL}`);
+        const res = await axios.get(`${baseURL}/videos`);
         setVideos(res.data.data.video);
         setMessage(res.data.message || "Videos fetched successfully");
       } catch (error) {
