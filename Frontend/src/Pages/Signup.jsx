@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
+  const token = localStorage.getItem("token");
+
 
   const [form, setForm] = useState({
     username: "",
@@ -30,11 +32,7 @@ const Signup = () => {
       if (value) formData.append(key, value);
     });
     try {
-      const res = await axios.post(`${baseURL}/users/register`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.post(`${baseURL}/users/register`, formData, );
       setMessage(res.data.message || "User Registered Successfully");
       alert("user registered");
       console.log(res.data.data.user); // This will log the accessToken
