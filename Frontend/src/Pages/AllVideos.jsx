@@ -4,7 +4,7 @@ import { useDarkMode } from "../DarkModeContext";
 import { useNavigate } from "react-router-dom";
 
 const AllVideos = () => {
-  const baseURL = import.meta.env.DEFAULT_URL;
+  const baseURL = import.meta.env.VITE_DEFAULT_URL;
 
   const navigate = useNavigate();
 

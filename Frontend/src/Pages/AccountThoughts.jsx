@@ -3,13 +3,12 @@ import { GoHeart } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import axios from "axios";
-const baseURL = import.meta.env.DEFAULT_URL;
 
 import { useDarkMode } from "../DarkModeContext";
 
 const AccountThoughts = ({ thoughts, setThoughts }) => {
   const token = localStorage.getItem("token");
-
+  const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const [editId, seteditId] = useState(null);
   const [thoughtContent, setThoughtContent] = useState(null);
   const { isDarkModeOn } = useDarkMode();

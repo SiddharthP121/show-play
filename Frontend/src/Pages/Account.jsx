@@ -19,7 +19,7 @@ const Account = () => {
   const [comments, setComments] = useState([]);
   const [thoughts, setThoughts] = useState([]);
   const { isDarkModeOn } = useDarkMode();
-  const baseURL = import.meta.env.DEFAULT_URL;
+  const baseURL = import.meta.env.VITE_DEFAULT_URL;
 
   const navigate = useNavigate();
 

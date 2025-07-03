@@ -19,7 +19,7 @@ const HotThoughts = () => {
   const isMobileLocation = location.pathname === "/hot-thoughts";
   const navigate = useNavigate();
   const { isDarkModeOn } = useDarkMode();
-  const baseURL = import.meta.env.DEFAULT_URL;
+  const baseURL = import.meta.env.VITE_DEFAULT_URL;
 
   const messageLimit = (string, maxWords) => {
     if (string.length > maxWords) {

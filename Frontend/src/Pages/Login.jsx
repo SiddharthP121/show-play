@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const baseURL = import.meta.env.DEFAULT_URL;
+  const baseURL = import.meta.env.VITE_DEFAULT_URL;
 
   const [form, setForm] = useState({
     identifier: "",

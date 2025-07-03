@@ -43,7 +43,7 @@ const AuthButton = ({
 const Settings = () => {
   const navigate = useNavigate();
 
-  const baseURL = import.meta.env.DEFAULT_URL;
+  const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const [search, setSearch] = useState("");
   const [avatarVisible, setAvatarVisible] = useState(false);
   const [isCodeSent, setisCodeSent] = useState(false);
