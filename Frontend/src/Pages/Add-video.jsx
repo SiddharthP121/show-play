@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Add_video = () => {
+  const baseURL = import.meta.env.DEFAULT_URL;
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -31,7 +32,7 @@ const Add_video = () => {
     });
 
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/videos", formData, {
+      const res = await axios.post(`${baseURL}/videos`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -130,7 +131,10 @@ const Add_video = () => {
           >
             {loading ? (
               <span className="flex items-center gap-2">
-                <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  viewBox="0 0 24 24"
+                >
                   <circle
                     className="opacity-25"
                     cx="12"

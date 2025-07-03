@@ -19,6 +19,8 @@ const Account = () => {
   const [comments, setComments] = useState([]);
   const [thoughts, setThoughts] = useState([]);
   const { isDarkModeOn } = useDarkMode();
+  const baseURL = import.meta.env.DEFAULT_URL;
+
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -28,15 +30,12 @@ const Account = () => {
 
   const getUserDetails = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8000/api/v1/users/profile",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${baseURL}/api/v1/users/profile`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUser(res.data.data.user);
     } catch (error) {
       console.log(error?.response?.data?.message || "Failed to fetch user");
@@ -51,15 +50,12 @@ const Account = () => {
     setselect(1);
     console.log(select);
     try {
-      const res = await axios.get(
-        "http://localhost:8000/api/v1/videos/your-videos",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${baseURL}/videos/your-videos`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setVideos(res.data.data);
       console.log(videos);
     } catch (error) {
@@ -75,15 +71,12 @@ const Account = () => {
     setselect(2);
     console.log(select);
     try {
-      const res = await axios.get(
-        "http://localhost:8000/api/v1/tweet/user/thoughts",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${baseURL}/tweet/user/thoughts`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setThoughts(res.data.data);
       console.log(thoughts);
     } catch (error) {
@@ -124,9 +117,9 @@ const Account = () => {
       </div>
       {!token ? (
         <main>
-                <div className="w-full max-w-sm mx-auto mt-10 px-6 py-8 space-y-4">
-                  <div
-                    className={`
+          <div className="w-full max-w-sm mx-auto mt-10 px-6 py-8 space-y-4">
+            <div
+              className={`
     w-full max-w-md mx-auto mt-16
     ${
       isDarkModeOn
@@ -135,19 +128,19 @@ const Account = () => {
     }
     backdrop-blur-lg rounded-2xl px-8 py-10
   `}
-                  >
-                    <h1
-                      className={`text-center text-lg font-semibold ${
-                        isDarkModeOn ? "text-gray-100" : "text-black"
-                      } mb-6`}
-                    >
-                      You are not logged in to your account
-                    </h1>
-                    <ul className="space-y-4">
-                      <li>
-                        <button
-                          onClick={() => navigate("/users/login")}
-                          className={`
+            >
+              <h1
+                className={`text-center text-lg font-semibold ${
+                  isDarkModeOn ? "text-gray-100" : "text-black"
+                } mb-6`}
+              >
+                You are not logged in to your account
+              </h1>
+              <ul className="space-y-4">
+                <li>
+                  <button
+                    onClick={() => navigate("/users/login")}
+                    className={`
     w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
     ${
       isDarkModeOn
@@ -155,14 +148,14 @@ const Account = () => {
         : "border-2 border-purple-500 text-purple-500 hover:shadow-[0_0_30px_15px_rgba(168,85,247,0.5)] hover:text-purple-400"
     }
   `}
-                        >
-                          Login
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() => navigate("/users/register")}
- className={`
+                  >
+                    Login
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => navigate("/users/register")}
+                    className={`
     w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
     ${
       isDarkModeOn
@@ -171,18 +164,21 @@ const Account = () => {
         : "border-2 border-blue-500 text-blue-500 \
            hover:shadow-[0_0_30px_15px_rgba(59,130,246,0.6)] hover:text-blue-500"
     }
-  `}                        >
-                          Signup
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </main>
+  `}
+                  >
+                    Signup
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </main>
       ) : (
         <main
           className={`pt-16 pb-32 ${
-            isDarkModeOn ? "bg-gradient-to-br from-purple-900 via-gray-700 to-black border-white" : " bg-red-50 border-black"
+            isDarkModeOn
+              ? "bg-gradient-to-br from-purple-900 via-gray-700 to-black border-white"
+              : " bg-red-50 border-black"
           } rounded-3xl min-h-screen lg:pl-60`}
         >
           {/* Cover and Avatar section */}
@@ -207,12 +203,32 @@ const Account = () => {
           <div className="userInfo text-black space-y-2 text-center px-4 mt-8">
             {user ? (
               <>
-                <p className={`text-xl ${isDarkModeOn?"text-gray-100":"text-black"} font-semibold`}>
+                <p
+                  className={`text-xl ${
+                    isDarkModeOn ? "text-gray-100" : "text-black"
+                  } font-semibold`}
+                >
                   Welcome! {user.fullname}
                 </p>
-                <p className={` ${isDarkModeOn?"text-gray-200":"text-black"}`}>👤 {user.username}</p>
-                <p className={` ${isDarkModeOn?"text-gray-200":"text-black"}`}>📧 {user.email}</p>
-                <p className={` ${isDarkModeOn?"text-gray-400":"text-gray-300-"}`}>
+                <p
+                  className={` ${
+                    isDarkModeOn ? "text-gray-200" : "text-black"
+                  }`}
+                >
+                  👤 {user.username}
+                </p>
+                <p
+                  className={` ${
+                    isDarkModeOn ? "text-gray-200" : "text-black"
+                  }`}
+                >
+                  📧 {user.email}
+                </p>
+                <p
+                  className={` ${
+                    isDarkModeOn ? "text-gray-400" : "text-gray-300-"
+                  }`}
+                >
                   📅 Joined on {new Date(user.createdAt).toLocaleDateString()}
                 </p>
 
@@ -230,12 +246,7 @@ const Account = () => {
                   >
                     Videos
                   </button>
-                  <button
-                    onClick={handleCommentSearch}
-                    className="button"
-                      
-                    
-                  >
+                  <button onClick={handleCommentSearch} className="button">
                     Comments
                   </button>
                   <button
@@ -309,7 +320,7 @@ const Account = () => {
                       <li>
                         <button
                           onClick={() => navigate("/users/register")}
- className={`
+                          className={`
     w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
     ${
       isDarkModeOn
@@ -318,7 +329,8 @@ const Account = () => {
         : "border-2 border-blue-500 text-blue-500 \
            hover:shadow-[0_0_30px_15px_rgba(59,130,246,0.6)] hover:text-blue-500"
     }
-  `}                        >
+  `}
+                        >
                           Signup
                         </button>
                       </li>

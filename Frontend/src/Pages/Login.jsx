@@ -3,49 +3,47 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const baseURL = import.meta.env.DEFAULT_URL;
+
   const [form, setForm] = useState({
     identifier: "",
     password: "",
   });
 
-  const navigate = useNavigate()
-  const [message, setMessage] = useState("")
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setForm((form) => ({
       ...form,
-      [name]: value
-    })
-    )
+      [name]: value,
+    }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     Object.entries(form).forEach(([key, value]) => {
       if (value) {
-        formData.append(key, value)
+        formData.append(key, value);
       }
     });
     try {
-      let res = await axios.post( "http://localhost:8000/api/v1/users/login",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        setMessage(res.data.message || "User logged in successfully")
-        alert("logged in successfully")
-        console.log(res.data.data.user); // This will log the accessToken
-        localStorage.setItem("token", res.data.data.user); // Save the accessToken
-        console.log("Token being sent:", res.data.data.user);
-        navigate("/")
-
+      let res = await axios.post(`${baseURL}/users/login`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setMessage(res.data.message || "User logged in successfully");
+      alert("logged in successfully");
+      console.log(res.data.data.user); // This will log the accessToken
+      localStorage.setItem("token", res.data.data.user); // Save the accessToken
+      console.log("Token being sent:", res.data.data.user);
+      navigate("/");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Login failed")
-      alert("Login failed")
-      console.log(message)
+      setMessage(error.response?.data?.message || "Login failed");
+      alert("Login failed");
+      console.log(message);
     }
   };
 
@@ -57,7 +55,10 @@ const Login = () => {
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium mb-1"
+            >
               Username or Email
             </label>
             <input
@@ -72,7 +73,10 @@ const Login = () => {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1"
+            >
               Password
             </label>
             <input
@@ -93,9 +97,12 @@ const Login = () => {
             Login
           </button>
         </form>
-         <div className="mt-4 text-center">
-          <Link to="/users/register" className="text-purple-600 hover:underline text-sm">
-           Do not have an account? Create one
+        <div className="mt-4 text-center">
+          <Link
+            to="/users/register"
+            className="text-purple-600 hover:underline text-sm"
+          >
+            Do not have an account? Create one
           </Link>
         </div>
       </div>

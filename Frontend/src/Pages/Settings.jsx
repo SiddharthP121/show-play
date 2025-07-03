@@ -7,10 +7,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ActionButton = ({ label, onClick, isDarkModeOn }) => (
-  
-<button
-  onClick={onClick}
-  className={`
+  <button
+    onClick={onClick}
+    className={`
     group relative mx-auto my-3 font-medium w-full py-3 px-6 cursor-pointer
     border border-transparent rounded-xl
     ${isDarkModeOn ? "text-white bg-gray-800" : "text-red-900 bg-blue-100"}
@@ -20,13 +19,9 @@ const ActionButton = ({ label, onClick, isDarkModeOn }) => (
     text-sm md:text-base
     flex justify-center items-center
   `}
->
-  <span className="relative z-10 group-hover:text-opacity-90">
-    {label}
-  </span>
-</button>
-
-
+  >
+    <span className="relative z-10 group-hover:text-opacity-90">{label}</span>
+  </button>
 );
 
 const AuthButton = ({
@@ -46,9 +41,9 @@ const AuthButton = ({
 );
 
 const Settings = () => {
-
   const navigate = useNavigate();
 
+  const baseURL = import.meta.env.DEFAULT_URL;
   const [search, setSearch] = useState("");
   const [avatarVisible, setAvatarVisible] = useState(false);
   const [isCodeSent, setisCodeSent] = useState(false);
@@ -69,7 +64,7 @@ const Settings = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [user, setUser] = useState();
-  const [loggedOut, setLoggedOut] = useState(false)
+  const [loggedOut, setLoggedOut] = useState(false);
   const [userForm, setUserForm] = useState({
     username: "",
     fullname: "",
@@ -79,15 +74,12 @@ const Settings = () => {
 
   const fetchAvatar = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/api/v1/users/profile",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`${baseURL}/users/profile`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUserAvatar(data.data.user.avtar);
     } catch (err) {
       // console.log(err?.response?.data?.message || "Failed to load avatar");
@@ -100,15 +92,12 @@ const Settings = () => {
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/api/v1/users/profile",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`${baseURL}/users/profile`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUser(data.data.user);
       setCoverImage(data.data.user.coverImage);
       console.log(data.data.user);
@@ -118,7 +107,7 @@ const Settings = () => {
         email: data.data.user.email,
       });
     } catch (err) {
-      setLoggedOut(true)
+      setLoggedOut(true);
       // console.log(err?.response?.data?.message || "Failed to load user");
     }
   };
@@ -134,7 +123,7 @@ const Settings = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:8000/api/v1/users/logout",
+        `${baseURL}/users/logout`,
         {},
         {
           withCredentials: true,
@@ -159,16 +148,12 @@ const Settings = () => {
     const formData = new FormData();
     formData.append("avtar", newAvtar);
     try {
-      const res = await axios.patch(
-        "http://localhost:8000/api/v1/users/update-avtar",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.patch(`${baseURL}/users/update-avtar`, formData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUserAvatar(res.data.data.user);
       alert("Avatar updated successfully");
       setAvatarVisible(false);
@@ -185,7 +170,7 @@ const Settings = () => {
     formData.append("coverImage", newCoverImage);
     try {
       const res = await axios.patch(
-        "http://localhost:8000/api/v1/users/update-coverimage",
+        `${baseURL}/users/update-coverimage`,
         formData,
         {
           withCredentials: true,
@@ -209,7 +194,7 @@ const Settings = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/users/verify-email",
+        `${baseURL}/users/verify-email`,
         {},
         {
           withCredentials: true,
@@ -255,7 +240,7 @@ const Settings = () => {
       formData.append("oldPassword", oldPassword);
       formData.append("newPassword", newPassoword);
       const res = await axios.patch(
-        "http://localhost:8000/api/v1/users/change-password",
+        `${baseURL}/users/change-password`,
         formData,
         {
           withCredentials: true,
@@ -287,7 +272,7 @@ const Settings = () => {
     formData.append("email", userForm.email);
     try {
       const res = await axios.patch(
-        "http://localhost:8000/api/v1/users/update-account-details",
+        `${baseURL}/users/update-account-details`,
         formData,
         {
           withCredentials: true,
@@ -327,8 +312,13 @@ const Settings = () => {
 
   return (
     <>
-      <div className={`bg-gradient-to-br ${isDarkModeOn ? "bg-gradient-to-br  from-gray-600 to-black border-white" : " bg-red-50 border-black"
-          } min-h-screen overflow-x-hidden select-none`}>
+      <div
+        className={`bg-gradient-to-br ${
+          isDarkModeOn
+            ? "bg-gradient-to-br  from-gray-600 to-black border-white"
+            : " bg-red-50 border-black"
+        } min-h-screen overflow-x-hidden select-none`}
+      >
         <TopBar
           search={search}
           setSearch={setSearch}
@@ -682,9 +672,9 @@ const Settings = () => {
             <label htmlFor="darkMode" className="font-bold text-xl">
               Dark Mode
               <button
-                onClick={()=>{
-                  toggleDarkMode()
-                  setAppearenceVisible(false)
+                onClick={() => {
+                  toggleDarkMode();
+                  setAppearenceVisible(false);
                 }}
                 className={`px-4 py-2 mx-2 rounded text-white font-semibold ${
                   isDarkModeOn ? "bg-green-600" : "bg-gray-500"

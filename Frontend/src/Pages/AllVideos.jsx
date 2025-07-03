@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDarkMode } from "../DarkModeContext";
+import { useNavigate } from "react-router-dom";
 
 const AllVideos = () => {
-  const baseURL = "http://localhost:8000/api/v1/videos";
+  const baseURL = import.meta.env.DEFAULT_URL;
+
+  const navigate = useNavigate();
 
   const truncateWords = (str, maxChars) => {
     if (!str) return "";
@@ -18,7 +21,7 @@ const AllVideos = () => {
   useEffect(() => {
     const getAllVideosToHome = async () => {
       try {
-        const res = await axios.get(baseURL);
+        const res = await axios.get(`${baseURL}/videos`);
         setVideos(res.data.data.video);
         setMessage(res.data.message || "Videos fetched successfully");
       } catch (error) {
@@ -45,6 +48,7 @@ const AllVideos = () => {
   `}
               onMouseEnter={() => setPlayingIdx(idx)}
               onMouseLeave={() => setPlayingIdx(null)}
+              onClick={() => navigate(`video/watch/${video._id}`)}
             >
               {/* Thumbnail / Video Preview */}
               <div className="flex items-center justify-center w-full md:w-56 h-40 rounded-xl bg-gray-100 overflow-hidden">

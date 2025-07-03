@@ -19,6 +19,7 @@ const HotThoughts = () => {
   const isMobileLocation = location.pathname === "/hot-thoughts";
   const navigate = useNavigate();
   const { isDarkModeOn } = useDarkMode();
+  const baseURL = import.meta.env.DEFAULT_URL;
 
   const messageLimit = (string, maxWords) => {
     if (string.length > maxWords) {
@@ -30,13 +31,10 @@ const HotThoughts = () => {
 
   const getAllThoughts = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8000/api/v1/tweet/messages",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`${baseURL}/tweet/messages`, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      });
       console.log(res);
       setThoughtMessage(res.data.message || "Data fetched successfully");
       setThoughts(res.data.data.thoughts);
@@ -51,7 +49,7 @@ const HotThoughts = () => {
   const toggleLike = async (thoughtId) => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/v1/likes/toggle/t/${thoughtId}`,
+        `${baseURL}/likes/toggle/t/${thoughtId}`,
         {},
         {
           withCredentials: true,
@@ -83,7 +81,7 @@ const HotThoughts = () => {
     try {
       console.log("button clicked");
       const res = await axios.post(
-        "http://localhost:8000/api/v1/tweet/say",
+        `${baseURL}/tweet/say`,
         { content },
         {
           withCredentials: true,
@@ -130,7 +128,11 @@ const HotThoughts = () => {
             {thoughts.map((thought, idx) => (
               <div
                 key={thought._id || idx}
-                className={`border-b pb-2 mb-2 ${isDarkModeOn?"bg-[#1d1b1b] text-[#F1F1F1] border-l border-[#323030]":"bg-white text-[#1A1A1A] border-[#c3bebe] shadow-lg"} shadow-md rounded-lg p-3`}
+                className={`border-b pb-2 mb-2 ${
+                  isDarkModeOn
+                    ? "bg-[#1d1b1b] text-[#F1F1F1] border-l border-[#323030]"
+                    : "bg-white text-[#1A1A1A] border-[#c3bebe] shadow-lg"
+                } shadow-md rounded-lg p-3`}
               >
                 <div className="flex items-center gap-2">
                   <img
@@ -138,11 +140,19 @@ const HotThoughts = () => {
                     src={thought.owner.avtar}
                     alt={thought.owner.username}
                   />
-                  <span className={`font-semibold ${isDarkModeOn?"text-gray-200":"text-black"} mb-1`}>
+                  <span
+                    className={`font-semibold ${
+                      isDarkModeOn ? "text-gray-200" : "text-black"
+                    } mb-1`}
+                  >
                     {thought.owner.username}
                   </span>
                 </div>
-                <div className={` ${isDarkModeOn?"text-gray-350":"text-red-950"} mt-2`}>
+                <div
+                  className={` ${
+                    isDarkModeOn ? "text-gray-350" : "text-red-950"
+                  } mt-2`}
+                >
                   {thought.content}
                 </div>
                 <div className="flex justify-between mt-2">
@@ -152,7 +162,9 @@ const HotThoughts = () => {
                   <div className="flex items-center space-x-3">
                     <button
                       onClick={() => toggleLike(thought._id)}
-                      className={`flex cursor-pointer items-center space-x-1 ${isDarkModeOn?"text-white":"text-red-400 "}`}
+                      className={`flex cursor-pointer items-center space-x-1 ${
+                        isDarkModeOn ? "text-white" : "text-red-400 "
+                      }`}
                     >
                       <GoHeart size={18} />
                       <p>{thought.likes}</p>
@@ -202,7 +214,9 @@ const HotThoughts = () => {
               name="content"
               value={content}
               onChange={(e) => setContent(messageLimit(e.target.value, 100))}
-              className={`w-full px-3 py-2 border font-semibold ${isDarkModeOn?"text-gray-300":"text-black"} rounded-3xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition placeholder:font-bold placeholder:text-slate-500 pl-4`}
+              className={`w-full px-3 py-2 border font-semibold ${
+                isDarkModeOn ? "text-gray-300" : "text-black"
+              } rounded-3xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition placeholder:font-bold placeholder:text-slate-500 pl-4`}
             />
             <button
               className="mx-3 cursor-pointer bg-purple-600 hover:bg-purple-700 text-white font-medium  py-2 px-4 rounded-3xl shadow-md transition duration-300"
