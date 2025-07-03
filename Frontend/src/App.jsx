@@ -5,7 +5,7 @@ import Home from "./Pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Add_video from "./Pages/Add-video";
 import HotThoughts from "./Pages/HotThoughts";
-import VideoPlayer from "./Pages/videoPlayer";
+import VideoPlayer from "./Pages/VideoPlayer";
 import Account from "./Pages/Account";
 import WatchHistory from "./Pages/WatchHistory";
 import Settings from "./Pages/Settings";
