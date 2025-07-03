@@ -1,34 +1,32 @@
-import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs';
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
-    // Configuration
-    cloudinary.config({ 
-        cloud_name: process.env.CLOUD_NAME, 
-        api_key: process.env.API_KEY, 
-        api_secret: process.env.API_SECRET // Click 'View API Keys' above to copy your API secret
+// Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET, // Click 'View API Keys' above to copy your API secret
+});
 
-    })
+const uplaodFile = async (localFilePath) => {
+  try {
+    if (!localFilePath) return null;
 
-    const uplaodFile = async (localFilePath) => {
-      try {
+    const uploadedResult = await cloudinary.uploader.upload(localFilePath, {
+      resource_type: "auto",
+      secure: true, // <--- this ensures HTTPS
+    });
 
-        if (!localFilePath) return null;
+    console.log("The file has been uploaded", uploadedResult.url); //clg this uploaded result
 
-        const uploadedResult = await cloudinary.uploader
-        .upload(localFilePath, {resource_type: 'auto'})
-
-        console.log('The file has been uploaded', uploadedResult.url) //clg this uploaded result
-
-        if (uploadedResult) {
-          fs.unlinkSync(localFilePath) //remove the locally saved temporary file as the upload operation got failed
-          return uploadedResult
-        }
-        
-      } catch (error) {
-        fs.unlinkSync(localFilePath) //remove the locally saved temporary file as the upload operation got failed
-        return null;    
-      }
+    if (uploadedResult) {
+      fs.unlinkSync(localFilePath); //remove the locally saved temporary file as the upload operation got failed
+      return uploadedResult;
     }
-    
+  } catch (error) {
+    fs.unlinkSync(localFilePath); //remove the locally saved temporary file as the upload operation got failed
+    return null;
+  }
+};
 
-export {uplaodFile}
+export { uplaodFile };
