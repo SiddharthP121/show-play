@@ -10,7 +10,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://revoo-com.onrender.com",
     credentials: true,
   })
 );
