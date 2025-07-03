@@ -30,7 +30,7 @@ const Account = () => {
 
   const getUserDetails = async () => {
     try {
-      const res = await axios.get(`${baseURL}/api/v1/users/profile`, {
+      const res = await axios.get(`${baseURL}/users/profile`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
