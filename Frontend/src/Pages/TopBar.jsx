@@ -1,35 +1,52 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AiFillPlayCircle } from "react-icons/ai";
-import { useDarkMode } from "../DarkModeContext";
 import { MdAccountCircle } from "react-icons/md";
+import { useDarkMode } from "../DarkModeContext";
+import LogoDark from "../assets/Logo.dark.png";
+import LogoLight from "../assets/Logo.light.png";
 
 const TopBar = ({ search, setSearch, handleSearch }) => {
+  const { isDarkModeOn } = useDarkMode();
 
-  const {isDarkModeOn} = useDarkMode();
   return (
-<header
-  className={`fixed top-0 left-0 right-0 z-50 
-    ${isDarkModeOn ? "bg-[#1F1F1F] text-[#F1F1F1] border-b border-[#2A2A2A]" : "bg-white text-[#1A1A1A] border-b border-[#E0E0E0]"} 
-    shadow flex items-center px-4 py-3 gap-2`}
->      <div className="flex items-center gap-2">
-        <AiFillPlayCircle size={32} className="text-purple-600" />
-        <h1 className={`text-xl font-bold ${isDarkModeOn?"text-white":" text-purple-700"}`}>Show-Play</h1>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 shadow-md flex items-center justify-between px-4 py-2 ${isDarkModeOn?"bg-black": " bg-white"} transition-colors`}
+    >
+     
+      <div className="flex items-center gap-3">
+        <img
+          className="w-32 h-auto max-h-12 object-contain"
+          src={isDarkModeOn ? LogoDark : LogoLight}
+          alt="Logo"
+        />
       </div>
+
+      
       <form
         onSubmit={handleSearch}
-        className="ml-auto w-full md:w-72 relative"
+        className="flex-grow max-w-md mx-4 relative"
       >
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="🔍 Search..."
-          className={`w-full px-5 py-2 pl-7 border rounded-3xl font-bold text-gray-800 ${isDarkModeOn?"placeholder:text-gray-200 text-white focus:ring-yellow-400":" placeholder:text-gray-500  focus:ring-purple-500"} focus:outline-none focus:ring-2 transition
-        `}/>
+          className={`w-full px-5 py-2 pl-7 border rounded-3xl font-medium text-sm transition focus:outline-none focus:ring-2 ${
+            isDarkModeOn
+              ? "bg-gray-800 text-white placeholder:text-gray-400 focus:ring-yellow-400"
+              : "bg-white text-gray-800 placeholder:text-gray-500 focus:ring-purple-500"
+          }`}
+        />
       </form>
-      <Link to="/account" className="ml-3 md:hidden">
-        <MdAccountCircle size={28} className="text-purple-700" />
+
+    
+      <Link to="/account" className="ml-3">
+        <MdAccountCircle
+          size={30}
+          className={`${
+            isDarkModeOn ? "text-purple-400" : "text-purple-700"
+          }`}
+        />
       </Link>
     </header>
   );
