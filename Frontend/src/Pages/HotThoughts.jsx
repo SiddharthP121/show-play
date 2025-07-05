@@ -3,6 +3,7 @@ import { MdForum } from "react-icons/md";
 import axios from "axios";
 import { GoHeart } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { ToastContainer, toast } from 'react-toastify';
 import { useLocation } from "react-router-dom";
 import "../CSS/App.css";
 import { useDarkMode } from "../DarkModeContext";
@@ -92,8 +93,28 @@ const HotThoughts = () => {
       );
       setMessage(res.data.message || "Thought published");
       console.log(message);
+       toast.success("Thoughts Published Successfully", {
+             position: "top-right",
+             autoClose: 3500,
+             hideProgressBar: false,
+             closeOnClick: true,
+             pauseOnHover: true,
+             draggable: true,
+             progress: undefined,
+             theme: isDarkModeOn ? "dark" : "light",
+           });
     } catch (error) {
       setMessage(error.response?.data?.message || "Unable to publish thought");
+       toast.error(message || "Unable to publish thought now", {
+             position: "top-right",
+             autoClose: 3500,
+             hideProgressBar: false,
+             closeOnClick: true,
+             pauseOnHover: true,
+             draggable: true,
+             progress: undefined,
+             theme: isDarkModeOn ? "dark" : "light",
+           });
       console.log(message);
     } finally {
       setContent("");
@@ -179,7 +200,7 @@ const HotThoughts = () => {
             <main>
               <div className="w-full max-w-sm mx-auto mt-10 px-6 py-8 space-y-4">
                 <div className="w-full max-w-md mx-auto mt-16 bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl rounded-2xl px-8 py-10">
-                  <h1 className="text-center text-lg font-semibold text-black mb-6">
+                  <h1 className={`text-center text-lg font-semibold ${isDarkModeOn?"text-gray-300":" text-black"} mb-6`}>
                     Login to see cloud statements
                   </h1>
                   <ul className="space-y-4">

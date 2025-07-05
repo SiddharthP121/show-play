@@ -15,7 +15,7 @@ const TopBar = ({ search, setSearch, handleSearch }) => {
      
       <div className="flex items-center gap-3">
         <img
-          className="w-32 h-auto max-h-12 object-contain"
+          className="w-40 h-auto max-h-15 object-contain"
           src={isDarkModeOn ? LogoDark : LogoLight}
           alt="Logo"
         />
