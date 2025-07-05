@@ -162,21 +162,21 @@ const publishAVideo = asyncHandler(async (req, res) => {
 });
 
 const getVideoById = asyncHandler(async (req, res) => {
-  // const { videoId } = req.params;
-  // //TODO: get video by id
+  const { videoId } = req.params;
+  //TODO: get video by id
 
-  // if (!videoId || !isValidObjectId(videoId)) {
-  //   throw new ApiError(400, "Invalid video id");
-  // }
+  if (!videoId || !isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid video id");
+  }
 
-  // const video = await Video.findById(videoId);
-  // if (!video) {
-  //   throw new ApiError(400, "Can not find the video with the given video id");
-  // }
+  const video = await Video.findById(videoId);
+  if (!video) {
+    throw new ApiError(400, "Can not find the video with the given video id");
+  }
 
-  // return res
-  //   .status(200)
-  //   .json(new ApiResponse(200, { video }, "Video found successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { video }, "Video found successfully"));
 });
 
 const getCurrentUserVideos = asyncHandler(async (req, res) => {
