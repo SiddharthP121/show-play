@@ -17,7 +17,7 @@ const uplaodFile = async (localFilePath) => {
       secure: true, // <--- this ensures HTTPS
     });
 
-    console.log("The file has been uploaded", uploadedResult.url); //clg this uploaded result
+    console.log("The file has been uploaded", uploadedResult.secure_url); //clg this uploaded result
 
     if (uploadedResult) {
       fs.unlinkSync(localFilePath); //remove the locally saved temporary file as the upload operation got failed

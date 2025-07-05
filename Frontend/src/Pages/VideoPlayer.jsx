@@ -9,12 +9,7 @@ const VideoPlayer = ({ videoId }) => {
   useEffect(() => {
     const getVideo = async () => {
       try {
-        const res = await axios.get(`${baseURL}/videos/${videoId}`, {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await axios.get(`${baseURL}/videos/${videoId}`);
         setVideo(res.data.data.video);
         console.log(res.data.data.video);
       } catch (error) {
