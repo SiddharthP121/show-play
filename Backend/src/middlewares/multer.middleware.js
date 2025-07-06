@@ -7,16 +7,14 @@ if (!fs.existsSync(tempDir)) {
 }
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, tempDir),
-  filename: (req, file, cb) =>
-    cb(null, Date.now() + "-" + file.originalname)
+  destination: function (req, file, cb) {
+    cb(null, "./assets/temp");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
 });
 
-const upload = multer({ storage });
-
-export const uploadAllFields = upload.fields([
-  { name: "avatar", maxCount: 1 },
-  { name: "coverImage", maxCount: 1 },
-  { name: "videoFile", maxCount: 1 },
-  { name: "thumbnail", maxCount: 1 }
-]);
+export const upload = multer({
+  storage,
+});

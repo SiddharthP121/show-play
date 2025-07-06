@@ -14,14 +14,14 @@ import {
   verifyEmail,
   // toggleDarkMode,
 } from "../controllers/user.controller.js";
-import { uploadAllFields } from "../middlewares/multer.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 
 const router = Router();
 
 router.route("/register").post(
-  uploadAllFields.fields([
+  upload.fields([
     {
       name: "avtar",
       maxCount: 1,
