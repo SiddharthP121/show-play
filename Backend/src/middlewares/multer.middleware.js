@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export const uploadAllFields = upload.fields([
-  { name: "avtar", maxCount: 1 },
+  { name: "avatar", maxCount: 1 },
   { name: "coverImage", maxCount: 1 },
   { name: "videoFile", maxCount: 1 },
   { name: "thumbnail", maxCount: 1 }
