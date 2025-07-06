@@ -43,7 +43,7 @@ const VideoPlayer = () => {
           poster={video.thumbnail}
         />
         <div className="owner flex">
-          <img src={video.owner.avtar} alt="" />
+          <img className="w-10 h-10 rounded-full border border-gray-300" src={video.owner.avtar} alt="" />
           <div>
             <p>{video.owner.username}</p>
             <p>{video.owner.fullname}</p>
