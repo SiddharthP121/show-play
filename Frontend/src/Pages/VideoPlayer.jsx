@@ -21,11 +21,9 @@ const VideoPlayer = ({ videoId }) => {
 
   return (
     <div>
-      {video ? (
+     
         <video src={video.videoFile} controls style={{ width: "100%" }} />
-      ) : (
-        <p>Loading video...</p>
-      )}
+     
     </div>
   );
 };
