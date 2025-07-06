@@ -34,15 +34,15 @@ const VideoPlayer = () => {
   const videoUrl = video.videoFile?.replace(/^http:\/\//, "https://");
 
   return (
-    <div>
-      <h2>{video.title}</h2>
+    <div className="w-[100%] max-w-275">
       <video
         src={videoUrl}
         controls
-        style={{ width: "100%", maxWidth: "800px" }}
+        style={{ width: "100%", maxWidth: "1100px" }}
         poster={video.thumbnail}
-      />
-      <p>{video.description}</p>
+        />
+        <h2 className="text-2xl font-bold">{video.title}</h2>
+      <p className="p-2">{video.description}</p>
     </div>
   );
 };
