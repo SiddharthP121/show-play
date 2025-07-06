@@ -3,27 +3,47 @@ import axios from "axios";
 
 const VideoPlayer = ({ videoId }) => {
   const [video, setVideo] = useState(null);
-  const baseURL = import.meta.env.VITE_DEFAULT_URL;
-  const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+    const baseURL = import.meta.env.VITE_DEFAULT_URL;
+
 
   useEffect(() => {
-    const getVideo = async () => {
+    const fetchVideo = async () => {
       try {
-        const res = await axios.get(`${baseURL}/videos/${videoId}`);
+        setLoading(true);
+        setError("");
+        const res = await axios.get(
+          `${baseURL}/videos/${videoId}`
+        );
+        // Adjust the path if your backend is different
         setVideo(res.data.data.video);
-        console.log(res.data.data.video);
-      } catch (error) {
-        console.log(error.response?.data?.message || error.message);
+      } catch (err) {
+        setError("Failed to load video.");
+      } finally {
+        setLoading(false);
       }
     };
-    getVideo();
-  }, []);
+    fetchVideo();
+  }, [videoId]);
+
+  if (loading) return <div>Loading video...</div>;
+  if (error) return <div>{error}</div>;
+  if (!video) return <div>No video found.</div>;
+
+  // Ensure HTTPS for videoFile
+  const videoUrl = video.videoFile?.replace(/^http:\/\//, "https://");
 
   return (
     <div>
-     
-        <video src={video.videoFile} controls style={{ width: "100%" }} />
-     
+      <h2>{video.title}</h2>
+      <video
+        src={videoUrl}
+        controls
+        style={{ width: "100%", maxWidth: "800px" }}
+        poster={video.thumbnail}
+      />
+      <p>{video.description}</p>
     </div>
   );
 };
