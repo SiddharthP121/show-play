@@ -16,7 +16,7 @@ const VideoPlayer = ({ videoId }) => {
         console.log(error.response?.data?.message || error.message);
       }
     };
-    if (videoId) getVideo();
+    getVideo();
   }, []);
 
   return (
