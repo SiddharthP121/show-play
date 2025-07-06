@@ -43,7 +43,7 @@ const VideoPlayer = () => {
           poster={video.thumbnail}
         />
 
-        <div className="flex gap-6 md:gap-8 mb-6 items-center justify-around md:justify-start">
+        <div className="flex gap-6 md:gap-8 mb-6 items-center justify-around md:justify-around">
           <button className="flex items-center gap-2 hover:text-red-500 transition-colors">
             <FaHeart size={22} />
             <span className="hidden md:inline">Like</span>
@@ -82,7 +82,7 @@ const VideoPlayer = () => {
       </div>
 
       {/* Comments Section */}
-      <div className="comments w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8 h-fit">
+      <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
         <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
         {/* Comments content here */}
       </div>
