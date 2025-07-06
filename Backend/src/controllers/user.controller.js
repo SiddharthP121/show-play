@@ -90,8 +90,8 @@ const registerUser = asyncHandler(async (req, res) => {
     username: username.toLowerCase(),
     password,
     email,
-    avtar: avtar.url,
-    coverImage: coverImage?.url || "",
+    avtar: avtar.secure_url,
+    coverImage: coverImage?.secure_url || "",
   });
 
   const createdUser = await User.findById(user._id).select(
