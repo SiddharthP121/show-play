@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const VideoPlayer = ({ videoId }) => {
+const VideoPlayer = () => {
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-    const baseURL = import.meta.env.VITE_DEFAULT_URL;
-
+  const baseURL = import.meta.env.VITE_DEFAULT_URL;
+  const { videoId } = useParams();
 
   useEffect(() => {
     const fetchVideo = async () => {
       try {
         setLoading(true);
         setError("");
-        const res = await axios.get(
-          `${baseURL}/videos/${videoId}`
-        );
+        const res = await axios.get(`${baseURL}/videos/${videoId}`);
         // Adjust the path if your backend is different
         setVideo(res.data.data.video);
       } catch (err) {
