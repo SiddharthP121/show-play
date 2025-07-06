@@ -17,7 +17,7 @@ const VideoPlayer = ({ videoId }) => {
       }
     };
     if (videoId) getVideo();
-  }, [videoId, baseURL, token]);
+  }, []);
 
   return (
     <div>
