@@ -14,7 +14,7 @@ const Signup = () => {
     fullname: "",
     email: "",
     password: "",
-    avatar: null,
+    avtar: null,
     coverImage: null,
   });
   const [loading, setLoading] = useState(false);
