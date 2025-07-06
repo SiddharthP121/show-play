@@ -141,6 +141,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     isPublished: true,
     owner: {
       id: req.user._id,
+      avtar: req.user.avtar,
       fullname: req.user.fullname,
       username: req.user.username
     }

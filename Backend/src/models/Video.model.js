@@ -6,6 +6,10 @@ const ownerSchema = new Schema({
         ref: "User",
         required: true
     },
+    avtar:{
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         required: true
