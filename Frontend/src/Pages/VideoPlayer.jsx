@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FaHeart, FaCommentAlt, FaShare, FaPlusSquare } from "react-icons/fa";
+
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
@@ -34,7 +36,7 @@ const VideoPlayer = () => {
   const videoUrl = video.videoFile?.replace(/^http:\/\//, "https://");
 
   return (
-    <div>
+    <div className="flex">
       <div className="w-[100%] max-w-275">
         <video
           src={videoUrl}
@@ -45,7 +47,7 @@ const VideoPlayer = () => {
 
         <div className="flex gap-6 my-4 items-center">
           <button className="flex items-center gap-2 hover:text-blue-500">
-            <FaThumbsUp />
+            <FaHeart />
             <span>Like</span>
           </button>
           <button className="flex items-center gap-2 hover:text-blue-500">
@@ -78,7 +80,9 @@ const VideoPlayer = () => {
         <p className="p-2">{video.description}</p>
       </div>
 
-      <div className="comments">This is the comments section</div>
+      <div className="comments">
+        <h2 className="font-bold text-2xl">Comments</h2>
+      </div>
     </div>
   );
 };
