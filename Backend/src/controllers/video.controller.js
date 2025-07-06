@@ -233,7 +233,7 @@ const updateVideo = asyncHandler(async (req, res) => {
     {
       title,
       description,
-      thumbnail: thumbnail.url,
+      thumbnail: thumbnail.secure_url,
     },
     { new: true }
   );

@@ -90,8 +90,8 @@ const registerUser = asyncHandler(async (req, res) => {
     username: username.toLowerCase(),
     password,
     email,
-    avtar: avtar.url,
-    coverImage: coverImage?.url || "",
+    avtar: avtar.secure_url,
+    coverImage: coverImage?.secure_url || "",
   });
 
   const createdUser = await User.findById(user._id).select(
@@ -358,7 +358,7 @@ const updateAvtar = asyncHandler(async (req, res) => {
   }
   const user = await User.findByIdAndUpdate(req.user._id, {
     $set: {
-      avtar: updatedUserAvtar.url,
+      avtar: updatedUserAvtar.secure_url,
     },
   }).select("-password");
 
@@ -386,7 +386,7 @@ const updateCoverImage = asyncHandler(async (req, res) => {
 
   const user = await User.findByIdAndUpdate(req.user._id, {
     $set: {
-      coverImage: updatedCoverImg.url,
+      coverImage: updatedCoverImg.secure_url,
     },
   }).select("-password");
 
