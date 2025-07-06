@@ -162,7 +162,7 @@ const Signup = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-            {renderFileInput("Avatar", "avatar", true)}
+            {renderFileInput("Avtar", "avtar", true)}
             {renderFileInput("Cover Image (optional)", "coverImage", false)}
           </div>
 
