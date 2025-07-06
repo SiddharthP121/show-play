@@ -42,8 +42,33 @@ const VideoPlayer = () => {
           style={{ width: "100%", maxWidth: "1100px" }}
           poster={video.thumbnail}
         />
+
+        <div className="flex gap-6 my-4 items-center">
+          <button className="flex items-center gap-2 hover:text-blue-500">
+            <FaThumbsUp />
+            <span>Like</span>
+          </button>
+          <button className="flex items-center gap-2 hover:text-blue-500">
+            <FaCommentAlt />
+            <span>Comment</span>
+          </button>
+          <button className="flex items-center gap-2 hover:text-blue-500">
+            <FaShare />
+            <span>Share</span>
+          </button>
+          <button className="flex items-center gap-2 hover:text-blue-500">
+            <FaPlusSquare />
+            <span>Add to Playlist</span>
+          </button>
+        </div>
+
+        <button class="button">Subscribe</button>
         <div className="owner flex">
-          <img className="w-10 h-10 rounded-full border border-gray-300" src={video.owner.avtar} alt="" />
+          <img
+            className="w-10 h-10 rounded-full border border-gray-300"
+            src={video.owner.avtar}
+            alt=""
+          />
           <div>
             <p>{video.owner.username}</p>
             <p>{video.owner.fullname}</p>
