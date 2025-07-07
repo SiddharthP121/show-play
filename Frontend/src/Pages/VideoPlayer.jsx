@@ -10,6 +10,7 @@ const VideoPlayer = () => {
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const { videoId } = useParams();
   const [likeChanged, setLikeChanged] = useState(false);
+  const [isLiked, setIsLiked] = useState(false)
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -17,6 +18,7 @@ const VideoPlayer = () => {
         setError("");
         const res = await axios.get(`${baseURL}/videos/${videoId}`);
         setVideo(res.data.data.video);
+        setIsLiked(res.data.data.isLiked)
       } catch (err) {
         setError("Failed to load video.");
       } finally {
@@ -29,7 +31,7 @@ const VideoPlayer = () => {
   const handleLike = async () => {
     try {
        await axios.post(
-        `${baseURL}/toggle/v/${videoId}`,
+        `${baseURL}/likes/toggle/v/${videoId}`,
         {},
         {
           withCredentials: true,
@@ -66,8 +68,10 @@ const VideoPlayer = () => {
             className="flex items-center gap-2 hover:text-red-500 transition-colors"
             onClick={handleLike}
           >
-            <FaHeart size={22} />
-            <span className="hidden md:inline">{video.likes} Likes</span>
+            <FaHeart size={22} color={isLiked ? "#ef4444" : undefined} />
+            <span className={`hidden md:inline ${isLiked ? "text-red-400" : ""}`}>
+              <p>{video.likes} Likes</p>
+            </span>
           </button>
           <button className="flex items-center gap-2 hover:text-blue-500 transition-colors">
             <FaCommentAlt size={22} />
