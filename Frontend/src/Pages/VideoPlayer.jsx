@@ -19,7 +19,7 @@ const VideoPlayer = () => {
         setError("");
         const res = await axios.get(`${baseURL}/videos/${videoId}`);
         setVideo(res.data.data.video);
-        setIsLiked(res.data.data.isLiked)
+        setIsLiked(res.data.data.isLiked);
       } catch (err) {
         setError("Failed to load video.");
       } finally {
@@ -27,11 +27,18 @@ const VideoPlayer = () => {
       }
     };
     fetchVideo();
-  }, [videoId, likeChanged]);
+  }, [videoId]); // Only fetch when videoId changes
 
   const handleLike = async () => {
     try {
-       await axios.post(
+      // Optimistically update UI
+      setIsLiked(prev => !prev);
+      setVideo(prev => ({
+        ...prev,
+        likes: isLiked ? prev.likes - 1 : prev.likes + 1,
+      }));
+
+      await axios.post(
         `${baseURL}/likes/toggle/v/${videoId}`,
         {},
         {
@@ -41,8 +48,14 @@ const VideoPlayer = () => {
           },
         }
       );
-      setLikeChanged(prev => !prev)
+      // No need to re-fetch the video!
     } catch (error) {
+      // Revert UI if error
+      setIsLiked(prev => !prev);
+      setVideo(prev => ({
+        ...prev,
+        likes: isLiked ? prev.likes + 1 : prev.likes - 1,
+      }));
       console.log("Unable to like the video");
     }
   };
