@@ -28,7 +28,7 @@ const VideoPlayer = () => {
 
   const handleLike = async () => {
     try {
-      const res = await axios.post(
+       await axios.post(
         `${baseURL}/toggle/v/${videoId}`,
         {},
         {
@@ -38,7 +38,7 @@ const VideoPlayer = () => {
           },
         }
       );
-      setLikeChanged(!likeChanged)
+      setLikeChanged(prev => !prev)
     } catch (error) {
       console.log("Unable to like the video");
     }
