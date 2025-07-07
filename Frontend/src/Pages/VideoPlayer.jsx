@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaCommentAlt, FaShare, FaPlusSquare } from "react-icons/fa";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { useDarkMode } from "../DarkModeContext";
 
 const VideoPlayer = () => {
   const [video, setVideo] = useState(null);
@@ -9,9 +11,11 @@ const VideoPlayer = () => {
   const [error, setError] = useState("");
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const { videoId } = useParams();
+  const [comment, setComment] = useState("");
   const [likeChanged, setLikeChanged] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const token = localStorage.getItem("token");
+  const { isDarkModeOn } = useDarkMode();
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -28,6 +32,43 @@ const VideoPlayer = () => {
     };
     fetchVideo();
   }, [videoId]);
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        `${baseURL}/comment/${videoId}`,
+        { comment },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("Comment Published Successfully", {
+        position: "top-right",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+    } catch (error) {
+      toast.error("Unable to publish comment", {
+        position: "top-right",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+    }
+  };
   const handleLike = async () => {
     try {
       setIsLiked((prev) => !prev);
@@ -123,7 +164,25 @@ const VideoPlayer = () => {
         <h2 className="text-xl md:text-2xl font-bold mb-2">{video.title}</h2>
         <p className="text-gray-700 mb-2">{video.description}</p>
       </div>
-
+      <div className="comments  w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
+        <form onSubmit={handleCommentSubmit} className="flex gap-2 mb-4">
+          <input
+            type="text"
+            placeholder="Add a comment..."
+            name="comment"
+            value={comment}
+            id="comment"
+            onChange={(e) => setComment(e.target.value)}
+            className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-gray-50 shadow-sm"
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors shadow-sm"
+          >
+            Publish
+          </button>
+        </form>
+      </div>
       <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
         <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
       </div>
