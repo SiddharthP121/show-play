@@ -8,9 +8,14 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+const allowedOrigins = [
+  "https://revoo-com.onrender.com",
+  "http://localhost:5173"
+];
+
 app.use(
   cors({
-    origin: "https://revoo-com.onrender.com",
+    origin: allowedOrigins,
     credentials: true,
   })
 );
