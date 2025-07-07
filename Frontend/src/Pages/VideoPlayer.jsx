@@ -11,6 +11,7 @@ const VideoPlayer = () => {
   const { videoId } = useParams();
   const [likeChanged, setLikeChanged] = useState(false);
   const [isLiked, setIsLiked] = useState(false)
+  const token = localStorage.getItem("token")
   useEffect(() => {
     const fetchVideo = async () => {
       try {
