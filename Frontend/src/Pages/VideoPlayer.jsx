@@ -10,8 +10,8 @@ const VideoPlayer = () => {
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const { videoId } = useParams();
   const [likeChanged, setLikeChanged] = useState(false);
-  const [isLiked, setIsLiked] = useState(false)
-  const token = localStorage.getItem("token")
+  const [isLiked, setIsLiked] = useState(false);
+  const token = localStorage.getItem("token");
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -27,13 +27,11 @@ const VideoPlayer = () => {
       }
     };
     fetchVideo();
-  }, [videoId]); // Only fetch when videoId changes
-
+  }, [videoId]);
   const handleLike = async () => {
     try {
-      // Optimistically update UI
-      setIsLiked(prev => !prev);
-      setVideo(prev => ({
+      setIsLiked((prev) => !prev);
+      setVideo((prev) => ({
         ...prev,
         likes: isLiked ? prev.likes - 1 : prev.likes + 1,
       }));
@@ -48,11 +46,9 @@ const VideoPlayer = () => {
           },
         }
       );
-      // No need to re-fetch the video!
     } catch (error) {
-      // Revert UI if error
-      setIsLiked(prev => !prev);
-      setVideo(prev => ({
+      setIsLiked((prev) => !prev);
+      setVideo((prev) => ({
         ...prev,
         likes: isLiked ? prev.likes + 1 : prev.likes - 1,
       }));
@@ -60,7 +56,15 @@ const VideoPlayer = () => {
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading video...</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 rounded-full border-4 border-purple-500 opacity-30"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-purple-600 animate-spin"></div>
+        </div>
+      </div>
+    );
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
   if (!video) return <div className="p-8 text-center">No video found.</div>;
 
@@ -83,7 +87,9 @@ const VideoPlayer = () => {
             onClick={handleLike}
           >
             <FaHeart size={22} color={isLiked ? "#ef4444" : undefined} />
-            <span className={`hidden md:inline ${isLiked ? "text-red-400" : ""}`}>
+            <span
+              className={`hidden md:inline ${isLiked ? "text-red-400" : ""}`}
+            >
               <p>{video.likes} Likes</p>
             </span>
           </button>
@@ -118,10 +124,8 @@ const VideoPlayer = () => {
         <p className="text-gray-700 mb-2">{video.description}</p>
       </div>
 
-      {/* Comments Section */}
       <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
         <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
-        {/* Comments content here */}
       </div>
     </div>
   );
