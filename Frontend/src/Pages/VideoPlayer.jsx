@@ -11,11 +11,12 @@ const VideoPlayer = () => {
   const [error, setError] = useState("");
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const { videoId } = useParams();
+  const [commentVisible, setCommentVisible] = useState(false);
   const [comment, setComment] = useState("");
   const [likeChanged, setLikeChanged] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const token = localStorage.getItem("token");
-  const {isDarkModeOn} = useDarkMode()
+  const { isDarkModeOn } = useDarkMode();
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -46,6 +47,7 @@ const VideoPlayer = () => {
           },
         }
       );
+      setComment("");
       toast.success("Comment Published Successfully", {
         position: "top-right",
         autoClose: 3500,
@@ -57,7 +59,7 @@ const VideoPlayer = () => {
         theme: isDarkModeOn ? "dark" : "light",
       });
     } catch (error) {
-
+      setComment("");
       toast.error("Unable to publish comment", {
         position: "top-right",
         autoClose: 3500,
@@ -135,7 +137,7 @@ const VideoPlayer = () => {
               <p>{video.likes} Likes</p>
             </span>
           </button>
-          <button className="flex items-center gap-2 hover:text-blue-500 transition-colors">
+          <button className="flex items-center gap-2 hover:text-blue-500 transition-colors" onClick={() => setCommentVisible(true)}>
             <FaCommentAlt size={22} />
             <span className="hidden md:inline">Comment</span>
           </button>
@@ -165,20 +167,31 @@ const VideoPlayer = () => {
         <h2 className="text-xl md:text-2xl font-bold mb-2">{video.title}</h2>
         <p className="text-gray-700 mb-2">{video.description}</p>
       </div>
-      
+
+      {commentVisible && (
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <label className="block text-gray-700 text-lg font-semibold">
+              Add a comment{" "}
+            </label>
+            <form onSubmit={handleCommentSubmit}>
+              <input
+                className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                type="text"
+                placeholder="Comment"
+                name="comment"
+                value={comment}
+                id="comment"
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <button type="submit">Publish</button>
+            </form>
+          </div>
+        </div>
+      )}
+
       <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
         <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
-        <form onSubmit={handleCommentSubmit}>
-          <input
-            type="text"
-            placeholder="Comment"
-            name="comment"
-            value={comment}
-            id="comment"
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <button type="submit">Publish</button>
-        </form>
       </div>
     </div>
   );
