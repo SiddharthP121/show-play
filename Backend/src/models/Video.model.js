@@ -44,7 +44,7 @@ const videoSchema = new Schema({
     duration:{
         type: Number,
         required: true,
-    },
+    }, 
     views:{
         type: Number,
         default: 0
@@ -57,7 +57,11 @@ const videoSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    // isLiked:{
+    //     type: Boolean,
+    //     default: false
+    // }
 
     
     

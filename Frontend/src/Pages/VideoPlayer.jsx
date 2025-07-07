@@ -9,7 +9,7 @@ const VideoPlayer = () => {
   const [error, setError] = useState("");
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const { videoId } = useParams();
-
+  const [likeChanged, setLikeChanged] = useState(false);
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -24,7 +24,25 @@ const VideoPlayer = () => {
       }
     };
     fetchVideo();
-  }, [videoId]);
+  }, [videoId, likeChanged]);
+
+  const handleLike = async () => {
+    try {
+      const res = await axios.post(
+        `${baseURL}/toggle/v/${videoId}`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLikeChanged(!likeChanged)
+    } catch (error) {
+      console.log("Unable to like the video");
+    }
+  };
 
   if (loading) return <div className="p-8 text-center">Loading video...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
@@ -44,9 +62,12 @@ const VideoPlayer = () => {
         />
 
         <div className="flex gap-6 md:gap-8 mb-6 items-center justify-around md:justify-around">
-          <button className="flex items-center gap-2 hover:text-red-500 transition-colors">
+          <button
+            className="flex items-center gap-2 hover:text-red-500 transition-colors"
+            onClick={handleLike}
+          >
             <FaHeart size={22} />
-            <span className="hidden md:inline">Like</span>
+            <span className="hidden md:inline">{video.likes} Likes</span>
           </button>
           <button className="flex items-center gap-2 hover:text-blue-500 transition-colors">
             <FaCommentAlt size={22} />
@@ -72,9 +93,7 @@ const VideoPlayer = () => {
             <p className="font-semibold">{video.owner.username}</p>
             <p className="text-gray-500 text-sm">{video.owner.fullname}</p>
           </div>
-          <button className="button">
-            Subscribe
-          </button>
+          <button className="button">Subscribe</button>
         </div>
 
         <h2 className="text-xl md:text-2xl font-bold mb-2">{video.title}</h2>
