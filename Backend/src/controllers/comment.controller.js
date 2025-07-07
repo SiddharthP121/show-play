@@ -54,8 +54,8 @@ const getVideoComments = asyncHandler(async (req, res) => {
 const addComment = asyncHandler(async (req, res) => {
   // TODO: add a comment to a video
   const { videoId } = req.params;
-  const { content } = req.body;
-  if (!content) {
+  const { comment } = req.body;
+  if (!comment) {
     throw new ApiError(401, "Comment not found");
   }
   if (!isValidObjectId(videoId)) {
@@ -63,7 +63,7 @@ const addComment = asyncHandler(async (req, res) => {
   }
 
   const comments = await Comment.create({
-    content,
+    content: comment,
     owner: req.user._id,
     video: videoId,
   });
