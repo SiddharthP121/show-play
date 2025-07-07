@@ -15,7 +15,7 @@ const VideoPlayer = () => {
   const [likeChanged, setLikeChanged] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const token = localStorage.getItem("token");
-  const { isDarkModeOn } = useDarkMode();
+  const {isDarkModeOn} = useDarkMode()
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -57,6 +57,7 @@ const VideoPlayer = () => {
         theme: isDarkModeOn ? "dark" : "light",
       });
     } catch (error) {
+
       toast.error("Unable to publish comment", {
         position: "top-right",
         autoClose: 3500,
@@ -164,27 +165,20 @@ const VideoPlayer = () => {
         <h2 className="text-xl md:text-2xl font-bold mb-2">{video.title}</h2>
         <p className="text-gray-700 mb-2">{video.description}</p>
       </div>
-      <div className="comments  w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
-        <form onSubmit={handleCommentSubmit} className="flex gap-2 mb-4">
+      
+      <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
+        <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
+        <form onSubmit={handleCommentSubmit}>
           <input
             type="text"
-            placeholder="Add a comment..."
+            placeholder="Comment"
             name="comment"
             value={comment}
             id="comment"
             onChange={(e) => setComment(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-gray-50 shadow-sm"
           />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors shadow-sm"
-          >
-            Publish
-          </button>
+          <button type="submit">Publish</button>
         </form>
-      </div>
-      <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
-        <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
       </div>
     </div>
   );
