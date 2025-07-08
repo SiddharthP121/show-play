@@ -11,12 +11,32 @@ const VideoPlayer = () => {
   const [error, setError] = useState("");
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const { videoId } = useParams();
+  const [comments, setComments] = useState(null);
   const [commentVisible, setCommentVisible] = useState(false);
   const [comment, setComment] = useState("");
   const [likeChanged, setLikeChanged] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [message, setMessage] = useState("");
   const token = localStorage.getItem("token");
   const { isDarkModeOn } = useDarkMode();
+
+  useEffect(() => {
+    const getAllComments = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/comment/${videoId}`);
+        setComments(res.data.data.comments);
+      } catch (error) {
+        setMessage(error.response.data.message || "Unable to fetch comments");
+      }
+    };
+
+    getAllComments();
+  }, []);
+
+  const toggleLike = async () => {
+    
+  }
+
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -137,7 +157,10 @@ const VideoPlayer = () => {
               <p>{video.likes} Likes</p>
             </span>
           </button>
-          <button className="flex items-center gap-2 hover:text-blue-500 transition-colors" onClick={() => setCommentVisible(true)}>
+          <button
+            className="flex items-center gap-2 hover:text-blue-500 transition-colors"
+            onClick={() => setCommentVisible(true)}
+          >
             <FaCommentAlt size={22} />
             <span className="hidden md:inline">Comment</span>
           </button>
@@ -192,6 +215,56 @@ const VideoPlayer = () => {
 
       <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
         <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
+        {comments.map((comment) => {
+          <div className="flex-1 overflow-y-auto pr-2 custom-scroll"
+          key={comment._id}>
+            <div
+              className={`border-b pb-2 mb-2 ${
+                isDarkModeOn
+                  ? "bg-[#1d1b1b] text-[#F1F1F1] border-l border-[#323030]"
+                  : "bg-white text-[#1A1A1A] border-[#c3bebe] shadow-lg"
+              } shadow-md rounded-lg p-3`}
+            >
+              <div className="flex items-center gap-2">
+                <img
+                  className="w-10 h-10 rounded-full border border-gray-300"
+                  src={comment.owner.avtar}
+                  alt={comment.owner.username}
+                />
+                <span
+                  className={`font-semibold ${
+                    isDarkModeOn ? "text-gray-200" : "text-black"
+                  } mb-1`}
+                >
+                  {comment.owner.username}
+                </span>
+              </div>
+              <div
+                className={` ${
+                  isDarkModeOn ? "text-gray-350" : "text-red-950"
+                } mt-2`}
+              >
+                {comment.content}
+              </div>
+              <div className="flex justify-between mt-2">
+                <span className=" mt-1.5 text-slate-500 font-medium text-xs">
+                  {new Date( comment.createdAt ).toLocaleString()}
+                </span>
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() => toggleLike()}
+                    className={`flex cursor-pointer items-center space-x-1 ${
+                      isDarkModeOn ? "text-white" : "text-red-400 "
+                    }`}
+                  >
+                    <GoHeart size={18} />
+                    <p>{thought.likes}</p>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>;
+        })}
       </div>
     </div>
   );

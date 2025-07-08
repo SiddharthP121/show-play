@@ -116,63 +116,12 @@ const Account = () => {
         <Sidebar />
       </div>
       {!token ? (
-        <main>
-          <div className="w-full max-w-sm mx-auto mt-10 px-6 py-8 space-y-4">
-            <div
-              className={`
-    w-full max-w-md mx-auto mt-16
-    ${
-      isDarkModeOn
-        ? "bg-slate-800 border-gray-800 shadow-lg"
-        : "bg-white/5 border-white/10 shadow-xl"
-    }
-    backdrop-blur-lg rounded-2xl px-8 py-10
-  `}
-            >
-              <h1
-                className={`text-center text-lg font-semibold ${
-                  isDarkModeOn ? "text-gray-100" : "text-black"
-                } mb-6`}
-              >
-                You are not logged in to your account
-              </h1>
-              <ul className="space-y-4">
-                <li>
-                  <button
-                    onClick={() => navigate("/users/login")}
-                    className={`
-    w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
-    ${
-      isDarkModeOn
-        ? " border-2  border-purple-400 text-purple-300 hover:shadow-[0_0_30px_15px_rgba(124,58,237,0.5)] hover:text-purple-400"
-        : "border-2 border-purple-500 text-purple-500 hover:shadow-[0_0_30px_15px_rgba(168,85,247,0.5)] hover:text-purple-400"
-    }
-  `}
-                  >
-                    Login
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => navigate("/users/register")}
-                    className={`
-    w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
-    ${
-      isDarkModeOn
-        ? "border-2 border-blue-400 text-blue-400 \
-           hover:shadow-[0_0_30px_15px_rgba(59,130,246,0.7)] hover:text-blue-300"
-        : "border-2 border-blue-500 text-blue-500 \
-           hover:shadow-[0_0_30px_15px_rgba(59,130,246,0.6)] hover:text-blue-500"
-    }
-  `}
-                  >
-                    Signup
-                  </button>
-                </li>
-              </ul>
-            </div>
+        <div className="flex items-center justify-center min-h-screen bg-white">
+          <div className="relative w-16 h-16">
+            <div className="absolute inset-0 rounded-full border-4 border-purple-500 opacity-30"></div>
+            <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-purple-600 animate-spin"></div>
           </div>
-        </main>
+        </div>
       ) : (
         <main
           className={`pt-16 pb-32 ${
