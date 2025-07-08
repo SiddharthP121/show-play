@@ -31,7 +31,7 @@ const VideoPlayer = () => {
     };
 
     getAllComments();
-  }, []);
+  }, [commentVisible, videoId]);
 
   const toggleLike = async () => {};
 
@@ -76,6 +76,7 @@ const VideoPlayer = () => {
         progress: undefined,
         theme: isDarkModeOn ? "dark" : "light",
       });
+      setCommentVisible(false)
     } catch (error) {
       setComment("");
       toast.error("Unable to publish comment", {
@@ -88,6 +89,7 @@ const VideoPlayer = () => {
         progress: undefined,
         theme: isDarkModeOn ? "dark" : "light",
       });
+      setCommentVisible(false)
     }
   };
   const handleLike = async () => {
