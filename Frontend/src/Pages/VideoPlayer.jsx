@@ -33,9 +33,7 @@ const VideoPlayer = () => {
     getAllComments();
   }, []);
 
-  const toggleLike = async () => {
-    
-  }
+  const toggleLike = async () => {};
 
   useEffect(() => {
     const fetchVideo = async () => {
@@ -215,9 +213,11 @@ const VideoPlayer = () => {
 
       <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
         <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
-        {comments.map((comment) => {
-          <div className="flex-1 overflow-y-auto pr-2 custom-scroll"
-          key={comment._id}>
+        {comments.map((comment) => (
+          <div
+            className="flex-1 overflow-y-auto pr-2 custom-scroll"
+            key={comment._id}
+          >
             <div
               className={`border-b pb-2 mb-2 ${
                 isDarkModeOn
@@ -248,7 +248,7 @@ const VideoPlayer = () => {
               </div>
               <div className="flex justify-between mt-2">
                 <span className=" mt-1.5 text-slate-500 font-medium text-xs">
-                  {new Date( comment.createdAt ).toLocaleString()}
+                  {new Date(comment.createdAt).toLocaleString()}
                 </span>
                 <div className="flex items-center space-x-3">
                   <button
@@ -263,8 +263,8 @@ const VideoPlayer = () => {
                 </div>
               </div>
             </div>
-          </div>;
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );
