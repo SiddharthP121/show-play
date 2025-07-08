@@ -1,4 +1,4 @@
-import mongoose, { isValidObjectId } from "mongoose";
+import mongoose, {isValidObjectId} from "mongoose";
 import { Comment } from "../models/comment.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -6,7 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 const getVideoComments = asyncHandler(async (req, res) => {
   //TODO: get all comments for a video
-  const { videoId } = req.params;
+  const {videoId} = req.params;
   if (!isValidObjectId(videoId)) {
     throw new ApiError(400, "Video Id not found");
   }
@@ -64,11 +64,11 @@ const addComment = asyncHandler(async (req, res) => {
 
   const comments = await Comment.create({
     content: comment,
-    owner: {
-      id: req.user._id,
-      username: req.user.username,
-      fullname: req.user.fullname,
-      avtar: req.user.avtar,
+    owner:{
+        id: req.user._id,
+        username: req.user.username,
+        fullname: req.user.fullname,
+        avtar: req.user.avtar
     },
     video: videoId,
   });
@@ -119,36 +119,13 @@ const deleteComment = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Comment Id not found");
   }
 
-  const deleteUserComment = await Comment.findByIdAndDelete(commentId, {
-    new: true,
-  });
+  const deleteUserComment = await Comment.findByIdAndDelete(commentId, { new: true });
   if (!deleteUserComment) {
     throw new ApiError(402, "Failed to delete comment");
   }
   return res
     .status(200)
-    .json(new ApiResponse(200, deleteUserComment, "Comment Deleted Successfully"));
+    .json(new ApiResponse(200,deleteUserComment, "Comment Deleted Successfully"));
 });
 
 export { getVideoComments, addComment, updateComment, deleteComment };
-
-{comments && comments.length > 0 ? (
-  comments.map((comment) => (
-    <div key={comment._id}>
-      <div>
-        <img src={comment.owner.avtar} alt={comment.owner.username} />
-        <span>{comment.owner.username}</span>
-      </div>
-      <div>{comment.content}</div>
-      <div>
-        <span>{new Date(comment.createdAt).toLocaleString()}</span>
-        <button>
-          <GoHeart size={18} />
-          <p>{comment.likes}</p> {/* This is correct */}
-        </button>
-      </div>
-    </div>
-  ))
-) : (
-  <p>No comments yet.</p>
-)}
