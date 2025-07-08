@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaCommentAlt, FaShare, FaPlusSquare } from "react-icons/fa";
 import axios from "axios";
+import { GoHeart } from "react-icons/go";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useDarkMode } from "../DarkModeContext";
