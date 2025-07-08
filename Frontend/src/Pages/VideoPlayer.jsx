@@ -214,7 +214,7 @@ const VideoPlayer = () => {
         </div>
       )}
 
-      <div className="comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
+      <div className="flex-1 overflow-y-auto pr-2 custom-scroll comments h-[90vh] w-full md:w-[30%] order-last md:order-none bg-white rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8">
         <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
         {comments && comments.length > 0 ? (
           comments.map((comment) => (
