@@ -24,7 +24,7 @@ const VideoPlayer = () => {
     const getAllComments = async () => {
       try {
         const res = await axios.get(`${baseURL}/comment/${videoId}`);
-        setComments(res.data.data.comments);
+        setComments(res.data.data);
       } catch (error) {
         setMessage(error.response.data.message || "Unable to fetch comments");
       }
