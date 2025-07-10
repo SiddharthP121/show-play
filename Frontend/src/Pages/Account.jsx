@@ -281,7 +281,7 @@ const Account = () => {
                 <div>{sections[select]}</div>
               </>
             ) : (
-              <div className="flex items-center justify-center min-h-screen bg-white">
+              <div className="flex items-center justify-center min-h-screen bg-transparent">
                 <div className="relative w-16 h-16">
                   <div className="absolute inset-0 rounded-full border-4 border-purple-500 opacity-30"></div>
                   <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-purple-600 animate-spin"></div>
