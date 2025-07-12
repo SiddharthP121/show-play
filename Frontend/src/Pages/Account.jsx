@@ -117,9 +117,9 @@ const Account = () => {
       </div>
       {!token ? (
   <main>
-    <div className="w-full max-w-sm mx-auto mt-10 px-6 py-8 space-y-4">
+    <div className={`w-full ${isDarkModeOn?"bg-gradient-to-br from-gray-900 dark:via-gray-800 to-gray-700":"bg-gradient-to-tr from-purple-300 via-fuchsia-300 to-pink-300"} max-w-sm mx-auto mt-10 px-6 py-8 space-y-4`}>
       <div
-        className={`w-full max-w-md mx-auto mt-16 px-8 py-10 rounded-2xl backdrop-blur-lg transition-colors duration-300
+        className={`w-full max-w-md ml-30 mt-16 px-8 py-10 rounded-2xl backdrop-blur-lg transition-colors duration-300
           ${
             isDarkModeOn
               ? "bg-[#1e1e1e] border border-gray-700 shadow-lg"
