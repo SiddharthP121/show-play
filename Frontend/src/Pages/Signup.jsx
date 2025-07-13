@@ -32,7 +32,7 @@ const Signup = () => {
       Object.entries(form).forEach(([k, v]) => v && data.append(k, v));
       const res = await axios.post(`${baseURL}/users/register`, data);
       localStorage.setItem("token", res.data.data.user);
-      navigate("/");
+      navigate("/users/login");
        toast.success("Account Created Successfully", {
              position: "top-right",
              autoClose: 3500,
@@ -43,9 +43,11 @@ const Signup = () => {
              progress: undefined,
              theme: isDarkModeOn ? "dark" : "light",
            });
-    } catch {
+    } catch(error) {
       setLoading(false);
-       toast.error("Unable to create account", {
+      const errorMsg = error?.response?.data?.message || "Registration failed";
+
+       toast.error(errorMsg || "Unable to create account", {
              position: "top-right",
              autoClose: 3500,
              hideProgressBar: false,

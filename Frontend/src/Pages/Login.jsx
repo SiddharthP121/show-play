@@ -40,7 +40,7 @@ const Login = () => {
       });
     } catch(error) {
       setLoading(false);
-      toast.error(error.response.data.message || "Invalid username / email or password", {
+      toast.error(error?.response?.data?.message || "Invalid username / email or password", {
         position: "top-right",
         autoClose: 3500,
         hideProgressBar: false,

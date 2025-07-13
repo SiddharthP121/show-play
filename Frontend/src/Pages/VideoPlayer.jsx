@@ -251,7 +251,7 @@ const VideoPlayer = () => {
             isDarkModeOn ? "focus:outline-white" : "focus:outline-white"
           } focus:outline-offset-4 overflow-hidden`}
         >
-          <span className={`relative z-20 ${isDarkModeOn?"text-gray-300":"text-gray-500"}`}>Button</span>
+          <span className={`relative z-20 ${isDarkModeOn?"text-gray-300":"text-gray-500"}`}>Publish</span>
 
           <span
             className={`absolute left-[-75%] top-0 h-full w-[50%] ${

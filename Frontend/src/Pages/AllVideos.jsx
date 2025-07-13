@@ -55,7 +55,7 @@ const AllVideos = () => {
                 {playingIdx === idx && video.videoFile ? (
                   <video
                     src={video.videoFile}
-                    controls
+                    muted
                     autoPlay
                     className="object-cover w-full h-full rounded-xl"
                   />
