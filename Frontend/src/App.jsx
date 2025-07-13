@@ -7,9 +7,9 @@ import Add_video from "./Pages/Add-video";
 import HotThoughts from "./Pages/HotThoughts";
 import VideoPlayer from "./Pages/VideoPlayer";
 import Account from "./Pages/Account";
-import WatchHistory from "./Pages/WatchHistory";
 import Settings from "./Pages/Settings";
 import { DarkModeProvider } from "./DarkModeContext";
+import Playlist from "./Pages/Playlist";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -26,7 +26,7 @@ function App() {
             <Route path="/video/watch/:videoId" element={<VideoPlayer />} />
             <Route path="/hot-thoughts" element={<HotThoughts />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/watch-history" element={<WatchHistory />} />
+            <Route path="/playlist" element={<Playlist />} />
             <Route path="/settings" element={<Settings />} />
             
           </Routes>

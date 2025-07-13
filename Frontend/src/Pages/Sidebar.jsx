@@ -2,7 +2,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDarkMode } from "../DarkModeContext";
 import { AiFillHome, AiOutlinePlus } from "react-icons/ai";
-import { MdAccountCircle, MdHistory, MdSettings } from "react-icons/md";
+import { MdAccountCircle, MdSettings } from "react-icons/md";
+import { RiPlayList2Line } from "react-icons/ri";
+
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -21,12 +23,8 @@ const Sidebar = () => {
       {" "}
       <ul className="flex flex-col gap-3">
         <SidebarLink to="/" icon={<AiFillHome />} label="Home" />
-        <SidebarLink
-          to="/addvideo"
-          icon={<AiOutlinePlus />}
-          label="Add Video"
-        />
-        <SidebarLink to="/watch-history" icon={<MdHistory />} label="History" />
+        <SidebarLink to="/addvideo" icon={<AiOutlinePlus />} label="Add Video"/>
+        <SidebarLink to="/playlist" icon={<RiPlayList2Line />}label="Playlists"/>
         <SidebarLink to="/settings" icon={<MdSettings />} label="Settings" />
         <SidebarLink to="/account" icon={<MdAccountCircle />} label="Account" />
       </ul>

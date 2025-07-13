@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const WatchHistory = () => {
+const Playlist = () => {
   const token = localStorage.getItem("token");
   const [watchHistory, setWatchHistory] = useState([]);
   const [message, setMessage] = useState();
@@ -39,4 +39,4 @@ const WatchHistory = () => {
    </>;
 };
 
-export default WatchHistory;
+export default Playlist;

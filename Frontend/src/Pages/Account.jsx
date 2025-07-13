@@ -117,8 +117,8 @@ const Account = () => {
         <Sidebar />
       </div>
       {!token ? (
-       <main>
-  <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto mt-10 px-4 sm:px-6 md:px-8 py-8 space-y-4">
+       <main className="min-h-screen flex items-center justify-center px-4">
+  <div className="w-full max-w-sm sm:max-w-md lg:max-w-md py-8 space-y-4">
     <div
       className={`w-full px-6 sm:px-8 py-10 rounded-2xl backdrop-blur-lg transition-colors duration-300 mx-auto
         ${
