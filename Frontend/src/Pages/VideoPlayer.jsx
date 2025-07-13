@@ -142,6 +142,7 @@ const VideoPlayer = () => {
       >
         <video
           src={videoUrl}
+          autoPlay
           controls
           className="w-full rounded-lg mb-4"
           poster={video.thumbnail}

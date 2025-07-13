@@ -118,57 +118,55 @@ const Account = () => {
       </div>
       {!token ? (
         <main>
-  <div className="w-full max-w-sm mx-auto mt-10 px-4 sm:px-6 lg:px-8">
-    <div
-      className={`mt-16 px-6 py-8 rounded-2xl backdrop-blur-lg transition-colors duration-300
-        ${isDarkModeOn
-          ? "bg-[#1e1e1e] border border-gray-700 shadow-lg"
-          : "bg-white border border-gray-200 shadow-md"
-        }
-        sm:max-w-md sm:mx-0
-        lg:px-8 lg:py-10`}
-    >
-      <h1
-        className={`text-center text-lg sm:text-xl font-semibold mb-6
-          ${isDarkModeOn ? "text-gray-100" : "text-gray-800"}`}
-      >
-        You are not logged in to your account
-      </h1>
+          <div className={`w-full  max-w-sm mx-auto my-auto mt-10 px-6 py-8 space-y-4`}>
+            <div
+              className={`w-full max-w-md ml-30 mt-16 px-8 py-10 rounded-2xl backdrop-blur-lg transition-colors duration-300
+          ${
+            isDarkModeOn
+              ? "bg-[#1e1e1e] border border-gray-700 shadow-lg"
+              : "bg-white border border-gray-200 shadow-md"
+          }`}
+            >
+              <h1
+                className={`text-center text-lg font-semibold mb-6 ${
+                  isDarkModeOn ? "text-gray-100" : "text-gray-800"
+                }`}
+              >
+                You are not logged in to your account
+              </h1>
 
-      <ul className="space-y-4">
-        <li>
-          <button
-            onClick={() => navigate("/users/login")}
-            className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
-              ${isDarkModeOn
-                ? "border border-purple-500 text-purple-300 hover:text-purple-400 hover:shadow-md"
-                : "border border-purple-600 text-purple-600 hover:text-purple-500 hover:shadow"
-              }
-              sm:py-4 sm:text-base
-              `}
-          >
-            Login
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => navigate("/users/register")}
-            className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
-              ${isDarkModeOn
-                ? "border border-blue-400 text-blue-400 hover:text-blue-300 hover:shadow-md"
-                : "border border-blue-500 text-blue-500 hover:text-blue-600 hover:shadow"
-              }
-              sm:py-4 sm:text-base
-              `}
-          >
-            Signup
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</main>
+              <ul className="space-y-4">
+                <li>
+                  <button
+                    onClick={() => navigate("/users/login")}
+                    className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
+                ${
+                  isDarkModeOn
+                    ? "border border-purple-500 text-purple-300 hover:text-purple-400 hover:shadow-md"
+                    : "border border-purple-600 text-purple-600 hover:text-purple-500 hover:shadow"
+                }`}
+                  >
+                    Login
+                  </button>
+                </li>
 
+                <li>
+                  <button
+                    onClick={() => navigate("/users/register")}
+                    className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
+                ${
+                  isDarkModeOn
+                    ? "border border-blue-400 text-blue-400 hover:text-blue-300 hover:shadow-md"
+                    : "border border-blue-500 text-blue-500 hover:text-blue-600 hover:shadow"
+                }`}
+                  >
+                    Signup
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </main>
       ) : (
         <main
           className={`pt-16 pb-32 ${
