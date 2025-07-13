@@ -40,9 +40,7 @@ const Home = () => {
 
           {/* Center - AllVideos */}
           <div className="w-full md:w-[60%] flex justify-center">
-            {useEffect(() => {
-              <AllVideos />;
-            }, [])}
+            <AllVideos />;
           </div>
 
           {/* Right Panel - HotThoughts */}
