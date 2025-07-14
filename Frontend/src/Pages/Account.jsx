@@ -199,8 +199,9 @@ const Account = () => {
 
           {/* User Info */}
           <div className="userInfo text-black space-y-2 text-center px-4 mt-8">
-            
-              <>
+            {user&&(
+
+              <div>
                 <p
                   className={`text-xl ${
                     isDarkModeOn ? "text-gray-100" : "text-black"
@@ -277,14 +278,18 @@ const Account = () => {
                   )} */}
 
                 <div>{sections[select]}</div>
-              </>
+              </div>
+            )}
             
+            {loading && (
               <div className="flex items-center justify-center min-h-screen bg-transparent">
                 <div className="relative w-16 h-16">
                   <div className="absolute inset-0 rounded-full border-4 border-purple-500 opacity-30"></div>
                   <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-purple-600 animate-spin"></div>
                 </div>
               </div>
+
+            )}
            
           </div>
         </main>
