@@ -6,15 +6,15 @@ import { useDarkMode } from "../DarkModeContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const ActionButton = ({ label, onClick, isDarkModeOn }) => (
+const ActionButton = ({ label, onClick, isDarkModeOn, authClass }) => (
   <button
     onClick={onClick}
     className={`
-    group relative mx-auto my-3 font-medium w-full py-3 px-6 cursor-pointer
+    group relative mx-auto my-3 font-medium w-full py-3 px-6 ${authClass?" hover:text-black hover:bg-blue-300 -translate-y-0.5 cursor-pointer":"pointer-events-none cursor-not-allowed opacity-60"} 
     border border-transparent rounded-xl
     ${isDarkModeOn ? "text-white bg-gray-800" : "text-red-900 bg-blue-100"}
     transition-all duration-200 ease-out
-    hover:text-black hover:bg-blue-300 -translate-y-0.5 hover:shadow-lg
+    hover:shadow-lg
     active:translate-y-0.5 active:shadow-sm
     text-sm md:text-base
     flex justify-center items-center
@@ -331,60 +331,54 @@ const Settings = () => {
             <div className="hidden md:block w-[15%]" />
 
             <div className="flex flex-col gap-1 w-full md:w-[60%]">
-              <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
+              
               <ActionButton
                 label="Change Avatar"
                 onClick={() => setAvatarVisible(true)}
                 isDarkModeOn={isDarkModeOn}
-                />
-                </div>
-
-                <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
+                authClass={token && !loggedOut}
+              />
               <ActionButton
                 label="Change Cover Image"
                 onClick={() => setCoverImageVisibile(true)}
                 isDarkModeOn={isDarkModeOn}
+                authClass={token && !loggedOut}
               />
-                </div>
-
-                <div className = {`${!token || loggedOut && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Update Account Details"
                 onClick={() => setuserDetailsVisible(true)}
                 isDarkModeOn={isDarkModeOn}
+                authClass={token && !loggedOut}
               />
-                </div>
-
-                <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Change Password"
                 onClick={() => setChangePasswordVisible(true)}
                 isDarkModeOn={isDarkModeOn}
+                authClass={token && !loggedOut}
               />
-                </div>
-
-                <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Verify Email"
                 onClick={() => setVerifyEmailVisible(true)}
                 isDarkModeOn={isDarkModeOn}
+                authClass={token && !loggedOut}
               />
-                </div>
-
               <ActionButton
                 label="Appearance"
                 onClick={() => setAppearenceVisible(true)}
                 isDarkModeOn={isDarkModeOn}
+                authClass={true}
               />
               <ActionButton
                 label="About us"
                 onClick={() => navigate("/about")}
                 isDarkModeOn={isDarkModeOn}
+                authClass={true}
               />
               <ActionButton
                 label="Contact"
                 onClick={() => navigate("/contact")}
                 isDarkModeOn={isDarkModeOn}
+                authClass={true}
               />
 
               {token && !loggedOut ? (
