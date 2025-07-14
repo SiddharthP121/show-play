@@ -10,7 +10,7 @@ const ActionButton = ({ label, onClick, isDarkModeOn, authClass }) => (
   <button
     onClick={onClick}
     className={`
-    group relative mx-auto my-3 font-medium w-full py-3 px-6 ${authClass?" hover:text-black hover:bg-blue-300 -translate-y-0.5 cursor-pointer":"pointer-events-none cursor-not-allowed opacity-60"} 
+    group relative mx-auto my-3 font-medium w-full py-3 px-6 ${authClass?" hover:text-black hover:bg-blue-300 -translate-y-0.5 cursor-pointer":"pointer-events-none hover:cursor-not-allowed opacity-60"} 
     border border-transparent rounded-xl
     ${isDarkModeOn ? "text-white bg-gray-800" : "text-red-900 bg-blue-100"}
     transition-all duration-200 ease-out
