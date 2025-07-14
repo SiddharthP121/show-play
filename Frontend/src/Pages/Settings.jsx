@@ -331,34 +331,59 @@ const Settings = () => {
             <div className="hidden md:block w-[15%]" />
 
             <div className="flex flex-col gap-1 w-full md:w-[60%]">
+              <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Change Avatar"
                 onClick={() => setAvatarVisible(true)}
                 isDarkModeOn={isDarkModeOn}
-              />
+                />
+                </div>
+
+                <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Change Cover Image"
                 onClick={() => setCoverImageVisibile(true)}
                 isDarkModeOn={isDarkModeOn}
               />
+                </div>
+
+                <div className = {`${!token || loggedOut && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Update Account Details"
                 onClick={() => setuserDetailsVisible(true)}
                 isDarkModeOn={isDarkModeOn}
               />
+                </div>
+
+                <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Change Password"
                 onClick={() => setChangePasswordVisible(true)}
                 isDarkModeOn={isDarkModeOn}
               />
+                </div>
+
+                <div className = {`${!token || loggedout && "hover:cursor-not-allowed"}`}>
               <ActionButton
                 label="Verify Email"
                 onClick={() => setVerifyEmailVisible(true)}
                 isDarkModeOn={isDarkModeOn}
               />
+                </div>
+
               <ActionButton
                 label="Appearance"
                 onClick={() => setAppearenceVisible(true)}
+                isDarkModeOn={isDarkModeOn}
+              />
+              <ActionButton
+                label="About us"
+                onClick={() => navigate("/about")}
+                isDarkModeOn={isDarkModeOn}
+              />
+              <ActionButton
+                label="Contact"
+                onClick={() => navigate("/contact")}
                 isDarkModeOn={isDarkModeOn}
               />
 
