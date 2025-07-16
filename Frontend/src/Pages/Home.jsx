@@ -42,7 +42,10 @@ const Home = () => {
           {/* Center - AllVideos */}
           <div className="w-full md:w-[60%] flex justify-center">
             <AllVideos />
+            <div>
+
             <LastFoot className="flex w-fit relative bottom-0"/>
+            </div>
           </div>
 
           {/* Right Panel - HotThoughts */}
