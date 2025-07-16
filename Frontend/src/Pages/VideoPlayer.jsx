@@ -209,85 +209,87 @@ const VideoPlayer = () => {
         <h2 className="text-xl md:text-2xl font-bold mb-2">{video.title}</h2>
         <p className="text-gray-700 mb-2">{video.description}</p>
       </div>
-
       {/* Comment Modal */}
-     {commentVisible && (
-  <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
-    <div
-      className={`p-6 rounded-lg shadow-lg w-11/12 max-w-md ${
-        isDarkModeOn ? "bg-[#1e1e1e] text-white" : "bg-white text-black"
-      }`}
-    >
-      
-      <button
-        onClick={() => setCommentVisible(false)}
-        className={`mb-4 text-sm font-medium rounded px-3 py-1 transition-colors ${
-          isDarkModeOn
-            ? "bg-[#2c2c2c] text-gray-300 hover:bg-[#3a3a3a]"
-            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-        }`}
-      >
-        ← Back
-      </button>
+      {commentVisible && (
+        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div
+            className={`p-6 rounded-lg shadow-lg w-11/12 max-w-md ${
+              isDarkModeOn ? "bg-[#1e1e1e] text-white" : "bg-white text-black"
+            }`}
+          >
+            <button
+              onClick={() => setCommentVisible(false)}
+              className={`mb-4 text-sm font-medium rounded px-3 py-1 transition-colors ${
+                isDarkModeOn
+                  ? "bg-[#2c2c2c] text-gray-300 hover:bg-[#3a3a3a]"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              ← Back
+            </button>
 
-      <label className="block text-lg font-semibold">Add a comment</label>
-      <form onSubmit={handleCommentSubmit}>
-        <input
-          className={`w-full my-2 px-3 py-2 border rounded focus:outline-none focus:ring-2 ${
-            isDarkModeOn
-              ? "bg-[#2c2c2c] text-white border-gray-600 focus:ring-blue-400"
-              : "bg-white text-black border-gray-500 focus:ring-blue-400"
-          }`}
-          type="text"
-          placeholder="Comment"
-          name="comment"
-          value={comment}
-          id="comment"
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <button
-          type="submit"
-          className={`relative cursor-pointer py-3 px-5 md:py-4 md:px-8 text-center font-barlow inline-flex justify-center text-sm md:text-base uppercase ${
-            isDarkModeOn ? "text-white" : "text-white"
-          } rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline  ${
-            isDarkModeOn ? "focus:outline-white" : "focus:outline-white"
-          } focus:outline-offset-4 overflow-hidden`}
-        >
-          <span className={`relative z-20 ${isDarkModeOn?"text-gray-300":"text-gray-500"}`}>Publish</span>
+            <label className="block text-lg font-semibold">Add a comment</label>
+            <form onSubmit={handleCommentSubmit}>
+              <input
+                className={`w-full my-2 px-3 py-2 border rounded focus:outline-none focus:ring-2 ${
+                  isDarkModeOn
+                    ? "bg-[#2c2c2c] text-white border-gray-600 focus:ring-blue-400"
+                    : "bg-white text-black border-gray-500 focus:ring-blue-400"
+                }`}
+                type="text"
+                placeholder="Comment"
+                name="comment"
+                value={comment}
+                id="comment"
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <button
+                type="submit"
+                className={`relative cursor-pointer py-3 px-5 md:py-4 md:px-8 text-center font-barlow inline-flex justify-center text-sm md:text-base uppercase ${
+                  isDarkModeOn ? "text-white" : "text-white"
+                } rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline  ${
+                  isDarkModeOn ? "focus:outline-white" : "focus:outline-white"
+                } focus:outline-offset-4 overflow-hidden`}
+              >
+                <span
+                  className={`relative z-20 ${
+                    isDarkModeOn ? "text-gray-300" : "text-gray-500"
+                  }`}
+                >
+                  Publish
+                </span>
 
-          <span
-            className={`absolute left-[-75%] top-0 h-full w-[50%] ${
-              isDarkModeOn ? "bg-white/10" : "bg-white/20"
-            } rotate-12 z-10 blur-lg group-hover:left-[125%] transition-all duration-1000 ease-in-out`}
-          ></span>
+                <span
+                  className={`absolute left-[-75%] top-0 h-full w-[50%] ${
+                    isDarkModeOn ? "bg-white/10" : "bg-white/20"
+                  } rotate-12 z-10 blur-lg group-hover:left-[125%] transition-all duration-1000 ease-in-out`}
+                ></span>
 
-          <span
-            className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-              isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-            } absolute h-[20%] rounded-tl-lg border-l-2 border-t-2 top-0 left-0`}
-          ></span>
-          <span
-            className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-              isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-            } absolute group-hover:h-[90%] h-[60%] rounded-tr-lg border-r-2 border-t-2 top-0 right-0`}
-          ></span>
-          <span
-            className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-              isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-            } absolute h-[60%] group-hover:h-[90%] rounded-bl-lg border-l-2 border-b-2 left-0 bottom-0`}
-          ></span>
-          <span
-            className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-              isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-            } absolute h-[20%] rounded-br-lg border-r-2 border-b-2 right-0 bottom-0`}
-          ></span>
-        </button>
-      </form>
-    </div>
-  </div>
-)}
-
-
+                <span
+                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                  } absolute h-[20%] rounded-tl-lg border-l-2 border-t-2 top-0 left-0`}
+                ></span>
+                <span
+                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                  } absolute group-hover:h-[90%] h-[60%] rounded-tr-lg border-r-2 border-t-2 top-0 right-0`}
+                ></span>
+                <span
+                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                  } absolute h-[60%] group-hover:h-[90%] rounded-bl-lg border-l-2 border-b-2 left-0 bottom-0`}
+                ></span>
+                <span
+                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                  } absolute h-[20%] rounded-br-lg border-r-2 border-b-2 right-0 bottom-0`}
+                ></span>
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
       <div
         className={`flex-1 overflow-y-auto pr-2 custom-scroll comments h-[90vh] w-full md:w-[30%] order-last md:order-none rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8 ${
           isDarkModeOn ? "bg-[#1e1e1e] text-white" : "bg-white text-black"
@@ -337,8 +339,9 @@ const VideoPlayer = () => {
         )}
       </div>
       <ToastContainer />
-
-      <LastFoot />
+      <div className="w-full flex justify-center">
+        <LastFoot />
+      </div>{" "}
     </div>
   );
 };
