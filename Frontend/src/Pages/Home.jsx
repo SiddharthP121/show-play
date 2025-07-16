@@ -41,7 +41,8 @@ const Home = () => {
 
           {/* Center - AllVideos */}
           <div className="w-full md:w-[60%] flex justify-center">
-            <AllVideos />;
+            <AllVideos />
+            <LastFoot />
           </div>
 
           {/* Right Panel - HotThoughts */}
@@ -52,7 +53,6 @@ const Home = () => {
       </main>
 
       <BottomNav />
-      <LastFoot />
     </div>
   );
 };
