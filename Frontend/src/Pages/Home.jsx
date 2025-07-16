@@ -43,15 +43,15 @@ const Home = () => {
           <div className="w-full md:w-[60%] flex justify-center">
             <AllVideos />
           </div>
-            <div>
-            <LastFoot className="flex w-fit relative bottom-0"/>
-            </div>
 
           {/* Right Panel - HotThoughts */}
           <div className="hidden md:block w-[25%]">
             <HotThoughts />
           </div>
         </div>
+            <div>
+            <LastFoot className="flex w-fit relative bottom-0"/>
+            </div>
       </main>
 
       <BottomNav />
