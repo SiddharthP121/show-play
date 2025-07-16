@@ -42,7 +42,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="w-[70vw] ml-[3vw] flex justify-center">
+        <div className="w-[70vw] ml-[1vw] flex justify-center">
           <LastFoot />
         </div>
       </main>
