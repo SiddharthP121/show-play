@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
 import BottomNav from "./BottomNav";
@@ -18,31 +18,38 @@ const Home = () => {
 
   return (
     <div
-      className={`flex flex-col min-h-screen overflow-x-hidden select-none
-        ${
-          isDarkModeOn
-            ? "bg-gradient-to-br from-[#121212] via-[#1A1A1A] to-[#232323]"
-            : "bg-gradient-to-br from-blue-100 via-white to-purple-200"
-        }`}
+      className={`min-h-screen overflow-x-hidden select-none 
+    ${
+      isDarkModeOn
+        ? "bg-gradient-to-br from-[#121212] via-[#1A1A1A] to-[#232323]"
+        : "bg-gradient-to-br from-blue-100 via-white to-purple-200"
+    }`}
     >
-      <div>
+      <TopBar
+        search={search}
+        setSearch={setSearch}
+        handleSearch={handleSearch}
+      />
 
-      <TopBar search={search} setSearch={setSearch} handleSearch={handleSearch} />
       <Sidebar />
-      </div>
 
-      <main className="flex flex-col grow pt-24 md:mx-auto px-1.5 pb-24">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-6 flex-grow">
+      {/* Main Content */}
+      <main className="pt-24 md:mx-auto px-1.5 pb-24">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+          {/* Left Panel - Empty to balance Sidebar */}
           <div className="hidden md:block w-[15%]" />
+
+          {/* Center - AllVideos */}
           <div className="w-full md:w-[60%] flex justify-center">
             <AllVideos />
           </div>
+
+          {/* Right Panel - HotThoughts */}
           <div className="hidden md:block w-[25%]">
             <HotThoughts />
           </div>
         </div>
-
-        <div className="w-[70vw] ml-[1vw] flex justify-center">
+             <div className="w-[69vw] ml-[1vw] flex justify-center">
           <LastFoot />
         </div>
       </main>
