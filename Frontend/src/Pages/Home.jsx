@@ -34,7 +34,7 @@ const Home = () => {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="pt-24 md:mx-auto px-1.5 pb-24">
+      <main className="pt-24 md:mx-auto px-1.5 pb-15">
         <div className="flex flex-col md:flex-row justify-between items-start gap-6">
           {/* Left Panel - Empty to balance Sidebar */}
           <div className="hidden md:block w-[15%]" />
@@ -49,7 +49,7 @@ const Home = () => {
             <HotThoughts />
           </div>
         </div>
-             <div className="w-[69vw] ml-[1vw] flex justify-center">
+             <div className="w-full md:w-[60%] flex justify-center mr-[25%]">
           <LastFoot />
         </div>
       </main>
