@@ -130,219 +130,243 @@ const VideoPlayer = () => {
   const videoUrl = video.videoFile?.replace(/^http:\/\//, "https://");
 
   return (
-    <div
-      className={`flex flex-col md:flex-row gap-8 md:gap-6 px-2 md:px-8 py-6 md:py-10 min-h-screen ${
-        isDarkModeOn ? "bg-[#121212] text-white" : "bg-gray-50 text-black"
-      }`}
-    >
-      {/* Video Section */}
+    <>
+      <ToastContainer theme={isDarkModeOn ? "dark" : "light"} />
+
       <div
-        className={`w-full md:w-[70%] mx-auto md:mx-0 rounded-xl p-3 md:p-8 mb-8 md:mb-0 shadow-md ${
-          isDarkModeOn ? "bg-[#1e1e1e]" : "bg-white"
+        className={`flex flex-col min-h-screen ${
+          isDarkModeOn ? "bg-[#121212] text-white" : "bg-gray-50 text-black"
         }`}
       >
-        <video
-          src={videoUrl}
-          autoPlay
-          controls
-          className="w-full rounded-lg mb-4"
-          poster={video.thumbnail}
-        />
-
-        <div className="flex gap-6 md:gap-8 mb-6 items-center justify-around">
-          <button
-            className={`flex items-center gap-2 transition-colors ${
-              isDarkModeOn ? "hover:text-red-400" : "hover:text-red-500"
-            }`}
-            onClick={handleLike}
-          >
-            <FaHeart size={22} color={isLiked ? "#ef4444" : undefined} />
-            <span
-              className={`hidden md:inline ${isLiked ? "text-red-400" : ""}`}
-            >
-              <p>{video.likes} Likes</p>
-            </span>
-          </button>
-
-          <button
-            className={`flex items-center gap-2 ${
-              isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
-            }`}
-            onClick={() => setCommentVisible(true)}
-          >
-            <FaCommentAlt size={22} />
-            <span className="hidden md:inline">Comment</span>
-          </button>
-
-          <button
-            className={`flex items-center gap-2 ${
-              isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
-            }`}
-          >
-            <FaShare size={22} />
-            <span className="hidden md:inline">Share</span>
-          </button>
-
-          <button
-            className={`flex items-center gap-2 ${
-              isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
-            }`}
-          >
-            <FaPlusSquare size={22} />
-            <span className="hidden md:inline">Add to Playlist</span>
-          </button>
-        </div>
-
-        <div className="flex items-center gap-4 mb-6">
-          <img
-            className="w-12 h-12 rounded-full border border-gray-300 object-cover"
-            src={video.owner.avtar}
-            alt={video.owner.username}
-          />
-          <div className="flex-1">
-            <p className="font-semibold">{video.owner.username}</p>
-            <p className="text-gray-500 text-sm">{video.owner.fullname}</p>
-          </div>
-          <button className="button">Subscribe</button>
-        </div>
-
-        <h2 className="text-xl md:text-2xl font-bold mb-2">{video.title}</h2>
-        <p className="text-gray-700 mb-2">{video.description}</p>
-      </div>
-      {/* Comment Modal */}
-      {commentVisible && (
-        <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+        <div className="flex flex-col md:flex-row flex-grow gap-8 md:gap-6 px-2 md:px-8 py-6 md:py-10">
+          {/* Video Section */}
           <div
-            className={`p-6 rounded-lg shadow-lg w-11/12 max-w-md ${
+            className={`w-full md:w-[70%] mx-auto md:mx-0 rounded-xl p-3 md:p-8 mb-8 md:mb-0 shadow-md ${
+              isDarkModeOn ? "bg-[#1e1e1e]" : "bg-white"
+            }`}
+          >
+            <video
+              src={videoUrl}
+              autoPlay
+              controls
+              className="w-full rounded-lg mb-4"
+              poster={video.thumbnail}
+            />
+
+            <div className="flex gap-6 md:gap-8 mb-6 items-center justify-around">
+              <button
+                className={`flex items-center gap-2 transition-colors ${
+                  isDarkModeOn
+                    ? "hover:text-red-400"
+                    : "hover:text-red-500"
+                }`}
+                onClick={handleLike}
+              >
+                <FaHeart size={22} color={isLiked ? "#ef4444" : undefined} />
+                <span
+                  className={`hidden md:inline ${
+                    isLiked ? "text-red-400" : ""
+                  }`}
+                >
+                  <p>{video.likes} Likes</p>
+                </span>
+              </button>
+
+              <button
+                className={`flex items-center gap-2 ${
+                  isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
+                }`}
+                onClick={() => setCommentVisible(true)}
+              >
+                <FaCommentAlt size={22} />
+                <span className="hidden md:inline">Comment</span>
+              </button>
+
+              <button
+                className={`flex items-center gap-2 ${
+                  isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
+                }`}
+              >
+                <FaShare size={22} />
+                <span className="hidden md:inline">Share</span>
+              </button>
+
+              <button
+                className={`flex items-center gap-2 ${
+                  isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
+                }`}
+              >
+                <FaPlusSquare size={22} />
+                <span className="hidden md:inline">Add to Playlist</span>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-4 mb-6">
+              <img
+                className="w-12 h-12 rounded-full border border-gray-300 object-cover"
+                src={video.owner.avtar}
+                alt={video.owner.username}
+              />
+              <div className="flex-1">
+                <p className="font-semibold">{video.owner.username}</p>
+                <p className="text-gray-500 text-sm">
+                  {video.owner.fullname}
+                </p>
+              </div>
+              <button className="button">Subscribe</button>
+            </div>
+
+            <h2 className="text-xl md:text-2xl font-bold mb-2">
+              {video.title}
+            </h2>
+            <p className="text-gray-700 mb-2">{video.description}</p>
+          </div>
+
+          {/* Comment Modal */}
+          {commentVisible && (
+            <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+              <div
+                className={`p-6 rounded-lg shadow-lg w-11/12 max-w-md ${
+                  isDarkModeOn
+                    ? "bg-[#1e1e1e] text-white"
+                    : "bg-white text-black"
+                }`}
+              >
+                <button
+                  onClick={() => setCommentVisible(false)}
+                  className={`mb-4 text-sm font-medium rounded px-3 py-1 transition-colors ${
+                    isDarkModeOn
+                      ? "bg-[#2c2c2c] text-gray-300 hover:bg-[#3a3a3a]"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  ← Back
+                </button>
+
+                <label className="block text-lg font-semibold">
+                  Add a comment
+                </label>
+                <form onSubmit={handleCommentSubmit}>
+                  <input
+                    className={`w-full my-2 px-3 py-2 border rounded focus:outline-none focus:ring-2 ${
+                      isDarkModeOn
+                        ? "bg-[#2c2c2c] text-white border-gray-600 focus:ring-blue-400"
+                        : "bg-white text-black border-gray-500 focus:ring-blue-400"
+                    }`}
+                    type="text"
+                    placeholder="Comment"
+                    name="comment"
+                    value={comment}
+                    id="comment"
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <button
+                    type="submit"
+                    className={`relative cursor-pointer py-3 px-5 md:py-4 md:px-8 text-center font-barlow inline-flex justify-center text-sm md:text-base uppercase ${
+                      isDarkModeOn ? "text-white" : "text-white"
+                    } rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline ${
+                      isDarkModeOn ? "focus:outline-white" : "focus:outline-white"
+                    } focus:outline-offset-4 overflow-hidden`}
+                  >
+                    <span
+                      className={`relative z-20 ${
+                        isDarkModeOn ? "text-gray-300" : "text-gray-500"
+                      }`}
+                    >
+                      Publish
+                    </span>
+
+                    <span
+                      className={`absolute left-[-75%] top-0 h-full w-[50%] ${
+                        isDarkModeOn ? "bg-white/10" : "bg-white/20"
+                      } rotate-12 z-10 blur-lg group-hover:left-[125%] transition-all duration-1000 ease-in-out`}
+                    ></span>
+
+                    <span
+                      className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                        isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                      } absolute h-[20%] rounded-tl-lg border-l-2 border-t-2 top-0 left-0`}
+                    ></span>
+                    <span
+                      className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                        isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                      } absolute group-hover:h-[90%] h-[60%] rounded-tr-lg border-r-2 border-t-2 top-0 right-0`}
+                    ></span>
+                    <span
+                      className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                        isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                      } absolute h-[60%] group-hover=h-[90%] rounded-bl-lg border-l-2 border-b-2 left-0 bottom-0`}
+                    ></span>
+                    <span
+                      className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
+                        isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
+                      } absolute h-[20%] rounded-br-lg border-r-2 border-b-2 right-0 bottom-0`}
+                    ></span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Comments Sidebar */}
+          <div
+            className={`flex-1 overflow-y-auto pr-2 custom-scroll comments h-[90vh] w-full md:w-[30%] order-last md:order-none rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8 ${
               isDarkModeOn ? "bg-[#1e1e1e] text-white" : "bg-white text-black"
             }`}
           >
-            <button
-              onClick={() => setCommentVisible(false)}
-              className={`mb-4 text-sm font-medium rounded px-3 py-1 transition-colors ${
-                isDarkModeOn
-                  ? "bg-[#2c2c2c] text-gray-300 hover:bg-[#3a3a3a]"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              ← Back
-            </button>
-
-            <label className="block text-lg font-semibold">Add a comment</label>
-            <form onSubmit={handleCommentSubmit}>
-              <input
-                className={`w-full my-2 px-3 py-2 border rounded focus:outline-none focus:ring-2 ${
-                  isDarkModeOn
-                    ? "bg-[#2c2c2c] text-white border-gray-600 focus:ring-blue-400"
-                    : "bg-white text-black border-gray-500 focus:ring-blue-400"
-                }`}
-                type="text"
-                placeholder="Comment"
-                name="comment"
-                value={comment}
-                id="comment"
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <button
-                type="submit"
-                className={`relative cursor-pointer py-3 px-5 md:py-4 md:px-8 text-center font-barlow inline-flex justify-center text-sm md:text-base uppercase ${
-                  isDarkModeOn ? "text-white" : "text-white"
-                } rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline  ${
-                  isDarkModeOn ? "focus:outline-white" : "focus:outline-white"
-                } focus:outline-offset-4 overflow-hidden`}
-              >
-                <span
-                  className={`relative z-20 ${
-                    isDarkModeOn ? "text-gray-300" : "text-gray-500"
-                  }`}
-                >
-                  Publish
-                </span>
-
-                <span
-                  className={`absolute left-[-75%] top-0 h-full w-[50%] ${
-                    isDarkModeOn ? "bg-white/10" : "bg-white/20"
-                  } rotate-12 z-10 blur-lg group-hover:left-[125%] transition-all duration-1000 ease-in-out`}
-                ></span>
-
-                <span
-                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-                  } absolute h-[20%] rounded-tl-lg border-l-2 border-t-2 top-0 left-0`}
-                ></span>
-                <span
-                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-                  } absolute group-hover:h-[90%] h-[60%] rounded-tr-lg border-r-2 border-t-2 top-0 right-0`}
-                ></span>
-                <span
-                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-                  } absolute h-[60%] group-hover:h-[90%] rounded-bl-lg border-l-2 border-b-2 left-0 bottom-0`}
-                ></span>
-                <span
-                  className={`w-1/2 drop-shadow-3xl transition-all duration-300 block ${
-                    isDarkModeOn ? "border-gray-600" : "border-[#D4EDF9]"
-                  } absolute h-[20%] rounded-br-lg border-r-2 border-b-2 right-0 bottom-0`}
-                ></span>
-              </button>
-            </form>
+            <h2 className="font-bold text-xl md:text-2xl mb-4">
+              Comments
+            </h2>
+            {comments && comments.length > 0 ? (
+              comments.map((comment) => (
+                <div key={comment._id} className="mb-4">
+                  <div
+                    className={`border-b pb-2 rounded-lg p-3 ${
+                      isDarkModeOn
+                        ? "bg-[#1d1b1b] text-[#F1F1F1] border-l border-[#323030]"
+                        : "bg-white text-[#1A1A1A] border-[#c3bebe] shadow-lg"
+                    } shadow-md`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <img
+                        className="w-10 h-10 rounded-full border border-gray-300"
+                        src={comment.owner.avtar}
+                        alt={comment.owner.username}
+                      />
+                      <span className="font-semibold">
+                        {comment.owner.username}
+                      </span>
+                    </div>
+                    <p className="mt-2">{comment.content}</p>
+                    <div className="flex justify-between mt-2">
+                      <span className="text-slate-500 font-medium text-xs">
+                        {new Date(comment.createdAt).toLocaleString()}
+                      </span>
+                      <button
+                        onClick={() => toggleCommentLike()}
+                        className={`flex items-center space-x-1 ${
+                          isDarkModeOn ? "text-white" : "text-red-400"
+                        }`}
+                      >
+                        <GoHeart size={18} />
+                        <p>{comment.likes}</p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">No comments yet.</p>
+            )}
           </div>
         </div>
-      )}
-      <div
-        className={`flex-1 overflow-y-auto pr-2 custom-scroll comments h-[90vh] w-full md:w-[30%] order-last md:order-none rounded-xl shadow-lg p-4 md:p-6 md:sticky md:top-8 ${
-          isDarkModeOn ? "bg-[#1e1e1e] text-white" : "bg-white text-black"
-        }`}
-      >
-        <h2 className="font-bold text-xl md:text-2xl mb-4">Comments</h2>
-        {comments && comments.length > 0 ? (
-          comments.map((comment) => (
-            <div key={comment._id} className="mb-4">
-              <div
-                className={`border-b pb-2 rounded-lg p-3 ${
-                  isDarkModeOn
-                    ? "bg-[#1d1b1b] text-[#F1F1F1] border-l border-[#323030]"
-                    : "bg-white text-[#1A1A1A] border-[#c3bebe] shadow-lg"
-                } shadow-md`}
-              >
-                <div className="flex items-center gap-2">
-                  <img
-                    className="w-10 h-10 rounded-full border border-gray-300"
-                    src={comment.owner.avtar}
-                    alt={comment.owner.username}
-                  />
-                  <span className="font-semibold">
-                    {comment.owner.username}
-                  </span>
-                </div>
-                <p className="mt-2">{comment.content}</p>
-                <div className="flex justify-between mt-2">
-                  <span className="text-slate-500 font-medium text-xs">
-                    {new Date(comment.createdAt).toLocaleString()}
-                  </span>
-                  <button
-                    onClick={() => toggleCommentLike()}
-                    className={`flex items-center space-x-1 ${
-                      isDarkModeOn ? "text-white" : "text-red-400"
-                    }`}
-                  >
-                    <GoHeart size={18} />
-                    <p>{comment.likes}</p>
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-400">No comments yet.</p>
-        )}
+
+        {/* Footer */}
+        <footer className="w-full flex justify-center p-4">
+          <LastFoot />
+        </footer>
       </div>
-      <ToastContainer />
-      <div className="w-full flex justify-center">
-        <LastFoot />
-      </div>{" "}
-    </div>
+    </>
   );
 };
 
