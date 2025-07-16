@@ -46,7 +46,7 @@ const Home = () => {
 
           {/* Right Panel - HotThoughts */}
           <div className="hidden md:block w-[25%]">
-            <HotThoughts />
+            <HotThoughts /> 
           </div>
         </div>
         <div className="w-full md:w-[62vw] md:ml-[15.5vw] flex justify-center">

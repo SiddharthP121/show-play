@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useDarkMode } from "../DarkModeContext";
+import LastFoot from "./LastFoot";
 
 const VideoPlayer = () => {
   const [video, setVideo] = useState(null);
@@ -336,6 +337,8 @@ const VideoPlayer = () => {
         )}
       </div>
       <ToastContainer />
+
+      <LastFoot />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import AccountThoughts from "./AccountThoughts";
 import AccountComments from "./AccountComments";
 import { useDarkMode } from "../DarkModeContext";
+import LastFoot from "./LastFoot";
 export const userContext = createContext();
 export const useUser = () => useContext(userContext);
 const Account = () => {
@@ -294,7 +295,7 @@ const Account = () => {
           </div>
         </main>
       )}
-
+      <LastFoot />
       <BottomNav />
     </div>
   );

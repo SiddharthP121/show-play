@@ -5,6 +5,7 @@ import BottomNav from "./BottomNav";
 import { useDarkMode } from "../DarkModeContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LastFoot from "./LastFoot";
 
 const ActionButton = ({ label, onClick, isDarkModeOn, authClass }) => (
   <button
@@ -719,6 +720,8 @@ const Settings = () => {
           </div>
         </div>
       )}
+
+      <LastFoot />
     </>
   );
 };
