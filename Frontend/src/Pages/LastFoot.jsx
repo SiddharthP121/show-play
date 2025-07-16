@@ -1,5 +1,5 @@
 import React from "react";
-import { FaWhatsapp, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram, FaEnvelope, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { useDarkMode } from "../DarkModeContext";
 
 const LastFoot = () => {
