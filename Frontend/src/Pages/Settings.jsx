@@ -721,8 +721,9 @@ const Settings = () => {
         </div>
       )}
 
-      <LastFoot />
-    </>
+   <div className="w-full  md:ml-[15.5vw] flex justify-center">
+          <LastFoot />
+        </div>    </>
   );
 };
 

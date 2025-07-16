@@ -295,8 +295,9 @@ const Account = () => {
           </div>
         </main>
       )}
-      <LastFoot />
-      <BottomNav />
+   <div className="w-full md:ml-[15.5vw] flex justify-center">
+          <LastFoot />
+        </div>      <BottomNav />
     </div>
   );
 };
