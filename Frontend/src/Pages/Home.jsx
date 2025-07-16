@@ -5,6 +5,7 @@ import BottomNav from "./BottomNav";
 import HotThoughts from "./HotThoughts";
 import AllVideos from "./AllVideos";
 import { useDarkMode } from "../DarkModeContext";
+import LastFoot from "./LastFoot";
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -51,6 +52,7 @@ const Home = () => {
       </main>
 
       <BottomNav />
+      <LastFoot />
     </div>
   );
 };
