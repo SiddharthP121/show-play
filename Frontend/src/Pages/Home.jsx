@@ -49,7 +49,7 @@ const Home = () => {
             <HotThoughts />
           </div>
         </div>
-             <div className="w-full md:w-[60%] flex justify-center mr-[25%]">
+             <div className="w-full md:w-[60%] flex justify-center">
           <LastFoot />
         </div>
       </main>
