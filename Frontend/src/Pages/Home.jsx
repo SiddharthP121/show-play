@@ -25,8 +25,11 @@ const Home = () => {
             : "bg-gradient-to-br from-blue-100 via-white to-purple-200"
         }`}
     >
+      <div>
+
       <TopBar search={search} setSearch={setSearch} handleSearch={handleSearch} />
       <Sidebar />
+      </div>
 
       <main className="flex flex-col grow pt-24 md:mx-auto px-1.5 pb-24">
         <div className="flex flex-col md:flex-row justify-between items-start gap-6 flex-grow">
