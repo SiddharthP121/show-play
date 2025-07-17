@@ -61,7 +61,16 @@ const VideoPlayer = () => {
         withCredentials: true,
       })
       setPlaylist(res.data.data.playlist)
-
+       toast.success("Playlist fetched", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
     } catch (error) {
        toast.error("Unable to fetch plylist", {
         position: "top-right",
