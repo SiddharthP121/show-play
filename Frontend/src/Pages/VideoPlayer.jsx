@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useDarkMode } from "../DarkModeContext";
 import LastFoot from "./LastFoot";
-import { ToastContainer, toast } from "react-toastify";
 
 const VideoPlayer = () => {
   const [video, setVideo] = useState(null);
