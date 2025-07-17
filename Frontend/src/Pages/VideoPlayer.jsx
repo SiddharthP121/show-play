@@ -55,10 +55,10 @@ const VideoPlayer = () => {
   const handleGetPlaylist = async () => {
     try {
       const res = await axios.get(`${baseURL}/playlist/user-playlist`, {
-        withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`
-        }
+        },
+        withCredentials: true,
       })
       setPlaylist(res.data.data.playlist)
 
