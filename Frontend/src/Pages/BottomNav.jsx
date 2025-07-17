@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillHome, AiOutlinePlus } from "react-icons/ai";
 import { MdHistory, MdForum, MdSettings } from "react-icons/md";
 import { useDarkMode } from "../DarkModeContext";
+import { RiPlayList2Line } from "react-icons/ri";
+
 
 const BottomNav = () => {
   const navigate = useNavigate();
@@ -22,9 +24,9 @@ const BottomNav = () => {
       {" "}
       <BottomLink to="/" icon={<AiFillHome size={28} />} label="Home" />
       <BottomLink
-        to="/watch-history"
-        icon={<MdHistory size={28} />}
-        label="History"
+        to="/playlist"
+        icon={<RiPlayList2Line />}
+        label="Playlists"
       />
       <button
         onClick={() => navigate("/addvideo")}

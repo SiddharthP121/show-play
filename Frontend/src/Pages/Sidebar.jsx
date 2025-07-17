@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDarkMode } from "../DarkModeContext";
 import { AiFillHome, AiOutlinePlus } from "react-icons/ai";
 import { MdAccountCircle, MdSettings } from "react-icons/md";
-import { RiPlayList2Line } from "react-icons/ri";
+import { RiPlayList2Line } from "react-icons/ri";``
 
 
 const Sidebar = () => {

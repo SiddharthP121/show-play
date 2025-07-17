@@ -6,12 +6,15 @@ import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useDarkMode } from "../DarkModeContext";
 import LastFoot from "./LastFoot";
+import { ToastContainer, toast } from "react-toastify";
 
 const VideoPlayer = () => {
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [comments, setComments] = useState([]);
+  const [playlist, setPlaylist] = useState(null)
+  const [playlistVisible, setplaylistVisible] = useState(false)
   const [commentVisible, setCommentVisible] = useState(false);
   const [comment, setComment] = useState("");
   const [isLiked, setIsLiked] = useState(false);
@@ -49,6 +52,30 @@ const VideoPlayer = () => {
     };
     fetchVideo();
   }, [videoId]);
+
+  const handleGetPlaylist = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/playlist/user-playlist`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setPlaylist(res.data.data.playlist)
+
+    } catch (error) {
+       toast.error("Unable to fetch plylist", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+    }
+  }
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -195,6 +222,11 @@ const VideoPlayer = () => {
                 className={`flex items-center gap-2 ${
                   isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
                 }`}
+                onClick={() => {
+                  setplaylistVisible(true),
+                  handleGetPlaylist()
+                }
+                 }
               >
                 <FaPlusSquare size={22} />
                 <span className="hidden md:inline">Add to Playlist</span>
@@ -221,7 +253,43 @@ const VideoPlayer = () => {
             </h2>
             <p className="text-gray-700 mb-2">{video.description}</p>
           </div>
+          {/* Playlist model */}
+          {playlistVisible && (
+            <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+              <div
+                className={`p-6 rounded-lg shadow-lg w-11/12 max-w-md ${
+                  isDarkModeOn
+                    ? "bg-[#1e1e1e] text-white"
+                    : "bg-white text-black"
+                }`}
+              >
+                {/* back button */}
+                <button
+                  onClick={() => setplaylistVisible(false)}
+                  className={`mb-4 text-sm font-medium rounded px-3 py-1 transition-colors ${
+                    isDarkModeOn
+                      ? "bg-[#2c2c2c] text-gray-300 hover:bg-[#3a3a3a]"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  ← Back
+                </button>
 
+                <label className="block text-lg font-semibold">
+                  Select playlist folder
+                </label>
+                {/* cards of folders of playlist */}
+
+                  <div className="playlistCard">
+                    <img src="" alt="" />
+                    <h1>playlist name</h1>
+
+                  </div>
+
+                  <button>Add</button>
+              </div>
+            </div>
+          )}
           {/* Comment Modal */}
           {commentVisible && (
             <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
