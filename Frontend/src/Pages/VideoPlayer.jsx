@@ -61,6 +61,7 @@ const VideoPlayer = () => {
         withCredentials: true,
       })
       setPlaylist(res.data.data.playlist)
+      console.log(res.data.data.playlist)
        toast.success("Playlist fetched", {
         position: "top-right",
         autoClose: 3000,
