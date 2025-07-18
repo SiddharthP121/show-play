@@ -13,7 +13,7 @@ const Playlist = () => {
   const [createPlaylistVisible, setcreatePlaylistVisible] = useState(false);
   const { isDarkModeOn } = useDarkMode();
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");  
   const [playlistForm, setplaylistForm] = useState({
     name: "",
     description: "",
@@ -33,7 +33,7 @@ const Playlist = () => {
   };
 
   const handleCreatePlaylist = async () => {
-    e.preventDefault()
+    e.preventDefault();
     const formdata = new FormData();
     formdata.append("name", playlistForm.name);
     formdata.append("description", playlistForm.description);
