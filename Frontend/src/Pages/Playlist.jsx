@@ -32,7 +32,7 @@ const Playlist = () => {
     // Add search logic
   };
 
-  const handleCreatePlaylist = async () => {
+  const handleCreatePlaylist = async (e) => {
     e.preventDefault();
     const formdata = new FormData();
     formdata.append("name", playlistForm.name);
