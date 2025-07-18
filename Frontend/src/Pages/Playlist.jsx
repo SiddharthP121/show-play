@@ -145,7 +145,7 @@ const Playlist = () => {
                 <input
                   type="text"
                   onChange={(e) => handleChange(e)}
-                  value={form.name}
+                  value={playlistForm.name}
                   name="name"
                   required
                   id="name"
@@ -156,7 +156,7 @@ const Playlist = () => {
                 Description:
                 <textarea
                   name="description"
-                  value={form.description}
+                  value={playlistForm.description}
                   onChange={(e) => handleChange(e)}
                   required
                   placeholder="Enter playlist description"
