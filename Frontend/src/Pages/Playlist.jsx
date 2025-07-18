@@ -33,6 +33,7 @@ const Playlist = () => {
   };
 
   const handleCreatePlaylist = async () => {
+    e.preventDefault()
     const formdata = new FormData();
     formdata.append("name", playlistForm.name);
     formdata.append("description", playlistForm.description);
@@ -43,9 +44,7 @@ const Playlist = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setplaylistStat((prev) => {
-        prev = !prev;
-      });
+      setplaylistStat((prev) => !prev);
       toast.success("Playlist created successfully", {
         position: "top-right",
         autoClose: 3000,
@@ -152,7 +151,7 @@ const Playlist = () => {
                   className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </label>
-              <label htmlFor="newPassword">
+              <label htmlFor="description">
                 Description:
                 <textarea
                   name="description"
@@ -176,7 +175,7 @@ const Playlist = () => {
                   type="submit"
                   className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
                 >
-                  Save
+                  Create
                 </button>
               </div>
             </form>
