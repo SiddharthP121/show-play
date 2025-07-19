@@ -57,8 +57,8 @@ const VideoPlaylist = () => {
     <div
       className={`w-full ${
         isDarkModeOn
-          ? "h-full w-full bg-gradient-to-t from-gray-900 to-black"
-          : "h-full w-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600"
+          ? "h-screen w-full bg-gradient-to-t from-gray-900 to-black"
+          : "h-screen w-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600"
       } flex justify-center px-4 md:px-0`}
     >
       <div className="w-full max-w-4xl pt-2 pb-24">

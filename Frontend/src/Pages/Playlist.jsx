@@ -46,16 +46,16 @@ const Playlist = () => {
         });
         setPlaylists(res.data.data.playlists);
         console.log(res.data.data.playlists);
-        toast.success("Playlist fetched", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: isDarkModeOn ? "dark" : "light",
-        });
+        // toast.success("Playlist fetched", {
+        //   position: "top-right",
+        //   autoClose: 3000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: isDarkModeOn ? "dark" : "light",
+        // });
       } catch (error) {
         toast.error("Unable to fetch plylist", {
           position: "top-right",
