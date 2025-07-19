@@ -88,7 +88,7 @@ const VideoPlayer = () => {
 
   const addVideoToPlaylist = async (playlistId, playlistName) => {
     try {
-      const res = await axios.patch(`${baseURL}/playlist/${videoId}/${playlistId}`, {}, {
+      const res = await axios.patch(`${baseURL}/playlist/add/${videoId}/${playlistId}`, {}, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`
