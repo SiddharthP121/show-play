@@ -6,6 +6,7 @@ import { useDarkMode } from "../DarkModeContext";
 import LastFoot from "./LastFoot";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Playlist = () => {
   const [search, setSearch] = useState("");
@@ -15,6 +16,7 @@ const Playlist = () => {
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const [playlists, setPlaylists] = useState([]);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate()
   const [playlistForm, setplaylistForm] = useState({
     name: "",
     description: "",
@@ -158,7 +160,7 @@ const Playlist = () => {
                   : "bg-white text-gray-800"
               }`}
               onClick={() => {
-                /* navigate to playlist */
+                navigate(`/playlist/${pl.name}/${pl._id}`)
               }}
             >
               <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>

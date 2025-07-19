@@ -10,13 +10,13 @@ import Account from "./Pages/Account";
 import Settings from "./Pages/Settings";
 import { DarkModeProvider } from "./DarkModeContext";
 import Playlist from "./Pages/Playlist";
+import VideoPlaylist from "./Pages/VideoPlaylist";
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-     <DarkModeProvider>
-
+      <DarkModeProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -24,15 +24,14 @@ function App() {
             <Route path="/users/login" element={<Login />} />
             <Route path="/addvideo" element={<Add_video />} />
             <Route path="/video/watch/:videoId" element={<VideoPlayer />} />
+            <Route path="/playlist/:playlistName/:playlistId" element={<VideoPlaylist />} />
             <Route path="/hot-thoughts" element={<HotThoughts />} />
             <Route path="/account" element={<Account />} />
             <Route path="/playlist" element={<Playlist />} />
             <Route path="/settings" element={<Settings />} />
-            
           </Routes>
         </BrowserRouter>
-     </DarkModeProvider>
-      
+      </DarkModeProvider>
     </>
   );
 }
