@@ -14,7 +14,7 @@ const VideoPlaylist = () => {
   const [message, setMessage] = useState("");
   const [playingIdx, setPlayingIdx] = useState(null);
   const token = localStorage.getItem("token");
-  const [playlist, setPlaylist] = useState(null)
+  const [playlist, setPlaylist] = useState([])
   useEffect(() => {
     const getPlaylistVideos = async () => {
       setLoading(true);
