@@ -17,28 +17,24 @@ const VideoPlaylist = () => {
 
   useEffect(() => {
     const getPlaylistVideos = async () => {
+      setLoading(true);
       try {
-        res = await axios.get(`${baseURL}/playlist/${playlistId}`, {
+        const res = await axios.get(`${baseURL}/playlist/${playlistId}`, {
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         });
-        setVideos(res.data.data.playlist.videos);
-      } catch (error) {
+        console.log("API response:", res.data);
+        const videosArr = res?.data?.data?.playlist?.videos;
+        setVideos(Array.isArray(videosArr) ? videosArr : []);
+        setMessage("");
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setMessage("Unable to fetch playlist");
         toast.error("Unable to fetch playlist", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: isDarkModeOn ? "dark" : "light",
         });
-      }
-      finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
 
