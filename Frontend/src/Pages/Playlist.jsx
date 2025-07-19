@@ -44,8 +44,8 @@ const Playlist = () => {
           },
           withCredentials: true,
         });
-        setPlaylists(res.data.data.playlist);
-        console.log(res.data.data.playlist);
+        setPlaylists(res.data.data.playlists);
+        console.log(res.data.data.playlists);
         toast.success("Playlist fetched", {
           position: "top-right",
           autoClose: 3000,
