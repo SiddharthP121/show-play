@@ -8,7 +8,7 @@ import { Video } from "../models/Video.model.js";
 const createPlaylist = asyncHandler(async (req, res) => {
   //TODO: create playlist
   const { name, description } = req.body;
-  owner = req.user._id
+  const owner = req.user._id
 
   if (!name) {
     throw new ApiError(400, "Playlist name is required");
