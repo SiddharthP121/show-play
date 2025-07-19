@@ -13,7 +13,8 @@ const Playlist = () => {
   const [createPlaylistVisible, setcreatePlaylistVisible] = useState(false);
   const { isDarkModeOn } = useDarkMode();
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
-  const token = localStorage.getItem("token");  
+  const [playlists, setPlaylists] = useState([])
+  const token = localStorage.getItem("token");
   const [playlistForm, setplaylistForm] = useState({
     name: "",
     description: "",
@@ -32,6 +33,45 @@ const Playlist = () => {
     // Add search logic
   };
 
+  useEffect(() => {
+    const handleGetPlaylist = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/playlist/user-playlist`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+      setPlaylists(res.data.data.playlist);
+      console.log(res.data.data.playlist);
+      toast.success("Playlist fetched", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+    } catch (error) {
+      toast.error("Unable to fetch plylist", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+    }
+  };
+
+  handleGetPlaylist()
+  }, [playlistStat])
+  
+ 
   const handleCreatePlaylist = async (e) => {
     e.preventDefault();
     const formdata = new FormData();
@@ -66,9 +106,8 @@ const Playlist = () => {
         progress: undefined,
         theme: isDarkModeOn ? "dark" : "light",
       });
-    }
-    finally{
-      setcreatePlaylistVisible(false)
+    } finally {
+      setcreatePlaylistVisible(false);
     }
   };
   const handleChange = async (e) => {
@@ -103,7 +142,33 @@ const Playlist = () => {
         <div className="flex flex-col md:flex-row justify-between items-start gap-6">
           {/* Left Panel - Empty to balance Sidebar */}
           <div className="hidden md:block w-[15%]" />
+          {/* playlist cards */}
+          <div className="w-full md:w-[60%] flex justify-center">
+            {playlists.map((playlist) => (
+              
+            <div
+              className={`max-w-sm mx-auto rounded-lg shadow-md p-6 sm:p-8 transition-transform transform hover:scale-105 ${
+                isDarkModeOn
+                  ? "bg-gray-800 text-white"
+                  : "bg-white text-gray-800"
+              }`}
+              
+            >
+              <p className="text-xl font-semibold mb-4">{playlist.name}</p>
 
+              <button
+                className={`w-full py-2 px-4 font-medium rounded-md transition-colors ${
+                  isDarkModeOn
+                    ? "bg-blue-500 hover:bg-blue-600 text-white"
+                    : "bg-blue-600 hover:bg-blue-700 text-white"
+                }`}
+              >
+                Explore
+              </button>
+            </div>
+            )
+            )}
+          </div>
           {/* Create playlist */}
           <div className="w-full md:w-[60%] flex justify-center">
             <div
