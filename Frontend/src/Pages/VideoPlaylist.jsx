@@ -14,7 +14,8 @@ const VideoPlaylist = () => {
   const [message, setMessage] = useState("");
   const [playingIdx, setPlayingIdx] = useState(null);
   const token = localStorage.getItem("token");
-  const [playlist, setPlaylist] = useState([])
+  const [playlist, setPlaylist] = useState(null);
+
   useEffect(() => {
     const getPlaylistVideos = async () => {
       setLoading(true);
@@ -24,9 +25,14 @@ const VideoPlaylist = () => {
           withCredentials: true,
         });
         console.log("API response:", res.data);
-        const videosArr = res?.data?.data?.playlist?.videos;
-        setPlaylist = res?.data?.data?.playlist;
-        setVideos(Array.isArray(videosArr) ? videosArr : []);
+
+        const playlistObj = res?.data?.data?.playlist;
+        const videosArr = Array.isArray(playlistObj?.videos)
+          ? playlistObj.videos
+          : [];
+
+        setPlaylist(playlistObj);
+        setVideos(videosArr);
         setMessage("");
       } catch (err) {
         console.error("Fetch error:", err);
