@@ -73,40 +73,40 @@ const Playlist = () => {
 
     handleGetPlaylist();
   }, [playlistStat]);
-  
+
   const handleDelete = async (playlistId) => {
     try {
-      alert("You are about to delete the playlist")
+      alert("You are about to delete the playlist");
       const res = await axios.delete(`${baseURL}/playlist/${playlistId}`, {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+          Authorization: `Bearer ${token}`,
+        },
+      });
       toast.success("Playlist deleted", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: isDarkModeOn ? "dark" : "light",
-        });
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+      setplaylistStat((prev) => !prev);
     } catch (error) {
-        toast.error("Unable to delete plylist", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: isDarkModeOn ? "dark" : "light",
-        });
+      toast.error("Unable to delete playlist", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
     }
-  }
-
+  };
 
   const handleCreatePlaylist = async (e) => {
     e.preventDefault();
@@ -183,37 +183,36 @@ const Playlist = () => {
             : "bg-gradient-to-br from-blue-100 via-white to-purple-200 text-gray-800"
         }`}
       >
-        {playlists.map((pl) => (
-          <div
-            key={pl._id}
-            className={`relative p-6 rounded-lg shadow-md transition-transform
-      hover:shadow-lg hover:scale-105 cursor-pointer
-      ${isDarkModeOn ? "bg-gray-800 text-gray-100" : "bg-white text-gray-800"}`}
-            onClick={() => navigate(`/playlist/${pl.name}/${pl._id}`)}
+        <div
+          key={pl._id}
+          className={`relative p-6 rounded-lg shadow-md transition-transform
+    hover:shadow-lg hover:scale-105 cursor-pointer
+    ${isDarkModeOn ? "bg-gray-800 text-gray-100" : "bg-white text-gray-800"}`}
+          onClick={() => navigate(`/playlist/${pl.name}/${pl._id}`)}
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(pl._id);
+            }}
+            className={`absolute top-3 right-3 p-1 rounded-full
+      hover:bg-red-100 dark:hover:bg-red-900 transition`}
           >
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(pl._id);
-              }}
-              className={`absolute top-3 right-3 p-1 rounded-full
-        hover:bg-red-100 dark:hover:bg-red-900 transition`}
-            >
-              <FaTrashAlt
-                className={`text-lg ${
-                  isDarkModeOn ? "text-red-400" : "text-red-600"
-                }`}
-              />
-            </button>
+            <FaTrashAlt
+              className={`text-lg ${
+                isDarkModeOn ? "text-red-400" : "text-red-600"
+              }`}
+            />
+          </button>
 
-            <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>
-            {pl.description && <p className="text-sm mb-4">{pl.description}</p>}
-            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded">
-              Explore
-            </button>
-          </div>
-        ))}
+          {/* Content */}
+          <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>
+          {pl.description && <p className="text-sm mb-4">{pl.description}</p>}
+          <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded">
+            Explore
+          </button>
+        </div>
       </main>
 
       <footer
