@@ -13,7 +13,7 @@ const Playlist = () => {
   const [createPlaylistVisible, setcreatePlaylistVisible] = useState(false);
   const { isDarkModeOn } = useDarkMode();
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
-  const [playlists, setPlaylists] = useState([])
+  const [playlists, setPlaylists] = useState([]);
   const token = localStorage.getItem("token");
   const [playlistForm, setplaylistForm] = useState({
     name: "",
@@ -35,43 +35,42 @@ const Playlist = () => {
 
   useEffect(() => {
     const handleGetPlaylist = async () => {
-    try {
-      const res = await axios.get(`${baseURL}/playlist/user-playlist`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
-      setPlaylists(res.data.data.playlist);
-      console.log(res.data.data.playlist);
-      toast.success("Playlist fetched", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: isDarkModeOn ? "dark" : "light",
-      });
-    } catch (error) {
-      toast.error("Unable to fetch plylist", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: isDarkModeOn ? "dark" : "light",
-      });
-    }
-  };
+      try {
+        const res = await axios.get(`${baseURL}/playlist/user-playlist`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        });
+        setPlaylists(res.data.data.playlist);
+        console.log(res.data.data.playlist);
+        toast.success("Playlist fetched", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: isDarkModeOn ? "dark" : "light",
+        });
+      } catch (error) {
+        toast.error("Unable to fetch plylist", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: isDarkModeOn ? "dark" : "light",
+        });
+      }
+    };
 
-  handleGetPlaylist()
-  }, [playlistStat])
-  
- 
+    handleGetPlaylist();
+  }, [playlistStat]);
+
   const handleCreatePlaylist = async (e) => {
     e.preventDefault();
     const formdata = new FormData();
@@ -138,67 +137,58 @@ const Playlist = () => {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="pt-24 md:mx-auto px-1.5 pb-15">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-6">
-          {/* Left Panel - Empty to balance Sidebar */}
-          <div className="hidden md:block w-[15%]" />
-          {/* playlist cards */}
-          <div className="w-full md:w-[60%] flex justify-center">
-            {playlists.map((playlist) => (
-              
+      <main
+        className={`flex-grow pt-24 px-4 pb-24 bg-gradient-to-br
+        from-blue-100 via-white to-purple-200
+        dark:from-[#121212] dark:via-[#1A1A1A] dark:to-[#232323]`}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {playlists.map((pl) => (
             <div
-              className={`max-w-sm mx-auto rounded-lg shadow-md p-6 sm:p-8 transition-transform transform hover:scale-105 ${
-                isDarkModeOn
-                  ? "bg-gray-800 text-white"
-                  : "bg-white text-gray-800"
-              }`}
-              
+              key={pl._id}
+              className={`p-6 rounded-lg shadow-md transition-transform
+              hover:shadow-lg hover:scale-105 cursor-pointer
+              bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
+              onClick={() => {
+                /* navigate */
+              }}
             >
-              <p className="text-xl font-semibold mb-4">{playlist.name}</p>
-
+              <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>
+              {pl.description && (
+                <p className="text-sm mb-4">{pl.description}</p>
+              )}
               <button
-                className={`w-full py-2 px-4 font-medium rounded-md transition-colors ${
-                  isDarkModeOn
-                    ? "bg-blue-500 hover:bg-blue-600 text-white"
-                    : "bg-blue-600 hover:bg-blue-700 text-white"
-                }`}
+                className="w-full py-2 bg-blue-600 hover:bg-blue-700
+              text-white font-medium rounded"
               >
                 Explore
               </button>
             </div>
-            )
-            )}
-          </div>
-          {/* Create playlist */}
-          <div className="w-full md:w-[60%] flex justify-center">
-            <div
-              className={`max-w-sm mx-auto rounded-lg shadow-md p-6 sm:p-8 transition-transform transform hover:scale-105 ${
-                isDarkModeOn
-                  ? "bg-gray-800 text-white"
-                  : "bg-white text-gray-800"
-              }`}
-              onClick={() => {
-                setcreatePlaylistVisible(true);
-              }}
-            >
-              <p className="text-xl font-semibold mb-4">Create Playlist</p>
+          ))}
 
-              <button
-                className={`w-full py-2 px-4 font-medium rounded-md transition-colors ${
-                  isDarkModeOn
-                    ? "bg-blue-500 hover:bg-blue-600 text-white"
-                    : "bg-blue-600 hover:bg-blue-700 text-white"
-                }`}
-              >
-                Start Creating Playlist
-              </button>
-            </div>
+          {/* + Create Playlist */}
+          <div
+            className={`p-6 rounded-lg shadow-md transition-transform
+            hover:shadow-lg hover:scale-105 cursor-pointer flex items-center justify-center
+            bg-white dark:bg-gray-800`}
+            onClick={() => setcreatePlaylistVisible(true)}
+          >
+            <span className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+              + Create Playlist
+            </span>
           </div>
-        </div>
-        <div className="w-full md:w-[62vw] md:ml-[15.5vw] flex justify-center">
-          <LastFoot />
         </div>
       </main>
+
+      <footer
+        className={`sticky bottom-0 p-4 bg-gradient-to-br
+        from-blue-100 via-white to-purple-200
+        dark:from-[#121212] dark:via-[#1A1A1A] dark:to-[#232323]
+        ml-[var(--sidebar-width)]`}
+      >
+        <LastFoot />
+      </footer>
+
       {/* create playlist window */}
       {createPlaylistVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
