@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDarkMode } from "../DarkModeContext";
 
 const VideoPlaylist = () => {
-  const { playListId } = useParams();
+  const { playlistId } = useParams();
   const [loading, setLoading] = useState(true);
   const { isDarkModeOn } = useDarkMode();
   const [videos, setVideos] = useState([]);
@@ -18,7 +18,7 @@ const VideoPlaylist = () => {
   useEffect(() => {
     const getPlaylistVideos = async () => {
       try {
-        res = await axios.get(`${baseURL}/playlist/${playListId}`, {
+        res = await axios.get(`${baseURL}/playlist/${playlistId}`, {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
