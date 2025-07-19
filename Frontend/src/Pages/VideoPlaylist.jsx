@@ -43,7 +43,7 @@ const VideoPlaylist = () => {
     };
 
     getPlaylistVideos();
-  }, [playListId, baseURL, token, isDarkModeOn]);
+  }, [playlistId, baseURL, token, isDarkModeOn]);
 
   const truncateWords = (str, maxChars) => {
     if (!str) return "";
