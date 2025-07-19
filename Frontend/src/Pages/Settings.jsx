@@ -11,7 +11,11 @@ const ActionButton = ({ label, onClick, isDarkModeOn, authClass }) => (
   <button
     onClick={onClick}
     className={`
-    group relative mx-auto my-3 font-medium w-full py-3 px-6 ${authClass?" hover:text-black hover:bg-blue-300 -translate-y-0.5 cursor-pointer":"pointer-events-none hover:cursor-not-allowed opacity-60"} 
+    group relative mx-auto my-3 font-medium w-full py-3 px-6 ${
+      authClass
+        ? " hover:text-black hover:bg-blue-300 -translate-y-0.5 cursor-pointer"
+        : "pointer-events-none hover:cursor-not-allowed opacity-60"
+    } 
     border border-transparent rounded-xl
     ${isDarkModeOn ? "text-white bg-gray-800" : "text-red-900 bg-blue-100"}
     transition-all duration-200 ease-out
@@ -312,7 +316,7 @@ const Settings = () => {
   };
 
   return (
-    <>
+    <div className="overflow-x-hidden">
       <div
         className={`bg-gradient-to-br ${
           isDarkModeOn
@@ -332,7 +336,6 @@ const Settings = () => {
             <div className="hidden md:block w-[15%]" />
 
             <div className="flex flex-col gap-1 w-full md:w-[60%]">
-              
               <ActionButton
                 label="Change Avatar"
                 onClick={() => setAvatarVisible(true)}
@@ -419,7 +422,6 @@ const Settings = () => {
 
         <BottomNav />
       </div>
-
       {avatarVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
@@ -462,7 +464,6 @@ const Settings = () => {
           </div>
         </div>
       )}
-
       {coverImageVisibile && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
@@ -505,7 +506,6 @@ const Settings = () => {
           </div>
         </div>
       )}
-
       {userDetailsVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
@@ -565,7 +565,6 @@ const Settings = () => {
           </div>
         </div>
       )}
-
       {changePasswordVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
@@ -622,7 +621,6 @@ const Settings = () => {
           </div>
         </div>
       )}
-
       {verifyEmailVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
@@ -699,7 +697,6 @@ const Settings = () => {
           </div>
         </div>
       )}
-
       {appearenceVisible && (
         <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="flex justify-around bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
@@ -720,10 +717,12 @@ const Settings = () => {
           </div>
         </div>
       )}
+      <div className="w-full  md:ml-[15.5vw] flex justify-center">
+        <LastFoot />
+      </div>
 
-   <div className="w-full  md:ml-[15.5vw] flex justify-center">
-          <LastFoot />
-        </div>    </>
+      
+    </div>
   );
 };
 

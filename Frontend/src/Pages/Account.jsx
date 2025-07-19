@@ -21,7 +21,7 @@ const Account = () => {
   const [thoughts, setThoughts] = useState([]);
   const { isDarkModeOn } = useDarkMode();
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -41,9 +41,8 @@ const Account = () => {
       setUser(res.data.data.user);
     } catch (error) {
       console.log(error?.response?.data?.message || "Failed to fetch user");
-    }
-    finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -116,62 +115,61 @@ const Account = () => {
         setSearch={setSearch}
         handleSearch={handleSearch}
       />
-
       {/* Hide sidebar on small screens */}
       <div className="hidden md:block">
         <Sidebar />
       </div>
       {!token ? (
-       <main className="min-h-screen flex items-center justify-center px-4">
-  <div className="w-full max-w-sm sm:max-w-md lg:max-w-md py-8 space-y-4">
-    <div
-      className={`w-full px-6 sm:px-8 py-10 rounded-2xl backdrop-blur-lg transition-colors duration-300 mx-auto
+        <main className="min-h-screen flex items-center justify-center px-4">
+          <div className="w-full max-w-sm sm:max-w-md lg:max-w-md py-8 space-y-4">
+            <div
+              className={`w-full px-6 sm:px-8 py-10 rounded-2xl backdrop-blur-lg transition-colors duration-300 mx-auto
         ${
           isDarkModeOn
             ? "bg-[#1e1e1e] border border-gray-700 shadow-lg"
             : "bg-white border border-gray-200 shadow-md"
         }`}
-    >
-      <h1
-        className={`text-center text-lg font-semibold mb-6 ${
-          isDarkModeOn ? "text-gray-100" : "text-gray-800"
-        }`}
-      >
-        You are not logged in to your account
-      </h1>
+            >
+              <h1
+                className={`text-center text-lg font-semibold mb-6 ${
+                  isDarkModeOn ? "text-gray-100" : "text-gray-800"
+                }`}
+              >
+                You are not logged in to your account
+              </h1>
 
-      <ul className="space-y-4">
-        <li>
-          <button
-            onClick={() => navigate("/users/login")}
-            className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
+              <ul className="space-y-4">
+                <li>
+                  <button
+                    onClick={() => navigate("/users/login")}
+                    className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
               ${
                 isDarkModeOn
                   ? "border border-purple-500 text-purple-300 hover:text-purple-400 hover:shadow-md"
                   : "border border-purple-600 text-purple-600 hover:text-purple-500 hover:shadow"
               }`}
-          >
-            Login
-          </button>
-        </li>
+                  >
+                    Login
+                  </button>
+                </li>
 
-        <li>
-          <button
-            onClick={() => navigate("/users/register")}
-            className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
+                <li>
+                  <button
+                    onClick={() => navigate("/users/register")}
+                    className={`w-full py-3 rounded-lg font-medium tracking-wide transition-all duration-300
               ${
                 isDarkModeOn
                   ? "border border-blue-400 text-blue-400 hover:text-blue-300 hover:shadow-md"
                   : "border border-blue-500 text-blue-500 hover:text-blue-600 hover:shadow"
               }`}
-          >
-            Signup
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</main>
+                  >
+                    Signup
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </main>
       ) : (
         <main
           className={`pt-16 pb-32 ${
@@ -200,8 +198,7 @@ const Account = () => {
 
           {/* User Info */}
           <div className="userInfo text-black space-y-2 text-center px-4 mt-8">
-            {user&&(
-
+            {user && (
               <div>
                 <p
                   className={`text-xl ${
@@ -281,7 +278,7 @@ const Account = () => {
                 <div>{sections[select]}</div>
               </div>
             )}
-            
+
             {loading && (
               <div className="flex items-center justify-center min-h-screen bg-transparent">
                 <div className="relative w-16 h-16">
@@ -289,15 +286,14 @@ const Account = () => {
                   <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-purple-600 animate-spin"></div>
                 </div>
               </div>
-
             )}
-           
           </div>
         </main>
       )}
-   <div className="w-full md:ml-[15.5vw] flex justify-center">
-          <LastFoot />
-        </div>      <BottomNav />
+      <div className="w-full md:ml-[15.5vw] flex justify-center">
+        <LastFoot />
+      </div>
+      <BottomNav />
     </div>
   );
 };

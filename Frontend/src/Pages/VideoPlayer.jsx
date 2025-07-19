@@ -12,7 +12,7 @@ const VideoPlayer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [comments, setComments] = useState([]);
-  const [playlist, setPlaylist] = useState(null)
+  const [playlists, setPlaylists] = useState([])
   const [playlistVisible, setplaylistVisible] = useState(false)
   const [commentVisible, setCommentVisible] = useState(false);
   const [comment, setComment] = useState("");
@@ -60,7 +60,7 @@ const VideoPlayer = () => {
         },
         withCredentials: true,
       })
-      setPlaylist(res.data.data.playlist)
+      setPlaylists(res.data.data.playlist)
       console.log(res.data.data.playlist)
        toast.success("Playlist fetched", {
         position: "top-right",
@@ -288,14 +288,17 @@ const VideoPlayer = () => {
                   Select playlist folder
                 </label>
                 {/* cards of folders of playlist */}
+                  {playlists.map((playlist) => (
 
-                  <div className="playlistCard">
-                    <img src="" alt="" />
-                    <h1>playlist name</h1>
+                  <div key={playlist._id} className="playlistCard">
+                    <img src={playlist.videos[0].thumbnail} alt="Frontend\public\icon-revoo.png" />
+                    <h1>{playlist.name}</h1>
 
                   </div>
+                  )
+                  )}
 
-                  <button>Add</button>
+                 
               </div>
             </div>
           )}

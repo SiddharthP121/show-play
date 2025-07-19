@@ -8,6 +8,7 @@ import { Video } from "../models/Video.model.js";
 const createPlaylist = asyncHandler(async (req, res) => {
   //TODO: create playlist
   const { name, description } = req.body;
+  owner = req.user._id
 
   if (!name) {
     throw new ApiError(400, "Playlist name is required");
@@ -17,7 +18,7 @@ const createPlaylist = asyncHandler(async (req, res) => {
   }
 
 
-  const existingPlaylist = await Playlist.findOne({ name });
+  const existingPlaylist = await Playlist.findOne({owner, name });
 
   if (existingPlaylist) {
     throw new ApiError(400, "Playlist already exists");
@@ -26,7 +27,7 @@ const createPlaylist = asyncHandler(async (req, res) => {
   const playlist = await Playlist.create({
     name: name,
     description: description,
-    
+    owner
   });
 
   if (!playlist) {

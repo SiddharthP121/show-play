@@ -67,6 +67,9 @@ const Playlist = () => {
         theme: isDarkModeOn ? "dark" : "light",
       });
     }
+    finally{
+      setcreatePlaylistVisible(false)
+    }
   };
   const handleChange = async (e) => {
     const { name, value } = e.target;
