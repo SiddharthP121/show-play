@@ -24,7 +24,7 @@ const VideoPlaylist = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setVideos(res.data.data.playlist);
+        setVideos(res.data.data.playlist.videos);
       } catch (error) {
         toast.error("Unable to fetch playlist", {
           position: "top-right",
