@@ -47,19 +47,19 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
     throw new ApiError(400, "User Id not found");
   }
 
-  const playlist = await Playlist.find({ owner: userId });
+  const playlists = await Playlist.find({ owner: userId }).populate("videos");
 
-  if(!playlist){
+  if(!playlists){
     throw new ApiError(400, "No playlist found")
   }
 
-  if (playlist.length == 0) {
+  if (playlists.length == 0) {
     return res
       .status(200)
       .json(
         new ApiResponse(
           200,
-          {playlist},
+          {playlists},
           "No playlist found"
         )
       )
@@ -70,7 +70,7 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        { playlist },
+        { playlists },
         "Playlist fetched successfully"
       )
     );
