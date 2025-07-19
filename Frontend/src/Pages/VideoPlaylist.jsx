@@ -54,7 +54,13 @@ const VideoPlaylist = () => {
   };
 
   return (
-    <div className="w-full flex justify-center px-4 md:px-0">
+    <div
+      className={`w-full ${
+        isDarkModeOn
+          ? "h-64 w-full bg-gradient-to-t from-gray-900 to-black"
+          : "h-64 w-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600"
+      } flex justify-center px-4 md:px-0`}
+    >
       <div className="w-full max-w-4xl pt-2 pb-24">
         {loading ? (
           <div className="flex items-center justify-center min-h-screen bg-transparent">
