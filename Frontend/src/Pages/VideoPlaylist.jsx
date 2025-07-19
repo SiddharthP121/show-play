@@ -14,8 +14,7 @@ const VideoPlaylist = () => {
   const [message, setMessage] = useState("");
   const [playingIdx, setPlayingIdx] = useState(null);
   const token = localStorage.getItem("token");
-  const playlistName = null
-  const playlistDescription = null
+  const [playlist, setPlaylist] = useState(null)
   useEffect(() => {
     const getPlaylistVideos = async () => {
       setLoading(true);
@@ -26,8 +25,7 @@ const VideoPlaylist = () => {
         });
         console.log("API response:", res.data);
         const videosArr = res?.data?.data?.playlist?.videos;
-        playlistName = res?.data?.data?.playlist.name;
-        playlistDescription = res?.data?.data?.playlist.description;
+        setPlaylist = res?.data?.data?.playlist;
         setVideos(Array.isArray(videosArr) ? videosArr : []);
         setMessage("");
       } catch (err) {
@@ -66,14 +64,14 @@ const VideoPlaylist = () => {
                 isDarkModeOn ? "text-gray-100" : "text-gray-900"
               }`}
             >
-              {playlistName}
+              {playlist.name}
             </h1>
             <p
               className={`text-base md:text-lg max-w-prose leading-7 ${
                 isDarkModeOn ? "text-gray-300" : "text-gray-700"
               }`}
             >
-              {playlistDescription}
+              {playlist.description}
             </p>
             <hr
               className={`border-t-2 ${
