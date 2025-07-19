@@ -14,7 +14,8 @@ const VideoPlaylist = () => {
   const [message, setMessage] = useState("");
   const [playingIdx, setPlayingIdx] = useState(null);
   const token = localStorage.getItem("token");
-
+  const playlistName = null
+  const playlistDescription = null
   useEffect(() => {
     const getPlaylistVideos = async () => {
       setLoading(true);
@@ -25,8 +26,8 @@ const VideoPlaylist = () => {
         });
         console.log("API response:", res.data);
         const videosArr = res?.data?.data?.playlist?.videos;
-        const playlistName = res?.data?.data?.playlist.name;
-        const playlistDescription = res?.data?.data?.playlist.description;
+        playlistName = res?.data?.data?.playlist.name;
+        playlistDescription = res?.data?.data?.playlist.description;
         setVideos(Array.isArray(videosArr) ? videosArr : []);
         setMessage("");
       } catch (err) {
