@@ -25,6 +25,8 @@ const VideoPlaylist = () => {
         });
         console.log("API response:", res.data);
         const videosArr = res?.data?.data?.playlist?.videos;
+        const playlistName = res?.data?.data?.playlist.name;
+        const playlistDescription = res?.data?.data?.playlist.description;
         setVideos(Array.isArray(videosArr) ? videosArr : []);
         setMessage("");
       } catch (err) {
@@ -58,21 +60,43 @@ const VideoPlaylist = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-6">
+            <h1
+              className={`text-3xl md:text-4xl font-bold leading-tight ${
+                isDarkModeOn ? "text-gray-100" : "text-gray-900"
+              }`}
+            >
+              {playlistName}
+            </h1>
+            <p
+              className={`text-base md:text-lg max-w-prose leading-7 ${
+                isDarkModeOn ? "text-gray-300" : "text-gray-700"
+              }`}
+            >
+              {playlistDescription}
+            </p>
+            <hr
+              className={`border-t-2 ${
+                isDarkModeOn ? "border-gray-700" : "border-gray-300"
+              } w-full`}
+            />
             {videos.map((video, idx) => (
               <div
                 key={video._id || idx}
-                className={` w-full border rounded-2xl shadow-md p-4 md:p-6  flex flex-col md:flex-row gap-4 md:gap-6 transition-all duration-200 hover:shadow-xl cursor-pointer  ${
+                className={`w-full border rounded-2xl shadow-md p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6 transition-all duration-200 hover:shadow-xl cursor-pointer ${
                   isDarkModeOn
-                    ? "bg-[#252525] text-[#F1F1F1] border border-[#2A2A2A]"
-                    : "bg-white text-[#1A1A1A] border border-[#E0E0E0]"
-                }
-  `}
+                    ? "bg-gray-800 text-gray-100 border-gray-700"
+                    : "bg-white text-gray-900 border-gray-200"
+                }`}
                 onMouseEnter={() => setPlayingIdx(idx)}
                 onMouseLeave={() => setPlayingIdx(null)}
-                onClick={() => navigate(`video/watch/${video._id}`)}
+                onClick={() => navigate(`/video/watch/${video._id}`)}
               >
                 {/* Thumbnail / Video Preview */}
-                <div className="flex items-center justify-center w-full md:w-56 h-40 rounded-xl bg-gray-100 overflow-hidden">
+                <div
+                  className={`flex items-center justify-center w-full md:w-56 h-40 rounded-xl overflow-hidden ${
+                    isDarkModeOn ? "bg-gray-700" : "bg-gray-100"
+                  }`}
+                >
                   {playingIdx === idx && video.videoFile ? (
                     <video
                       src={video.videoFile}
@@ -95,25 +119,33 @@ const VideoPlaylist = () => {
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
                     <h3
-                      className={`text-lg md:text-2xl font-semibold ${
+                      className={`text-lg md:text-2xl font-semibold mb-1 ${
                         isDarkModeOn ? "text-gray-200" : "text-black"
-                      } mb-1`}
+                      }`}
                     >
                       {truncateWords(video.title, 60)}
                     </h3>
                     <p
-                      className={`text-sm md:text-base ${
+                      className={`text-sm md:text-base mb-2 ${
                         isDarkModeOn ? "text-gray-400" : "text-blue-400"
-                      } mb-2`}
+                      }`}
                     >
                       {truncateWords(video.description, 150)}
                     </p>
-                    <p className="text-xs md:text-sm text-gray-500">
+                    <p
+                      className={`text-xs md:text-sm ${
+                        isDarkModeOn ? "text-gray-500" : "text-gray-600"
+                      }`}
+                    >
                       {video.owner?.username}
                     </p>
                   </div>
 
-                  <div className="flex gap-4 text-xs md:text-sm text-gray-500 mt-2">
+                  <div
+                    className={`flex gap-4 text-xs md:text-sm mt-2 ${
+                      isDarkModeOn ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
                     <p>{video.views || 0} views</p>
                     <p>{new Date(video.createdAt).toLocaleDateString()}</p>
                   </div>
@@ -123,7 +155,7 @@ const VideoPlaylist = () => {
 
             {/* Show message if any */}
             {message && videos.length === 0 && (
-              <p className="text-center text-sm text-gray-600 mt-8">
+              <p className="text-center text-sm mt-8 text-gray-500 dark:text-gray-400">
                 {message}
               </p>
             )}

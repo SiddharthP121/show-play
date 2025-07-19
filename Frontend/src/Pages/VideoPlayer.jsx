@@ -325,15 +325,52 @@ const VideoPlayer = () => {
                   Select playlist folder
                 </label>
                 {/* cards of folders of playlist */}
-                  {playlists.map((playlist) => (
+                 {playlists.map((playlist) => (
+  <div
+    key={playlist._id}
+    onClick={() => addVideoToPlaylist(playlist._id, playlist.name)}
+    className={`relative flex items-center gap-4 p-4 rounded-lg shadow-md transition 
+      hover:shadow-xl transform hover:scale-105 cursor-pointer
+      ${isDarkModeOn
+        ? "bg-gray-800 text-gray-100 border border-gray-700"
+        : "bg-white text-gray-900 border border-gray-200"
+      }`}
+  >
+    {/* Thumbnail */}
+    <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0">
+      {playlist.videos?.[0]?.thumbnail ? (
+        <img
+          src={playlist.videos[0].thumbnail}
+          alt={playlist.name}
+          className="object-cover w-full h-full"
+        />
+      ) : (
+        <div className="flex w-full h-full items-center justify-center text-gray-500">
+          🎵
+        </div>
+      )}
+    </div>
 
-                  <div key={playlist._id} className="playlistCard" onClick={() => addVideoToPlaylist(playlist._id, playlist.name)}>
-                    {/* <img src={playlist.videos[0]?.thumbnail} alt="Frontend\public\icon-revoo.png" /> */}
-                    <h1>{playlist.name}</h1>
+    {/* Playlist Name */}
+    <div className="flex-1">
+      <h2 className="text-lg font-semibold truncate">{playlist.name}</h2>
+    </div>
 
-                  </div>
-                  )
-                  )}
+    {/* Optional chevron icon */}
+    <div className="text-gray-400">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+))}
+
 
                  
               </div>
