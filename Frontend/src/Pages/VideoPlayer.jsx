@@ -231,9 +231,9 @@ const VideoPlayer = () => {
                 className={`flex items-center gap-2 ${
                   isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
                 }`}
-                onClick={() => {
-                  setplaylistVisible(true),
-                  handleGetPlaylist()
+                onClick={async () => {
+                  await handleGetPlaylist(),
+                  setplaylistVisible(true)
                 }
                  }
               >
