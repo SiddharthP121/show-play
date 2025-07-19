@@ -86,6 +86,43 @@ const VideoPlayer = () => {
     }
   }
 
+  const addVideoToPlaylist = async (playlistId, playlistName) => {
+    try {
+      const res = await axios.patch(`${baseURL}/playlist/${videoId}/${playlistId}`, {}, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      toast.success(`Video added to ${playlistName}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+
+    } catch (error) {
+      toast.error("Unable to add video", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: isDarkModeOn ? "dark" : "light",
+      });
+    }
+    finally{
+      setplaylistVisible(false)
+    }
+  }
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -231,7 +268,7 @@ const VideoPlayer = () => {
                 className={`flex items-center gap-2 ${
                   isDarkModeOn ? "hover:text-blue-400" : "hover:text-blue-500"
                 }`}
-                onClick={async () => {
+                onClick={async() => {
                   await handleGetPlaylist(),
                   setplaylistVisible(true)
                 }
@@ -290,8 +327,8 @@ const VideoPlayer = () => {
                 {/* cards of folders of playlist */}
                   {playlists.map((playlist) => (
 
-                  <div key={playlist._id} className="playlistCard">
-                    <img src={playlist.videos[0].thumbnail} alt="Frontend\public\icon-revoo.png" />
+                  <div key={playlist._id} className="playlistCard" onClick={() => addVideoToPlaylist(playlist._id, playlist.name)}>
+                    {/* <img src={playlist.videos[0]?.thumbnail} alt="Frontend\public\icon-revoo.png" /> */}
                     <h1>{playlist.name}</h1>
 
                   </div>
