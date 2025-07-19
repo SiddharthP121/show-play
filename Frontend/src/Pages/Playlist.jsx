@@ -6,7 +6,6 @@ import { useDarkMode } from "../DarkModeContext";
 import LastFoot from "./LastFoot";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Playlist = () => {
@@ -17,7 +16,7 @@ const Playlist = () => {
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const [playlists, setPlaylists] = useState([]);
   const token = localStorage.getItem("token");
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [playlistForm, setplaylistForm] = useState({
     name: "",
     description: "",
@@ -73,40 +72,6 @@ const Playlist = () => {
 
     handleGetPlaylist();
   }, [playlistStat]);
-
-  const handleDelete = async (playlistId) => {
-    try {
-      alert("You are about to delete the playlist");
-      const res = await axios.delete(`${baseURL}/playlist/${playlistId}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success("Playlist deleted", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: isDarkModeOn ? "dark" : "light",
-      });
-      setplaylistStat((prev) => !prev);
-    } catch (error) {
-      toast.error("Unable to delete playlist", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: isDarkModeOn ? "dark" : "light",
-      });
-    }
-  };
 
   const handleCreatePlaylist = async (e) => {
     e.preventDefault();
@@ -175,45 +140,52 @@ const Playlist = () => {
 
       {/* Main Content */}
       <main
-        className={`flex-grow pt-24 px-4 pb-24 md:ml-[15.5vw] ${
+        className={`flex-grow pt-24 px-4 pb-24
+        md:ml-[15.5vw]
+        ${
           isDarkModeOn
             ? "bg-gradient-to-br from-[#121212] via-[#1A1A1A] to-[#232323] text-white"
             : "bg-gradient-to-br from-blue-100 via-white to-purple-200 text-gray-800"
         }`}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {playlists.map((pl) => (
             <div
               key={pl._id}
-              className={`relative p-6 rounded-lg shadow-md transition-transform
-          hover:shadow-lg hover:scale-105 cursor-pointer
-          ${
-            isDarkModeOn ? "bg-gray-800 text-gray-100" : "bg-white text-gray-800"
-          }`}
-              onClick={() => navigate(`/playlist/${pl.name}/${pl._id}`)}
+              className={`p-6 rounded-lg shadow-md transition-transform
+              hover:shadow-lg hover:scale-105 cursor-pointer
+              ${
+                isDarkModeOn
+                  ? "bg-gray-800 text-gray-100"
+                  : "bg-white text-gray-800"
+              }`}
+              onClick={() => {
+                navigate(`/playlist/${pl.name}/${pl._id}`)
+              }}
             >
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDelete(pl._id);
-                }}
-                className={`absolute top-3 right-3 p-1 rounded-full
-            hover:bg-red-100 dark:hover:bg-red-900 transition`}
-              >
-                <FaTrashAlt
-                  className={`text-lg ${
-                    isDarkModeOn ? "text-red-400" : "text-red-600"
-                  }`}
-                />
-              </button>
               <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>
-              {pl.description && <p className="text-sm mb-4">{pl.description}</p>}
+              {pl.description && (
+                <p className="text-sm mb-4">{pl.description}</p>
+              )}
               <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded">
                 Explore
               </button>
             </div>
           ))}
+
+          {/* + Create Playlist card */}
+          <div
+            className={`p-6 rounded-lg shadow-md transition-transform
+            hover:shadow-lg hover:scale-105 cursor-pointer flex items-center justify-center
+            ${
+              isDarkModeOn
+                ? "bg-gray-800 text-gray-100"
+                : "bg-white text-gray-800"
+            }`}
+            onClick={() => setcreatePlaylistVisible(true)}
+          >
+            <span className="text-xl font-semibold">+ Create Playlist</span>
+          </div>
         </div>
       </main>
 
