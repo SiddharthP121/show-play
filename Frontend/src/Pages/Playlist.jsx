@@ -175,43 +175,45 @@ const Playlist = () => {
 
       {/* Main Content */}
       <main
-        className={`flex-grow pt-24 px-4 pb-24
-        md:ml-[15.5vw]
-        ${
+        className={`flex-grow pt-24 px-4 pb-24 md:ml-[15.5vw] ${
           isDarkModeOn
             ? "bg-gradient-to-br from-[#121212] via-[#1A1A1A] to-[#232323] text-white"
             : "bg-gradient-to-br from-blue-100 via-white to-purple-200 text-gray-800"
         }`}
       >
-        <div
-          key={pl._id}
-          className={`relative p-6 rounded-lg shadow-md transition-transform
-    hover:shadow-lg hover:scale-105 cursor-pointer
-    ${isDarkModeOn ? "bg-gray-800 text-gray-100" : "bg-white text-gray-800"}`}
-          onClick={() => navigate(`/playlist/${pl.name}/${pl._id}`)}
-        >
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDelete(pl._id);
-            }}
-            className={`absolute top-3 right-3 p-1 rounded-full
-      hover:bg-red-100 dark:hover:bg-red-900 transition`}
-          >
-            <FaTrashAlt
-              className={`text-lg ${
-                isDarkModeOn ? "text-red-400" : "text-red-600"
-              }`}
-            />
-          </button>
-
-          {/* Content */}
-          <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>
-          {pl.description && <p className="text-sm mb-4">{pl.description}</p>}
-          <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded">
-            Explore
-          </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {playlists.map((pl) => (
+            <div
+              key={pl._id}
+              className={`relative p-6 rounded-lg shadow-md transition-transform
+          hover:shadow-lg hover:scale-105 cursor-pointer
+          ${
+            isDarkModeOn ? "bg-gray-800 text-gray-100" : "bg-white text-gray-800"
+          }`}
+              onClick={() => navigate(`/playlist/${pl.name}/${pl._id}`)}
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(pl._id);
+                }}
+                className={`absolute top-3 right-3 p-1 rounded-full
+            hover:bg-red-100 dark:hover:bg-red-900 transition`}
+              >
+                <FaTrashAlt
+                  className={`text-lg ${
+                    isDarkModeOn ? "text-red-400" : "text-red-600"
+                  }`}
+                />
+              </button>
+              <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>
+              {pl.description && <p className="text-sm mb-4">{pl.description}</p>}
+              <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded">
+                Explore
+              </button>
+            </div>
+          ))}
         </div>
       </main>
 
