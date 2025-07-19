@@ -5,12 +5,15 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDarkMode } from "../DarkModeContext";
 
 const VideoPlaylist = () => {
-  const playListId = useParams();
+  const { playListId } = useParams();
   const [loading, setLoading] = useState(true);
   const { isDarkModeOn } = useDarkMode();
   const [videos, setVideos] = useState([]);
   const baseURL = import.meta.env.VITE_DEFAULT_URL;
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [playingIdx, setPlayingIdx] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getPlaylistVideos = async () => {
@@ -34,12 +37,15 @@ const VideoPlaylist = () => {
           theme: isDarkModeOn ? "dark" : "light",
         });
       }
+      finally{
+        setLoading(false)
+      }
     };
 
-    getPlaylistVideos;
-  }, []);
+    getPlaylistVideos();
+  }, [playListId, baseURL, token, isDarkModeOn]);
 
-   const truncateWords = (str, maxChars) => {
+  const truncateWords = (str, maxChars) => {
     if (!str) return "";
     return str.length <= maxChars ? str : str.slice(0, maxChars) + " ...";
   };
