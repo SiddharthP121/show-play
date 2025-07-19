@@ -57,8 +57,8 @@ const VideoPlaylist = () => {
     <div
       className={`w-full ${
         isDarkModeOn
-          ? "h-64 w-full bg-gradient-to-t from-gray-900 to-black"
-          : "h-64 w-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600"
+          ? "h-full w-full bg-gradient-to-t from-gray-900 to-black"
+          : "h-full w-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600"
       } flex justify-center px-4 md:px-0`}
     >
       <div className="w-full max-w-4xl pt-2 pb-24">
@@ -100,7 +100,7 @@ const VideoPlaylist = () => {
                 }`}
                 onMouseEnter={() => setPlayingIdx(idx)}
                 onMouseLeave={() => setPlayingIdx(null)}
-                onClick={() => navigate(`/video/watch/${video._id}`)}
+                onClick={() => navigate(`/video/watch/${video._id}`,  { relative: 'path' })}
               >
                 {/* Thumbnail / Video Preview */}
                 <div
