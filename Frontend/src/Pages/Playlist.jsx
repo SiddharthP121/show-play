@@ -138,9 +138,13 @@ const Playlist = () => {
 
       {/* Main Content */}
       <main
-        className={`flex-grow pt-24 px-4 pb-24 bg-gradient-to-br
-        from-blue-100 via-white to-purple-200
-        dark:from-[#121212] dark:via-[#1A1A1A] dark:to-[#232323]`}
+        className={`flex-grow pt-24 px-4 pb-24
+        md:ml-[15.5vw]
+        ${
+          isDarkModeOn
+            ? "bg-gradient-to-br from-[#121212] via-[#1A1A1A] to-[#232323] text-white"
+            : "bg-gradient-to-br from-blue-100 via-white to-purple-200 text-gray-800"
+        }`}
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {playlists.map((pl) => (
@@ -148,43 +152,47 @@ const Playlist = () => {
               key={pl._id}
               className={`p-6 rounded-lg shadow-md transition-transform
               hover:shadow-lg hover:scale-105 cursor-pointer
-              bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
+              ${
+                isDarkModeOn
+                  ? "bg-gray-800 text-gray-100"
+                  : "bg-white text-gray-800"
+              }`}
               onClick={() => {
-                /* navigate */
+                /* navigate to playlist */
               }}
             >
               <h3 className="text-xl font-semibold mb-2">{pl.name}</h3>
               {pl.description && (
                 <p className="text-sm mb-4">{pl.description}</p>
               )}
-              <button
-                className="w-full py-2 bg-blue-600 hover:bg-blue-700
-              text-white font-medium rounded"
-              >
+              <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded">
                 Explore
               </button>
             </div>
           ))}
 
-          {/* + Create Playlist */}
+          {/* + Create Playlist card */}
           <div
             className={`p-6 rounded-lg shadow-md transition-transform
             hover:shadow-lg hover:scale-105 cursor-pointer flex items-center justify-center
-            bg-white dark:bg-gray-800`}
+            ${
+              isDarkModeOn
+                ? "bg-gray-800 text-gray-100"
+                : "bg-white text-gray-800"
+            }`}
             onClick={() => setcreatePlaylistVisible(true)}
           >
-            <span className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-              + Create Playlist
-            </span>
+            <span className="text-xl font-semibold">+ Create Playlist</span>
           </div>
         </div>
       </main>
 
       <footer
-        className={`sticky bottom-0 p-4 bg-gradient-to-br
-        from-blue-100 via-white to-purple-200
-        dark:from-[#121212] dark:via-[#1A1A1A] dark:to-[#232323]
-        ml-[var(--sidebar-width)]`}
+        className={`sticky bottom-0 p-4
+        md:ml-[15.5vw]
+        ${
+          isDarkModeOn ? "bg-[#1A1A1A] text-gray-100" : "bg-white text-gray-800"
+        }`}
       >
         <LastFoot />
       </footer>
