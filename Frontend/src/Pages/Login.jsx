@@ -70,7 +70,7 @@ const Login = () => {
       return;
     }
     try {
-      const res = await axios.patch(`${baseURL}/user/update-password`, {email, newPassword});
+      const res = await axios.patch(`${baseURL}/users/update-password`, {email, newPassword});
        toast.success("Password Changed", {
         position: "top-right",
         autoClose: 3500,
