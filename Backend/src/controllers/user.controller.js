@@ -28,9 +28,9 @@ const generateAccessAndRefreshToken = async (userId) => {
   }
 };
 
-const generateCode =  () => {
- const code = Math.floor(100000 + Math.random() * 900000).toString();
- return code;
+const generateCode = () => {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  return code;
 };
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -252,7 +252,6 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   */
 
   const { oldPassword, newPassword } = req.body;
-
   const user = await User.findById(req.user._id);
   console.log(req.user._id);
   const passwordResult = await user.isPasswordCorrect(oldPassword);
@@ -530,12 +529,11 @@ const verifyEmail = asyncHandler(async (req, res) => {
   // const userCode = req.body;
   const email = req.user.email;
   const code = generateCode();
-  console.log(code)
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "siddharthpotphode7@gmail.com",
-      pass: "lthjscktedivhiej"
+      pass: "lthjscktedivhiej",
     },
   });
 
@@ -543,25 +541,96 @@ const verifyEmail = asyncHandler(async (req, res) => {
     form: "siddharthpotphode7@gmail.com",
     to: email,
     subject: "Verify your email for Show-Play",
-    html: `<p>Your verification code is <b>${code}</b>. It expires in 10 minutes.</p>`,
+    html: `<p>Hello Your verification code is <b>${code}</b>. It expires in 10 minutes.</p>`,
   };
 
   const sentMail = await transporter.sendMail(mailOptions);
   if (!sentMail) {
-    throw new ApiError(400, "Error sending email")
+    throw new ApiError(400, "Error sending email");
   }
 
   const verifyStatus = await User.findByIdAndUpdate(req.user._id, {
-   $set:{
-    isEmailVerified: true
-   },
-  }).select("-password")
+    $set: {
+      isEmailVerified: true,
+    },
+  }).select("-password");
 
   if (!verifyStatus) {
     throw new ApiError(500, "Something went wrong while verifying email");
   }
 
-  return res.status(200).json(new ApiResponse(200, code, verifyStatus, "Code sent successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, code, verifyStatus, "Code sent successfully"));
+});
+
+const forgetPassword = asyncHandler(async (req, res) => {
+  // const userCode = req.body;
+  const { email } = req.body;
+
+  const isEmailValid = await User.findOne({ email });
+
+  if (!isEmailValid) {
+    return res.status(200).json(new ApiResponse(200, "Unregistered Email"));
+  }
+  const code = generateCode();
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "siddharthpotphode7@gmail.com",
+      pass: "lthjscktedivhiej",
+    },
+  });
+
+  const mailOptions = {
+    from: "siddharthpotphode7@gmail.com",
+    to: email,
+    subject: "Your One-Time Password (OTP) to Reset Your Account Password",
+    html: `<p> Hi ,
+<p>
+
+We received a request to reset your password. To proceed, please use the One-Time Password (OTP) below:
+
+🔐 OTP: ${code}
+</p>
+
+<p>
+This OTP is valid for the next 10 minutes. If you didn't request a password reset, please ignore this email or contact our support team immediately.
+
+</p>
+<p>
+Thanks,  
+</p>
+<p>
+Revoo Multimedia Support Team</p>`,
+  };
+
+  const sentMail = await transporter.sendMail(mailOptions);
+  if (!sentMail) {
+    throw new ApiError(400, "Invalid email");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, code, "Code sent successfully"));
+});
+
+const updatePassword = asyncHandler(async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  if (!email || !newPassword) {
+    throw new ApiError(400, "Missing email or new password");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  user.password = newPassword; // optionally hash here
+  await user.save();
+
+  return res.status(200).json(new ApiResponse(200, null, "Password updated successfully"));
 });
 
 // const toggleDarkMode = asyncHandler(async (req, res) => {
@@ -588,8 +657,10 @@ const verifyEmail = asyncHandler(async (req, res) => {
 export {
   registerUser,
   loginUser,
+  forgetPassword,
   verifyEmail,
   logoutUser,
+  updatePassword,
   refreshAccessToken,
   changeCurrentPassword,
   getCurrentUser,

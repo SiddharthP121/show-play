@@ -12,11 +12,12 @@ import {
   userChannelProfile,
   getWatchHistory,
   verifyEmail,
+  forgetPassword,
+  updatePassword,
   // toggleDarkMode,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-
 
 const router = Router();
 
@@ -40,10 +41,14 @@ router.route("/login").post(upload.none(), loginUser);
 
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
-router.route("/change-password").patch(verifyJWT,upload.none(), changeCurrentPassword);
+router
+  .route("/change-password")
+  .patch(verifyJWT, upload.none(), changeCurrentPassword);
 router.route("/profile").get(verifyJWT, getCurrentUser);
-router.route("/update-account-details").patch(verifyJWT, upload.none(), updateAccountDetails);
-router.route("/verify-email").post(verifyJWT,upload.none(), verifyEmail)
+router
+  .route("/update-account-details")
+  .patch(verifyJWT, upload.none(), updateAccountDetails);
+router.route("/verify-email").post(verifyJWT, upload.none(), verifyEmail);
 router
   .route("/update-avtar")
   .patch(verifyJWT, upload.single("avtar"), updateAvtar);
@@ -51,7 +56,10 @@ router
   .route("/update-coverimage")
   .patch(verifyJWT, upload.single("coverImage"), updateCoverImage);
 router.route("/channel-profile/:username").get(verifyJWT, userChannelProfile);
+router.route("/update-password").patch(upload.none(), updatePassword)
 router.route("/history").get(verifyJWT, getWatchHistory);
+router.route("/forget-code").post(forgetPassword);
+
 // router.route("/toggle-dark-mode").post(verifyJWT,upload.none(), toggleDarkMode);
 
 export default router;
