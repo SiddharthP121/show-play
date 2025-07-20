@@ -624,7 +624,7 @@ const updatePassword = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Missing email or new password");
   }
 
-  const user = await User.findOne({ email });
+  const user = await User.find({email: email });
   if (!user) {
     throw new ApiError(404, "User not found");
   }
