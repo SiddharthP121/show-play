@@ -614,7 +614,7 @@ Revoo Multimedia Support Team</p>`,
 
   return res
     .status(200)
-    .json(new ApiResponse(200, code, "Code sent successfully"));
+    .json(new ApiResponse(200, { code }, "Code sent successfully"));
 });
 
 const updatePassword = asyncHandler(async (req, res) => {
