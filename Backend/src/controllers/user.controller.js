@@ -592,7 +592,7 @@ const forgetPassword = asyncHandler(async (req, res) => {
 
 We received a request to reset your password. To proceed, please use the One-Time Password (OTP) below:
 
-🔐 OTP: ${code}
+🔐 OTP: <p> <b> ${code} </b> </p>
 </p>
 
 <p>
@@ -607,7 +607,6 @@ Revoo Multimedia Support Team</p>`,
   };
   
   const sentMail = await transporter.sendMail(mailOptions);
-  console.log("Mail Response:", sentMail);
   if (!sentMail) {
     throw new ApiError(400, "Invalid email");
   }
