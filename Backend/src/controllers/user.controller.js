@@ -620,9 +620,6 @@ Revoo Multimedia Support Team</p>`,
 const updatePassword = asyncHandler(async (req, res) => {
   const { email, newPassword } = req.body;
 
-  console.log(email)
-  console.log(newPassword)
-
   if (!email || !newPassword) {
     throw new ApiError(400, "Missing email or new password");
   }
@@ -631,7 +628,8 @@ const updatePassword = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(404, "User not found");
   }
-
+  user.password = newPassword;
+  await user.save({ validateBeforeSave: false });
    const options = {
     http: true,
     security: true,

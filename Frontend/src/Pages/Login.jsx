@@ -67,7 +67,7 @@ const Login = () => {
         progress: undefined,
         theme: isDarkModeOn ? "dark" : "light",
       });
-      return;
+     
     }
     try {
       const res = await axios.patch(`${baseURL}/users/update-password`, {email, newPassword}, {
@@ -330,7 +330,7 @@ const Login = () => {
                 <div className="flex justify-end gap-4">
                   <button
                     type="button"
-                    className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                    className="px-4 my-2 py-2 rounded bg-gray-200 hover:bg-gray-300"
                     onClick={() => setForgetPasswordVisible(false)}
                   >
                     Cancel
@@ -352,7 +352,7 @@ const Login = () => {
 
                   <button
                     type="submit"
-                    className="relative cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-black rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
+                    className="relative my-2 cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-black rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
                   >
                     <span className="relative z-20">Send code</span>
 
@@ -384,7 +384,7 @@ const Login = () => {
                     value={userEnteredCode}
                     name="otp"
                     id="otp"
-                    className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full my-2 border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </label>
 
@@ -399,7 +399,7 @@ const Login = () => {
 
                   <button
                     type="submit"
-                    className="relative cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-black rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
+                    className="relative my-2 cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-black rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
                   >
                     <span className="relative z-20">Verify OTP</span>
 
