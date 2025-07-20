@@ -17,8 +17,8 @@ const Login = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [correctOtp, setCorrectOtp] = useState(false);
   const [forgetPasswordVisible, setForgetPasswordVisible] = useState(false);
-  const [newPassword, setNewPassword] = useState(null)
-  const [confirmNewPassword, setConfirmNewPassword] = useState(null)
+  const [newPassword, setNewPassword] = useState(null);
+  const [confirmNewPassword, setConfirmNewPassword] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +26,7 @@ const Login = () => {
   };
 
   const varifyOTP = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (userEnteredCode == code) {
       setCorrectOtp(true);
       toast.success("OTP verified", {
@@ -55,9 +55,9 @@ const Login = () => {
   };
 
   const changePassword = async (e) => {
-    e.preventDefault()
-    if(newPassword != confirmNewPassword){
-     toast.warning("Passwords do not match", {
+    e.preventDefault();
+    if (newPassword != confirmNewPassword) {
+      toast.warning("Passwords do not match", {
         position: "top-right",
         autoClose: 3500,
         hideProgressBar: false,
@@ -67,41 +67,44 @@ const Login = () => {
         progress: undefined,
         theme: isDarkModeOn ? "dark" : "light",
       });
-     
-    }
-    try {
-      const res = await axios.patch(`${baseURL}/users/update-password`, {email, newPassword}, {
-        headers:{
-          "Content-Type": "application/json"
-        }
-      });
-       toast.success("Password Changed", {
-        position: "top-right",
-        autoClose: 3500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: isDarkModeOn ? "dark" : "light",
-      });
-    } catch (error) {
-       toast.error("Invalid changing password", {
-        position: "top-right",
-        autoClose: 3500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: isDarkModeOn ? "dark" : "light",
-      });
-    }
-    finally{
-      setForgetPasswordVisible(false)
-      setCorrectOtp(false)
-      setIsCodeSent(false)
-      navigate("/users/login")
+    } else {
+      try {
+        const res = await axios.patch(
+          `${baseURL}/users/update-password`,
+          { email, newPassword },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        toast.success("Password Changed", {
+          position: "top-right",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: isDarkModeOn ? "dark" : "light",
+        });
+      } catch (error) {
+        toast.error("Invalid changing password", {
+          position: "top-right",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: isDarkModeOn ? "dark" : "light",
+        });
+      } finally {
+        setForgetPasswordVisible(false);
+        setCorrectOtp(false);
+        setIsCodeSent(false);
+        navigate("/users/login");
+      }
     }
   };
 
@@ -148,11 +151,15 @@ const Login = () => {
   const sendCode = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseURL}/users/forget-code`, {email}, {
-        headers:{
-          "Content-Type": "application/json"
+      const res = await axios.post(
+        `${baseURL}/users/forget-code`,
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
       setcode(res.data.data.code);
       setIsCodeSent(true);
       toast.success("OTP sent successfully", {
@@ -415,45 +422,44 @@ const Login = () => {
           </div>
         )}
         {correctOtp && (
-           <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-            <form onSubmit={(e) => changePassword(e)} className="space-y-4">
-              <label className="block text-gray-700 text-lg font-semibold">
-                Update Password
-              </label>
-             
-              <label htmlFor="newPassword">
-                New Password:
-                <input
-                  type="password"
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  name="newPassword"
-                  id="newPassword"
-                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </label>
-              <label htmlFor="confirmNewPassword">
-                Confirm New Password:
-                <input
-                  type="text"
-                  name="confirmNewPassword"
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
-                  id="confirmNewPassword"
-                  className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </label>
-              <div className="flex justify-end gap-4">
-                
-                <button
-                  type="submit"
-                  className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  Change password
-                </button>
-              </div>
-            </form>
+          <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+              <form onSubmit={(e) => changePassword(e)} className="space-y-4">
+                <label className="block text-gray-700 text-lg font-semibold">
+                  Update Password
+                </label>
+
+                <label htmlFor="newPassword">
+                  New Password:
+                  <input
+                    type="password"
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    name="newPassword"
+                    id="newPassword"
+                    className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </label>
+                <label htmlFor="confirmNewPassword">
+                  Confirm New Password:
+                  <input
+                    type="text"
+                    name="confirmNewPassword"
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    id="confirmNewPassword"
+                    className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </label>
+                <div className="flex justify-end gap-4">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                  >
+                    Change password
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
         )}
       </div>
     </div>

@@ -25,7 +25,7 @@ const BottomNav = () => {
       <BottomLink to="/" icon={<AiFillHome size={28} />} label="Home" />
       <BottomLink
         to="/playlist"
-        icon={<RiPlayList2Line />}
+        icon={<RiPlayList2Line size={28} />}
         label="Playlists"
       />
       <button
