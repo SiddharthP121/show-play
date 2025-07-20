@@ -25,7 +25,8 @@ const Login = () => {
     setForm((f) => ({ ...f, [name]: value }));
   };
 
-  const varifyOTP = () => {
+  const varifyOTP = (e) => {
+    e.preventDefault()
     if (userEnteredCode == code) {
       setCorrectOtp(true);
       toast.success("OTP verified", {
@@ -366,7 +367,7 @@ const Login = () => {
         {isCodeSent && (
           <div className="fixed inset-0 bg-blue-200/30 backdrop-blur-md flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-              <form onSubmit={() => varifyOTP()} className="space-y-4">
+              <form onSubmit={(e) => varifyOTP(e)} className="space-y-4">
                 <label className="block text-gray-700 text-lg font-semibold">
                   Verify OTP
                 </label>
@@ -394,7 +395,7 @@ const Login = () => {
 
                   <button
                     type="submit"
-                    className="relative cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-white rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
+                    className="relative cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-black rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
                   >
                     <span className="relative z-20">Verify OTP</span>
 
