@@ -145,7 +145,7 @@ const Login = () => {
     try {
       const res = await axios.post(`${baseURL}/users/forget-code`, email);
       setcode(res.data.data.code);
-      console.log(res.data.data.code)
+      console.log(res.data.code)
       setIsCodeSent(true);
       toast.success("OTP sent successfully", {
         position: "top-right",
