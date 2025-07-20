@@ -568,7 +568,7 @@ const forgetPassword = asyncHandler(async (req, res) => {
   // const userCode = req.body;
   const { email } = req.body;
   console.log(email)
-  const isEmailValid = await User.findOne({ email });
+  const isEmailValid = await User.findOne({ email: email});
 
   if (!isEmailValid) {
     return res.status(200).json(new ApiResponse(200, "Unregistered Email"));
@@ -605,8 +605,9 @@ Thanks,
 <p>
 Revoo Multimedia Support Team</p>`,
   };
-
+  
   const sentMail = await transporter.sendMail(mailOptions);
+  console.log("Mail Response:", sentMail);
   if (!sentMail) {
     throw new ApiError(400, "Invalid email");
   }
