@@ -149,7 +149,7 @@ const Login = () => {
         }
       });
       setcode(res.data.data.code);
-      console.log(res.data.code)
+      console.log(res.data.data.code)
       setIsCodeSent(true);
       toast.success("OTP sent successfully", {
         position: "top-right",
