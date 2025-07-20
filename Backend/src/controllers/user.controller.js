@@ -571,7 +571,7 @@ const forgetPassword = asyncHandler(async (req, res) => {
   const isEmailValid = await User.findOne({ email: email});
 
   if (!isEmailValid) {
-    return res.status(200).json(new ApiResponse(200, "Unregistered Email"));
+    throw new ApiError(400, "Email not registered")
   }
   const code = generateCode();
   console.log(code)
