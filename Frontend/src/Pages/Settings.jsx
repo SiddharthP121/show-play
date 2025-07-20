@@ -127,7 +127,7 @@ const Settings = () => {
 
   const handleLogout = async () => {
     try {
-      await axios(
+      await axios.post(
         `${baseURL}/users/logout`,
         {},
         {
