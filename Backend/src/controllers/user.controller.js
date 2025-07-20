@@ -533,14 +533,14 @@ const verifyEmail = asyncHandler(async (req, res) => {
     service: "gmail",
     auth: {
       user: "siddharthpotphode7@gmail.com",
-      pass: "lthjscktedivhiej",
+      pass: "zwyourtbhgvvrphq",
     },
   });
 
   const mailOptions = {
     form: "siddharthpotphode7@gmail.com",
     to: email,
-    subject: "Verify your email for Show-Play",
+    subject: "Verify your email for Revoo Multimedia",
     html: `<p>Hello Your verification code is <b>${code}</b>. It expires in 10 minutes.</p>`,
   };
 
@@ -574,11 +574,12 @@ const forgetPassword = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, "Unregistered Email"));
   }
   const code = generateCode();
+  console.log(code)
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "siddharthpotphode7@gmail.com",
-      pass: "lthjscktedivhiej",
+      pass: "zwyourtbhgvvrphq",
     },
   });
 
