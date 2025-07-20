@@ -315,6 +315,7 @@ const Login = () => {
                     type="email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
+                    required
                     name="email"
                     id="email"
                     className="w-full border-none px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -346,7 +347,7 @@ const Login = () => {
 
                   <button
                     type="submit"
-                    className="relative cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-white rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
+                    className="relative cursor-pointer py-4 px-8 text-center font-barlow inline-flex justify-center text-base uppercase text-black rounded-lg border-solid transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-white focus:outline-offset-4 overflow-hidden"
                   >
                     <span className="relative z-20">Send code</span>
 
