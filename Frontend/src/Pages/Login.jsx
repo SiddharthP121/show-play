@@ -143,7 +143,11 @@ const Login = () => {
   const sendCode = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseURL}/users/forget-code`, email);
+      const res = await axios.post(`${baseURL}/users/forget-code`, {email}, {
+        headers:{
+          "Content-Type": "application/json"
+        }
+      });
       setcode(res.data.data.code);
       console.log(res.data.code)
       setIsCodeSent(true);
