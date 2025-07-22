@@ -179,7 +179,7 @@ const getVideoById = asyncHandler(async (req, res) => {
   let isLiked = false;
   if (req.user && req.user._id) {
     const like = await Like.findOne({ video: videoId, likedBy: req.user._id });
-    isLiked = !!like
+    isLiked = !!like;
   }
 
   return res
@@ -271,11 +271,31 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 });
 
+const searchVideo = asyncHandler(async (req, res) => {
+  const { query } = req.body;
+  if (!query) {
+    throw new ApiError(400, "Unable to find the query");
+  }
+
+  const videos = await Video.find({ title: { $regex: query, $options: "i" } });
+
+  if (videos.length == 0) {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { videos }, "No videos found"));
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { videos }, "Videos found"));
+});
+
 export {
   getAllVideos,
   publishAVideo,
   getVideoById,
   updateVideo,
+  searchVideo,
   deleteVideo,
   togglePublishStatus,
   getCurrentUserVideos,
