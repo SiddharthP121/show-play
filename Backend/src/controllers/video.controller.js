@@ -272,7 +272,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
 });
 
 const searchVideo = asyncHandler(async (req, res) => {
-  const { query } = req.body;
+  const { query } = req.query;
   if (!query) {
     throw new ApiError(400, "Unable to find the query");
   }
